@@ -1,17 +1,32 @@
+import "./Bonus.css";
 
 export const BonusBienvenida = ({ multiplier, setMultiplier }) => {
-    return (
-        <>
-        {multiplier <= 1.9 && (
+  const activo = multiplier >= 2;
+
+  return (
+    <>
+      {!activo ? (
         <div className="bonus-block">
-          <h2>Bonus de Inicio 🎁</h2>
-          <h3>Dale Megusta al juego: x2</h3>
-          <span>permanente</span>
-          <button className="button btn-green" onClick={() => setMultiplier(2)}>
+          <h2 className="title">🎁 Bonus de Inicio</h2>
+
+          <div className="bonus">
+            <p className="text">Dale me gusta al juego</p>
+            <p className="reward">x2 ganancias</p>
+            <span className="text2">PERMANENTE</span>
+          </div>
+
+          <button
+            className="btn-bonus"
+            onClick={() => setMultiplier(2)}
+          >
             Activar Bonus
           </button>
         </div>
+      ) : (
+        <div className="bonus-active">
+          <span>🎁 Bonus x2 activo</span>
+        </div>
       )}
-        </>
-    );
+    </>
+  );
 };

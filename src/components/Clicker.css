@@ -109,50 +109,7 @@
   font-weight: 700;
 }
 
-.bonus-block {
-  margin-bottom: 28px;
-  width: min(500px, 100%);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #ffd999);
-  border: 2px solid #f0b64e;
-  border-radius: 30px;
-  padding: 26px;
-  box-shadow: 0 20px 40px rgba(105, 69, 29, 0.16);
-}
 
-.bonus-block h2 {
-  margin: 0 0 10px;
-  font-size: 1.4rem;
-  color: #5c3108;
-}
-
-.bonus-block h3 {
-  margin: 0 0 8px;
-  font-size: 1.1rem;
-  color: #4b2d0c;
-}
-
-.bonus-block span {
-  display: inline-block;
-  margin-bottom: 14px;
-  color: #4b2d0c;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.bonus {
-  margin-bottom: 18px;
-  color: #3b2815;
-  font-weight: 700;
-}
-
-.bonus-unlocked {
-  background: linear-gradient(135deg, #c8ff70 0%, #a8e034 100%);
-  padding: 12px;
-  border-radius: 12px;
-  color: #3d5a1a;
-}
 
 .shop {
   margin-bottom: 28px;
