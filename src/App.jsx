@@ -6,6 +6,7 @@ import { Inicio } from "./components/pages/Inicio";
 function App() {
   const [money, setMoney] = useState(0);
   const [multiplier, setMultiplier] = useState(1);
+  const [rebirlvl, setRebirLvl] = useState(0);
 
   const handleClick = () => {
     setMoney((prev) => prev + multiplier);
@@ -37,6 +38,8 @@ function App() {
         buyUpgrade={buyUpgrade}
         handleClick={handleClick}
         addMoneyDev={addMoneyDev}
+        setRebirLvl={setRebirLvl}
+        rebirlvl={rebirlvl}
       />
     </>
   );

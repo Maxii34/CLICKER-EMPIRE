@@ -1,6 +1,6 @@
 import "./Reinicio.css";
 
-export const ReiniciosLvl = ({ money, multiplier, setMoney }) => {
+export const ReiniciosLvl = ({ money, multiplier, setMoney, setRebirLvl }) => {
   // Objeto con varios niveles de renacimiento
   const rebirthReq = [
     { level: 1, money: 1000, multiplier: 5, bonus: 10 },
@@ -24,9 +24,8 @@ export const ReiniciosLvl = ({ money, multiplier, setMoney }) => {
   const handleRebirth = () => {
     if (!canRebirth) return;
     // desbloqueo de bonus, tienda lvl 2, etc se manejaría acá
-
+    setRebirLvl(currentLevel.level + 1); // subimos el nivel de renacimiento
     setMoney(0);
-    // 👉 acá después podés resetear más cosas (multiplier, upgrades, etc)
   };
 
   return (

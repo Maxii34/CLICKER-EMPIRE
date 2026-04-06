@@ -4,6 +4,7 @@
   padding: 30px 20px;
   max-width: 420px;
   margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(109, 64, 22, 0.25);
 }
 
 /* TITULO */
@@ -26,7 +27,8 @@
   border-radius: 12px;
   padding: 10px;
   font-weight: bold;
-  box-shadow: 0 6px 14px rgba(97, 63, 26, 0.1);
+  box-shadow: 0 6px 14px rgba(97, 63, 26, 0.34);
+  border: 2px solid transparent;
 }
 
 .stat-box span {
@@ -46,8 +48,8 @@
 /* BOTÓN CLICK */
 .clicker-card {
   margin: 20px auto;
-  width: 180px;
-  height: 180px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: radial-gradient(circle, #ffe8a7, #f0c27b);
   display: flex;
@@ -57,10 +59,14 @@
   box-shadow: 0 12px 30px rgba(109, 64, 22, 0.25);
   transition: all 0.15s ease;
   user-select: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border 0.1s ease;
 }
 
 .clicker-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 16px 40px rgba(109, 64, 22, 0.35);
+  border: 2px solid #f58220;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border 0.1s ease;
 }
 
 .clicker-card:active {
@@ -88,6 +94,10 @@
   cursor: pointer;
   background: linear-gradient(135deg, #bbb, #888);
   color: white;
+}
+
+.dev-btn:hover {
+  background: linear-gradient(135deg, #888, #555);
 }
 
 .auto-btn {

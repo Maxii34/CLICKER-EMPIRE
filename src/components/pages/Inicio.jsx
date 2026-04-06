@@ -12,6 +12,8 @@ export const Inicio = ({
   buyUpgrade,
   handleClick,
   addMoneyDev,
+  setRebirLvl,
+  rebirlvl
 }) => {
   return (
     <Container fluid className="py-5">
@@ -29,6 +31,7 @@ export const Inicio = ({
               money={money}
               multiplier={multiplier}
               buyUpgrade={buyUpgrade}
+              rebirlvl={rebirlvl}
             />
           </div>
         </Col>
@@ -56,6 +59,7 @@ export const Inicio = ({
               money={money}
               setMoney={setMoney}
               multiplier={multiplier}
+              setRebirLvl={setRebirLvl}
             />
           </div></Col>
       </Row>
