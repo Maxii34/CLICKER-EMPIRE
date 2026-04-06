@@ -24,7 +24,7 @@ export const BonusBienvenida = ({ multiplier, setMultiplier }) => {
         </div>
       ) : (
         <div className="bonus-active">
-          <span>🎁 Bonus x2 activo</span>
+          <span>🎁 Bonus x2, Activo de bienvenida.</span>
         </div>
       )}
     </>

@@ -11,6 +11,7 @@ export const Inicio = ({
   setMultiplier,
   buyUpgrade,
   handleClick,
+  addMoneyDev,
 }) => {
   return (
     <Container fluid className="py-5">
@@ -43,6 +44,7 @@ export const Inicio = ({
               money={money}
               multiplier={multiplier}
               handleClick={handleClick}
+              addMoneyDev={addMoneyDev}
             />
           </div>
         </Col>

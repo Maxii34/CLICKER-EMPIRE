@@ -11,6 +11,10 @@ function App() {
     setMoney((prev) => prev + multiplier);
   };
 
+  const addMoneyDev = () => {
+    setMoney((prev) => prev + 10000);
+  }
+
   // 🔥 nueva lógica progresiva
   const buyUpgrade = (cost, increment, max) => {
     if (money >= cost && multiplier < max) {
@@ -32,6 +36,7 @@ function App() {
         setMultiplier={setMultiplier}
         buyUpgrade={buyUpgrade}
         handleClick={handleClick}
+        addMoneyDev={addMoneyDev}
       />
     </>
   );
