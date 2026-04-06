@@ -1,0 +1,95 @@
+/* CONTENEDOR */
+.rebirth-box {
+  width: min(420px, 100%);
+  margin: 20px auto;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffdf7, #f8e2a7);
+  border: 2px solid #f0b64e;
+  box-shadow: 0 12px 30px rgba(105, 69, 29, 0.18);
+  text-align: center;
+}
+
+/* TITULO */
+.rebirth-box h2 {
+  margin-bottom: 8px;
+  color: #5c3108;
+}
+
+/* NIVEL */
+.rebirth-level {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #7a4b1a;
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* REQUISITOS */
+.rebirth-req {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.req-item {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #eee;
+  font-weight: bold;
+  font-size: 13px;
+  color: #555;
+}
+
+.req-item.ok {
+  background: linear-gradient(135deg, #c8ff70, #8fdc2c);
+  color: #1a1f12;
+}
+
+/* BONUS */
+.rebirth-bonus {
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #ddd;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  transition: 0.2s;
+}
+
+.rebirth-bonus.active {
+  background: linear-gradient(135deg, #ffb703, #f58220);
+  color: white;
+}
+
+/* BOTÓN */
+.rebirth-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* ACTIVO */
+.rebirth-btn.active {
+  background: linear-gradient(135deg, #3ddc84, #1e7d4a);
+  color: white;
+  box-shadow: 0 4px 0 #16643a;
+}
+
+.rebirth-btn.active:hover {
+  transform: translateY(-2px);
+}
+
+/* DESACTIVADO */
+.rebirth-btn.disabled {
+  background: #bbb;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}

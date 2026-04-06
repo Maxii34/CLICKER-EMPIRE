@@ -1,32 +1,47 @@
+import "./Reinicio.css"
 
-export const ReiniciosLvl = ({ money, setMoney, multiplier }) => {
-    return (
-        <>
-        <div className="rebirth">
-        <h2>Renacimiento 🔧</h2>
-        <span>Requerimiento lv 01:🎮</span>
+export const ReiniciosLvl = ({ money, multiplier, setMoney }) => {
+  const reqMoney = 1000;
+  const reqMulti = 5;
 
-        <div className="requirements">
-          <p>
-            Dinero: <strong>$ 1,000</strong>
-          </p>
-          <p>
-            Multiplicador: <strong>x 5</strong>
-          </p>
+  const canRebirth = money >= reqMoney && multiplier >= reqMulti;
+
+  const handleRebirth = () => {
+    if (!canRebirth) return;
+
+    setMoney(0);
+    // 👉 acá después podés resetear más cosas (multiplier, upgrades, etc)
+  };
+
+  return (
+    <div className="rebirth-box">
+      <h2>🔧 Renacimiento</h2>
+
+      <span className="rebirth-level">Nivel requerido: 01</span>
+
+      {/* REQUISITOS */}
+      <div className="rebirth-req">
+        <div className={`req-item ${money >= reqMoney ? "ok" : ""}`}>
+          💰 ${reqMoney}
         </div>
-
-        <div
-          className={`bonus ${money >= 1000 && multiplier >= 5 ? "bonus-unlocked" : ""}`}
-        >
-          Bonus: <strong>Desbloqueo de multiplicador x20</strong>
+        <div className={`req-item ${multiplier >= reqMulti ? "ok" : ""}`}>
+          ⚡ x{reqMulti}
         </div>
-
-        {money >= 1000 && multiplier >= 5 && (
-          <button className="button btn-blue" onClick={() => setMoney(0)}>
-            Reiniciar Progreso
-          </button>
-        )}
       </div>
-        </>
-    );
+
+      {/* BONUS */}
+      <div className={`rebirth-bonus ${canRebirth ? "active" : ""}`}>
+        🎁 Desbloquea: <strong>Multiplicador x20</strong>
+      </div>
+
+      {/* BOTÓN */}
+      <button
+        className={`rebirth-btn ${canRebirth ? "active" : "disabled"}`}
+        onClick={handleRebirth}
+        disabled={!canRebirth}
+      >
+        {canRebirth ? "Reiniciar progreso 🔄" : "Bloqueado 🔒"}
+      </button>
+    </div>
+  );
 };
