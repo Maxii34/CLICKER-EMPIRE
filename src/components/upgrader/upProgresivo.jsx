@@ -1,5 +1,5 @@
 
-export const upProgresivo = ({ money, multiplier }) => {
+export const UpProgresivo = ({ money, multiplier }) => {
     return (
         <>
         <div className="shop">

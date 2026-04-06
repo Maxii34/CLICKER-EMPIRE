@@ -1,4 +1,4 @@
-export const bonuInicio = ({ multiplier, setMultiplier }) => {
+export const BonuInicio = ({ multiplier, setMultiplier }) => {
   return (
     <>
       {multiplier <= 1.9 && (

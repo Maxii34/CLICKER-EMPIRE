@@ -1,4 +1,4 @@
-export const reinicio = ({ money, setMoney, multiplier }) => {
+export const Reinicio = ({ money, setMoney, multiplier }) => {
   return (
     <>
       <div className="rebirth">
