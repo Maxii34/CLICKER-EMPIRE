@@ -34,15 +34,16 @@ export const ClikerGamer = () => {
         </p>
       </div>
 
-      {multiplier === 1 && (
+      {multiplier <= 1.9 && (
         <div className="bonus-block">
-        <h2>Bonus de Inicio 🎁</h2>
-        <h3>Dale Megusta al juego: x2</h3>
-        <span>permanente</span>
-        <button className="button btn-green" onClick={() => setMultiplier(2)}>
-          Activar Bonus
-        </button>
-      </div>)}
+          <h2>Bonus de Inicio 🎁</h2>
+          <h3>Dale Megusta al juego: x2</h3>
+          <span>permanente</span>
+          <button className="button btn-green" onClick={() => setMultiplier(2)}>
+            Activar Bonus
+          </button>
+        </div>
+      )}
 
       <div className="card" onClick={handleClick}>
         <p>💥 Click para ganar dinero</p>
@@ -53,30 +54,30 @@ export const ClikerGamer = () => {
 
         {/* 🔥 upgrade progresivo */}
         <button
-          className={`button ${money >= 55 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
-          onClick={() => buyUpgrade(55, 0.1, 10)}
-          disabled={money < 55 || multiplier >= 10}
+          className={`button ${money >= 50 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
+          onClick={() => buyUpgrade(50, 0.1, 10)}
+          disabled={money < 50 || multiplier >= 10}
         >
-          +0.1 (Max x10) - 55
+          +0.1 (Max x10) - 50
         </button>
 
         {money >= 200 && multiplier < 10 && (
           <button
-            className={`button ${money >= 200 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
-            onClick={() => buyUpgrade(200, 0.3, 10)}
-            disabled={money < 200 || multiplier >= 10}
+            className={`button ${money >= 300 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
+            onClick={() => buyUpgrade(300, 0.5, 10)}
+            disabled={money < 300 || multiplier >= 10}
           >
-            +0.3 (Max x10) - 200
+            +0.5 (Max x10) - 300
           </button>
         )}
 
         {money >= 500 && multiplier < 10 && (
           <button
-            className={`button ${money >= 500 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
-            onClick={() => buyUpgrade(500, 1, 10)}
-            disabled={money < 500 || multiplier >= 10}
+            className={`button ${money >= 600 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
+            onClick={() => buyUpgrade(600, 1, 10)}
+            disabled={money < 600 || multiplier >= 10}
           >
-            +1 (Max x10) - 500
+            +1 (Max x10) - 600
           </button>
         )}
       </div>
@@ -87,7 +88,7 @@ export const ClikerGamer = () => {
 
         <div className="requirements">
           <p>
-            Dinero: <strong>$ 5,000</strong>
+            Dinero: <strong>$ 1,000</strong>
           </p>
           <p>
             Multiplicador: <strong>x 5</strong>
@@ -95,16 +96,16 @@ export const ClikerGamer = () => {
         </div>
 
         <div
-          className={`bonus ${money >= 5000 && multiplier >= 5 ? "bonus-unlocked" : ""}`}
+          className={`bonus ${money >= 1000 && multiplier >= 5 ? "bonus-unlocked" : ""}`}
         >
           Bonus: <strong>Desbloqueo de multiplicador x20</strong>
         </div>
 
-            {money >= 5000 && multiplier >= 5 && (
-              <button className="button btn-blue" onClick={() => setMoney(0)}>
-                Reiniciar Progreso
-              </button>
-            )}
+        {money >= 1000 && multiplier >= 5 && (
+          <button className="button btn-blue" onClick={() => setMoney(0)}>
+            Reiniciar Progreso
+          </button>
+        )}
       </div>
     </div>
   );
