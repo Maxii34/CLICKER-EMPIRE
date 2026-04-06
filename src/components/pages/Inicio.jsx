@@ -4,13 +4,13 @@ import { reinicio } from "../rebirs/reinicio";
 import { upProgresivo } from "../upgrader/upProgresivo";
 
 
-export const Inicio = () => {
+export const Inicio = ({ money, setMoney, multiplier, setMultiplier, buyUpgrade, handleClick }) => {
     return (
         <>
-            <ClikerGamer />
-            <bonuInicio />
-            <upProgresivo />
-            <reinicio />
+            <ClikerGamer money={money} multiplier={multiplier} handleClick={handleClick} />
+            <bonuInicio multiplier={multiplier} setMultiplier={setMultiplier} />
+            <upProgresivo money={money} multiplier={multiplier} />
+            <reinicio money={money} setMoney={setMoney} multiplier={multiplier} />
         </>
     );
 };

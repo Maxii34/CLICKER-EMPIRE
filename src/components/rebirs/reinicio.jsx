@@ -1,8 +1,7 @@
-
-export const reinicio = () => {
-    return (
-        <>
-              <div className="rebirth">
+export const reinicio = ({ money, setMoney, multiplier }) => {
+  return (
+    <>
+      <div className="rebirth">
         <h2>Renacimiento 🔧</h2>
         <span>Requerimiento lv 01:🎮</span>
 
@@ -27,6 +26,6 @@ export const reinicio = () => {
           </button>
         )}
       </div>
-        </>
-    );
+    </>
+  );
 };

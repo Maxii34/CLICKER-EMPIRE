@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Clicker.css";
 
-export const ClikerGamer = () => {
+export const ClikerGamer = ({ money, multiplier, handleClick }) => {
   return (
     <div className="container">
       <h1 className="title">💰 Clicker Game</h1>

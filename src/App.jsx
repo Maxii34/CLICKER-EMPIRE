@@ -1,5 +1,5 @@
 import "./App.css";
-import { ClikerGamer } from "./components/ClikerGamer";
+import { Inicio } from "./components/pages/Inicio";
 
 function App() {
   const [money, setMoney] = useState(0);
@@ -23,7 +23,14 @@ function App() {
 
   return (
     <>
-      <ClikerGamer />
+      <Inicio
+        money={money}
+        setMoney={setMoney}
+        multiplier={multiplier}
+        setMultiplier={setMultiplier}
+        buyUpgrade={buyUpgrade}
+        handleClick={handleClick}
+      />
     </>
   );
 }
