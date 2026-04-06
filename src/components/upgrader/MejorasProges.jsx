@@ -1,39 +1,39 @@
+import "./Mejoras.css";
 
 export const MejorasProges = ({ money, multiplier, buyUpgrade }) => {
-    return (
-        <>
-        <div className="shop">
-        <h2>Tienda de aumento de click 🛒</h2>
+  const upgrades = [
+    { cost: 50, value: 0.1, max: 10, unlock: 0 },
+    { cost: 100, value: 0.2, max: 10, unlock: 0 },
+    { cost: 300, value: 0.4, max: 10, unlock: 0 },
+    { cost: 500, value: 1, max: 10, unlock: 0 },
+    { cost: 1000, value: 2, max: 10, unlock: 0 },
+    { cost: 1500, value: 3, max: 10, unlock: 0 },
+  ];
 
-        {/* 🔥 upgrade progresivo */}
-        <button
-          className={`button ${money >= 50 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
-          onClick={() => buyUpgrade(50, 0.1, 10)}
-          disabled={money < 50 || multiplier >= 10}
-        >
-          +0.1 (Max x10) - 50
-        </button>
+  return (
+    <div className="shop">
+      <h2>Tienda de aumento 🛒</h2>
 
-        {money >= 200 && multiplier < 10 && (
-          <button
-            className={`button ${money >= 300 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
-            onClick={() => buyUpgrade(300, 0.5, 10)}
-            disabled={money < 300 || multiplier >= 10}
-          >
-            +0.5 (Max x10) - 300
-          </button>
-        )}
+      <div className="shop-grid">
+        {upgrades.map((up, i) => {
+          const isUnlocked = money >= up.unlock;
+          const canBuy = money >= up.cost; // 🔥 SOLO dinero
 
-        {money >= 500 && multiplier < 10 && (
-          <button
-            className={`button ${money >= 600 && multiplier < 10 ? "btn-green" : "btn-disabled"}`}
-            onClick={() => buyUpgrade(600, 1, 10)}
-            disabled={money < 600 || multiplier >= 10}
-          >
-            +1 (Max x10) - 600
-          </button>
-        )}
+          if (!isUnlocked) return null;
+
+          return (
+            <button
+              key={i}
+              className={`upgrade-btn ${canBuy ? "active" : "disabled"}`}
+              onClick={() => buyUpgrade(up.cost, up.value, up.max)}
+              disabled={!canBuy}
+            >
+              <span className="up-value">+{up.value}</span>
+              <span className="up-cost">{up.cost}</span>
+            </button>
+          );
+        })}
       </div>
-        </>
-    );
+    </div>
+  );
 };

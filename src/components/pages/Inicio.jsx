@@ -24,7 +24,11 @@ export const Inicio = ({
             />
           </div>
           <div className="upgrader-section">
-            <MejorasProges money={money} multiplier={multiplier} />
+            <MejorasProges
+              money={money}
+              multiplier={multiplier}
+              buyUpgrade={buyUpgrade}
+            />
           </div>
         </Col>
 

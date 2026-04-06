@@ -1,0 +1,89 @@
+/* CONTENEDOR */
+.shop {
+  margin-bottom: 20px;
+  width: min(520px, 100%);
+  background: linear-gradient(180deg, #fffdf7, #ffe6b4);
+  border: 2px solid #f4c16c;
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 10px 25px rgba(105, 69, 29, 0.15);
+}
+
+.shop h2 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #5c3108;
+}
+
+/* GRID FIJO */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+/* BOTÓN BASE */
+.upgrade-btn {
+  width: 100%;
+  height: 65px; /* 🔥 tamaño fijo */
+  min-width: 0;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.12s ease;
+}
+
+/* TEXTO */
+.up-value {
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  width: 100%;
+}
+
+.up-cost {
+  font-size: 11px;
+  opacity: 0.7;
+    font-weight: 800;
+  text-align: center;
+  width: 100%;
+}
+
+/* ACTIVO */
+.upgrade-btn.active {
+  background: linear-gradient(135deg, #c8ff70, #8fdc2c);
+  color: #1a1f12;
+  box-shadow: 0 4px 0 #6ea51e;
+}
+
+.upgrade-btn.active:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 0 #6ea51e;
+}
+
+.upgrade-btn.active:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #6ea51e;
+}
+
+/* DESHABILITADO */
+.upgrade-btn.disabled {
+  background: #cfcfcf;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
