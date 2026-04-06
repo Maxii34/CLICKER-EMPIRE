@@ -48,19 +48,20 @@ export const Inicio = ({
         </Col>
 
         {/* Columna Derecha - Vacía */}
-        <Col lg={3} md={12}></Col>
-      </Row>
-
-      {/* Sección inferior centrada - Reinicio */}
-      <Row className="g-4 mt-5">
-        <Col xs={12} className="d-flex justify-content-center">
-          <div className="reinicio-bottom-section">
+        <Col lg={3} md={12}>
+        <div className="reinicio-bottom-section">
             <ReiniciosLvl
               money={money}
               setMoney={setMoney}
               multiplier={multiplier}
             />
-          </div>
+          </div></Col>
+      </Row>
+
+      {/* Sección inferior centrada - Reinicio */}
+      <Row className="g-4 mt-5">
+        <Col xs={12} className="d-flex justify-content-center">
+          
         </Col>
       </Row>
     </Container>
