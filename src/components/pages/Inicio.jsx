@@ -17,6 +17,8 @@ export const Inicio = ({
   rebirlvl,
   setUnlockedLvl,
   unlockedLvl,
+  bonusActivo,
+  setBonusActivo,
 }) => {
   //estado para controlar niveles desbloqueados en la tienda
 
@@ -29,16 +31,18 @@ export const Inicio = ({
             <BonusBienvenida
               multiplier={multiplier}
               setMultiplier={setMultiplier}
+              bonusActivo={bonusActivo}
+              setBonusActivo={setBonusActivo}
             />
           </div>
           <div className="upgrader-section">
             <MejorasProges
-  money={money}
-  multiplier={multiplier}
-  buyUpgrade={buyUpgrade}
-  rebirlvl={rebirlvl}
-  unlockedLvl={unlockedLvl} // 🔥 ESTE FALTABA
-/>
+              money={money}
+              multiplier={multiplier}
+              buyUpgrade={buyUpgrade}
+              rebirlvl={rebirlvl}
+              unlockedLvl={unlockedLvl} // 🔥 ESTE FALTABA
+            />
           </div>
         </Col>
 
@@ -69,6 +73,7 @@ export const Inicio = ({
               setRebirLvl={setRebirLvl}
               rebirlvl={rebirlvl}
               setUnlockedLvl={setUnlockedLvl}
+              setMultiplier={setMultiplier} 
             />
           </div>
         </Col>

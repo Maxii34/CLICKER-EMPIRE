@@ -29,7 +29,7 @@ export const ClikerGamer = ({
         <div className="clicker-stats">
           <div className="stat-box money">
             <span>Dinero Generado</span>
-            <strong>🤑 ${money.toFixed(2)}</strong>
+            <strong>🤑 ${money}</strong>
           </div>
 
           <div className="stat-box">

@@ -4,6 +4,7 @@ import "./Reinicio.css";
 export const ReiniciosLvl = ({
   money,
   multiplier,
+  setMultiplier,
   setMoney,
   rebirlvl,
   setRebirLvl,
@@ -18,13 +19,22 @@ export const ReiniciosLvl = ({
   multiplier >= currentLevel.multiplier;
 
   const handleRebirth = () => {
-    if (!canRebirth) return;
+  if (!canRebirth) return;
 
-    setRebirLvl(currentLevel.level + 1); // subimos el nivel de renacimiento
-    setMoney(0);
-    //mandamos el limite de multiplier, para bloquear las mejoras si ya llego al nivel requerido, hasta que haga el rebirth y se desbloquee el siguiente nivel de mejoras
-    setUnlockedLvl(currentLevel.multiplier);
-  };
+  const nextLevel = rebirthReq.find(
+    (r) => r.level === currentLevel.level + 1
+  );
+
+  setRebirLvl((prev) => prev + 1);
+  setMoney(0);
+
+  // 🔥 ESTE ES EL FIX QUE TE FALTA
+  setMultiplier(1);
+
+  setUnlockedLvl(
+    nextLevel ? nextLevel.multiplier : Infinity
+  );
+};
 
   return (
     <div className="rebirth-box">

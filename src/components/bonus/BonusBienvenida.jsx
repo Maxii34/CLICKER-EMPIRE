@@ -1,11 +1,22 @@
 import "./Bonus.css";
 
-export const BonusBienvenida = ({ multiplier, setMultiplier }) => {
-  const activo = multiplier >= 2;
+export const BonusBienvenida = ({
+  multiplier,
+  setMultiplier,
+  bonusActivo,
+  setBonusActivo,
+}) => {
+
+  const handleBonus = () => {
+    if (bonusActivo) return;
+
+    setMultiplier((prev) => prev * 2); // 🔥 multiplicás, no seteás fijo
+    setBonusActivo(true);
+  };
 
   return (
     <>
-      {!activo ? (
+      {!bonusActivo ? (
         <div className="bonus-block">
           <h2 className="title">🎁 Bonus de Inicio</h2>
 
@@ -15,16 +26,13 @@ export const BonusBienvenida = ({ multiplier, setMultiplier }) => {
             <span className="text2">PERMANENTE</span>
           </div>
 
-          <button
-            className="btn-bonus"
-            onClick={() => setMultiplier(2)}
-          >
+          <button className="btn-bonus" onClick={handleBonus}>
             Activar Bonus
           </button>
         </div>
       ) : (
         <div className="bonus-active">
-          <span>🎁 Bonus x2, Activo de bienvenida.</span>
+          <span>🎁 Bonus x2 activo</span>
         </div>
       )}
     </>

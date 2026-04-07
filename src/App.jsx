@@ -8,6 +8,7 @@ function App() {
   const [multiplier, setMultiplier] = useState(1);
   const [rebirlvl, setRebirLvl] = useState(0);
   const [unlockedLvl, setUnlockedLvl] = useState(Infinity);
+  const [bonusActivo, setBonusActivo] = useState(false);
 
 
   const handleClick = () => {
@@ -20,24 +21,23 @@ function App() {
 
   // 🔥 nueva lógica progresiva
   const buyUpgrade = (cost, increment, max) => {
-  setMultiplier((prev) => {
-    const newValue = prev + increment;
+  if (money < cost) return;
 
-    // 🔒 VALIDACIÓN REAL
-    if (
-      money < cost ||
-      prev >= max ||
-      newValue > unlockedLvl
-    ) {
-      return prev;
-    }
+  const newValue = multiplier + increment;
 
-    setMoney((m) => m - cost);
+  // 🔒 VALIDACIÓN TOTAL
+  if (
+    multiplier >= max ||
+    newValue > unlockedLvl
+  ) return;
 
-    return Number(Math.min(newValue, max, unlockedLvl).toFixed(2));
-  });
+  // ✅ aplicar cambios
+  setMoney((prev) => prev - cost);
+
+  setMultiplier((prev) =>
+    Number(Math.min(prev + increment, max, unlockedLvl).toFixed(2))
+  );
 };
-
   return (
     <>
       <Inicio
@@ -52,6 +52,8 @@ function App() {
         rebirlvl={rebirlvl}
         setUnlockedLvl={setUnlockedLvl}
         unlockedLvl={unlockedLvl}
+        bonusActivo={bonusActivo}
+        setBonusActivo={setBonusActivo}
       />
     </>
   );

@@ -8,6 +8,12 @@ export const MejorasProges = ({
   rebirlvl,
   unlockedLvl,
 }) => {
+  console.log("MejorasProges renderizado", {
+    money,
+    multiplier,
+    rebirlvl,
+    unlockedLvl,
+  });
   return (
     <div className="shop">
       <h2>Tienda de aumento 🛒</h2>
