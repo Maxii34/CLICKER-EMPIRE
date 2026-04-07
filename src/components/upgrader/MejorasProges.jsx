@@ -8,32 +8,29 @@ export const MejorasProges = ({
   rebirlvl,
   unlockedLvl,
 }) => {
-  console.log("MejorasProges renderizado", {
-    money,
-    multiplier,
-    rebirlvl,
-    unlockedLvl,
-  });
-
-  // 🎯 FILTRAR POR NIVEL ACTUAL
+  // 🎯 Tu lógica de filtrado original
   const currentLevelUpgrades = upgrades.filter(
     (up) => up.level === rebirlvl
   );
 
   return (
-    <div className="shop">
-      <h2>Tienda de aumento 🛒</h2>
-      <span>shop lvl: {rebirlvl}</span>
-      {/* 🔒 Aviso de límite alcanzado */}
+    <div className="shop-box">
+      {/* --- Elementos recuperados --- */}
+      <div className="shop-header">
+        <h2 className="shop-title">Tienda de aumento 🛒</h2>
+        <span className="shop-lvl-badge">Shop-lvl: {rebirlvl}</span>
+      </div>
+
+      {/* 🔒 Aviso de límite recuperado */}
       {multiplier >= unlockedLvl && (
-        <p className="text-warning text-center">
+        <p className="limit-warning">
           ⚠️ Alcanzaste el límite, hacé renacimiento
         </p>
       )}
 
+      {/* Grid de botones compactos */}
       <div className="shop-grid">
         {currentLevelUpgrades.map((up, i) => {
-          // 🔥 Validación simplificada (solo verificar nivel actual)
           const canBuy =
             money >= up.cost &&
             multiplier < up.max &&
@@ -51,11 +48,9 @@ export const MejorasProges = ({
               <span className="up-value">+{up.value}</span>
               <span className="up-cost">${up.cost}</span>
 
-              {/* 🔴 Mensaje cuando ese upgrade rompe el límite */}
+              {/* Punto de límite */}
               {willExceed && multiplier < unlockedLvl && (
-                <span className="text-danger small d-block">
-                  Límite
-                </span>
+                <div className="limit-dot"></div>
               )}
             </button>
           );

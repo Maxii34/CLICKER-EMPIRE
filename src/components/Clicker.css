@@ -1,115 +1,143 @@
-﻿/* CONTENEDOR */
-.clicker-container {
+﻿.game-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* PANEL SUPERIOR */
+.main-display-box {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
   text-align: center;
-  padding: 30px 20px;
-  max-width: 420px;
-  margin: 0 auto;
-  box-shadow: 0 8px 24px rgba(109, 64, 22, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* TITULO */
-.clicker-title {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-  color: #3d1f00;
+.game-title {
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+  color: #94a3b8;
+  margin-bottom: 15px;
+  font-weight: 900;
 }
 
-/* STATS */
-.clicker-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.stat-box {
-  background: linear-gradient(180deg, #fff, #f8e7c4);
-  border-radius: 12px;
-  padding: 10px;
-  font-weight: bold;
-  box-shadow: 0 6px 14px rgba(97, 63, 26, 0.34);
-  border: 2px solid transparent;
-}
-
-.stat-box span {
+.money-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #f59e0b;
   display: block;
-  font-size: 12px;
-  opacity: 0.7;
 }
 
-.stat-box strong {
-  font-size: 16px;
+.money-amount {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  margin: 0;
 }
 
-.stat-box.money {
-  color: #c45f09;
+/* BOTONES DE ACCIÓN */
+.action-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
 }
 
-/* BOTÓN CLICK */
-.clicker-card {
-  margin: 20px auto;
-  width: 150px;
-  height: 150px;
+.btn-dev, .btn-auto {
+  padding: 8px 16px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-dev {
+  background: #475569;
+  color: #cbd5e1;
+}
+
+.btn-auto {
+  background: #1e293b;
+  color: #f59e0b;
+  border: 1px solid #f59e0b;
+}
+
+.btn-auto.active {
+  background: #f59e0b;
+  color: #000;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+}
+
+/* EL BOTÓN CIRCULAR (EL CLICKER) */
+.click-zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.click-circle-outer {
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffe8a7, #f0c27b);
+  padding: 15px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 2px solid rgba(245, 158, 11, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.click-circle-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f59e0b, #d97706);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 12px 30px rgba(109, 64, 22, 0.25);
-  transition: all 0.15s ease;
   user-select: none;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, border 0.1s ease;
+  box-shadow: 0 15px 0 #92400e, 0 20px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.1s;
 }
 
-.clicker-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 16px 40px rgba(109, 64, 22, 0.35);
-  border: 2px solid #f58220;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, border 0.1s ease;
+.click-circle-inner:active {
+  transform: translateY(10px);
+  box-shadow: 0 5px 0 #92400e, 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-.clicker-card:active {
-  transform: scale(0.95);
-}
-
-.clicker-card p {
-  font-weight: 800;
-  font-size: 1.2rem;
-}
-
-/* BOTONES EXTRA */
-.clicker-actions {
+.click-content {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  flex-direction: column;
+  align-items: center;
 }
 
-.dev-btn {
-  padding: 8px 12px;
-  font-size: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, #bbb, #888);
-  color: white;
+.click-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
 }
 
-.dev-btn:hover {
-  background: linear-gradient(135deg, #888, #555);
+.click-text {
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #4b2300;
+  letter-spacing: 2px;
 }
 
-.auto-btn {
-  padding: 8px 12px;
-  font-size: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffb703, #f58220);
-  color: white;
-}
-
-.auto-btn.active {
-  background: linear-gradient(135deg, #3ddc84, #1e7d4a);
+/* SOMBRA EN EL SUELO */
+.click-shadow {
+  width: 180px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  filter: blur(10px);
+  margin-top: 30px;
 }

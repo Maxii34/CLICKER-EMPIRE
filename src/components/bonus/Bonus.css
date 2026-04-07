@@ -1,152 +1,107 @@
-.bonus-block {
-  margin-bottom: 8px;
-  width: min(340px, 100%);
-  background: linear-gradient(180deg, #fffdf7, #ffe4a3);
-  border: 2px solid #f0b64e;
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 6px 18px rgba(105, 69, 29, 0.12);
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.bonus-block:hover {
-  transform: translateY(-2px); /* antes era mucho */
-  box-shadow: 0 10px 25px rgba(105, 69, 29, 0.2);
-}
-
-/* brillo MUY suave */
-.bonus-block::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 180%;
-  height: 180%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  transform: rotate(25deg);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.bonus-block:hover::after {
-  opacity: 0.4; /* mucho más leve */
-}
-
-/* título */
-.title {
-  margin-bottom: 8px;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #a8611e;
-}
-
-/* contenido */
-.bonus {
-  margin-bottom: 10px;
-}
-
-.text {
-  margin: 0;
-  font-size: 13px;
-  color: #4b2d0c;
-}
-
-.reward {
-  margin: 2px 0;
-  font-size: 16px;
-  font-weight: 800;
-  color: #2e7d32;
-}
-
-/* etiqueta */
-.text2 {
-  display: inline-block;
-  margin-top: 4px;
-  padding: 3px 8px;
-  background: #ff4d4d;
-  color: #fff;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 0.08em;
-}
-
-/* botón */
-.btn-bonus {
+.bonus-wrapper {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  margin-top: 8px;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 13px;
-
-  background: linear-gradient(135deg, #c8ff70, #8fdc2c);
-  color: #1a1f12;
-
-  box-shadow: 0 4px 0 #6ea51e;
-  transition: all 0.12s ease;
 }
 
-/* hover más suave */
-.btn-bonus:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 0 #6ea51e;
-}
-
-/* click */
-.btn-bonus:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #6ea51e;
-}
-
-/* deshabilitado */
-.btn-bonus.disabled {
-  background: #ccc;
-  color: #666;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.bonus-block::after {
-  pointer-events: none; /* 🔥 CLAVE */
-}
-
-/* versión compacta cuando ya está activo */
-.bonus-active {
-  width: min(260px, 100%);
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #c8ff70, #8fdc2c);
-  color: #1a1f12;
-  font-weight: bold;
-  font-size: 13px;
-
-  display: inline-flex;
+/* TARJETA COMPACTA (ANTES DE ACTIVAR) */
+.bonus-card-compact {
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 10px 15px;
+  display: flex;
   align-items: center;
-  gap: 6px;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-  animation: fadeIn 0.3s ease;
+  gap: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  animation: slideDown 0.4s ease-out;
 }
 
-/* pequeña animación */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.bonus-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.bonus-emoji { font-size: 1.5rem; }
+
+.bonus-title {
+  font-size: 0.8rem;
+  margin: 0;
+  font-weight: 900;
+  color: #f59e0b;
+  text-transform: uppercase;
+}
+
+.bonus-subtitle {
+  font-size: 0.7rem;
+  margin: 0;
+  color: #94a3b8;
+}
+
+.highlight { color: #4ade80; font-weight: bold; }
+
+.badge-perm {
+  position: absolute;
+  top: -18px;
+  left: 35px;
+  background: #ef4444;
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+/* BOTÓN DE ACTIVACIÓN */
+.btn-activate-bonus {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: #000;
+  font-weight: 900;
+  font-size: 0.7rem;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #166534;
+  transition: all 0.1s;
+}
+
+.btn-activate-bonus:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.btn-activate-bonus:active { transform: translateY(2px); box-shadow: none; }
+
+/* ESTADO ACTIVO (PÍLDORA FLOTANTE) */
+.bonus-status-pill {
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+}
+
+.pulsing-dot {
+  width: 6px;
+  height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: pulse-green 1.5s infinite;
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

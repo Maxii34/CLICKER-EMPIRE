@@ -9,52 +9,53 @@ export const ClikerGamer = ({
 }) => {
   const [autoClick, setAutoClick] = useState(false);
 
-  // 🔥 autoclicker
   useEffect(() => {
     if (!autoClick) return;
-
     const interval = setInterval(() => {
       handleClick();
-    }, 1000); // 1 click por segundo
-
+    }, 1000);
     return () => clearInterval(interval);
   }, [autoClick, handleClick]);
 
   return (
-    <>
-      <div className="clicker-container rebirth-box">
-        <h1 className="clicker-title">💰 Clicker Game</h1>
-
-        {/* STATS */}
-        <div className="clicker-stats">
-          <div className="stat-box money">
-            <span>Dinero Generado</span>
-            <strong>🤑 ${money.toFixed(2)}</strong>
-          </div>
-
-          <div className="stat-box">
-            <span>Multiplicador</span>
-            <strong>⚡ x{multiplier}</strong>
-          </div>
+    <div className="game-center">
+      {/* PANEL DE INFORMACIÓN CENTRAL */}
+      <div className="main-display-box">
+        <h1 className="game-title">💰 CLICKER EMPIRE</h1>
+        
+        <div className="display-money">
+          <span className="money-label">BALANCE ACTUAL</span>
+          <h2 className="money-amount">${money.toFixed(2)}</h2>
         </div>
-        {/* ACCIONES */}
-        <div className="clicker-actions">
-          <button className="dev-btn" onClick={addMoneyDev}>
-            +$ Dev
+
+        {/* ACCIONES SECUNDARIAS */}
+        <div className="action-row">
+          <button className="btn-dev" onClick={addMoneyDev}>
+            +$ DEV
           </button>
 
           <button
-            className={`auto-btn ${autoClick ? "active" : ""}`}
+            className={`btn-auto ${autoClick ? "active" : ""}`}
             onClick={() => setAutoClick(!autoClick)}
           >
-            {autoClick ? "Auto ON ⚡" : "Auto OFF"}
+            {autoClick ? "AUTO: ON ⚡" : "AUTO: OFF"}
           </button>
         </div>
       </div>
-      {/* BOTÓN PRINCIPAL */}
-      <div className="clicker-card" onClick={handleClick}>
-        <p>💥 Click</p>
+
+      {/* EL GRAN BOTÓN DE CLICK */}
+      <div className="click-zone">
+        <div className="click-circle-outer">
+          <div className="click-circle-inner" onClick={handleClick}>
+            <div className="click-content">
+              <span className="click-icon">💥</span>
+              <span className="click-text">CLICK!</span>
+            </div>
+          </div>
+        </div>
+        {/* Efecto de sombra/reflejo en el suelo */}
+        <div className="click-shadow"></div>
       </div>
-    </>
+    </div>
   );
 };
