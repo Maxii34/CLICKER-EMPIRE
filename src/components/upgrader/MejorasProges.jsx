@@ -14,10 +14,16 @@ export const MejorasProges = ({
     rebirlvl,
     unlockedLvl,
   });
+
+  // 🎯 FILTRAR POR NIVEL ACTUAL
+  const currentLevelUpgrades = upgrades.filter(
+    (up) => up.level === rebirlvl
+  );
+
   return (
     <div className="shop">
       <h2>Tienda de aumento 🛒</h2>
-
+      <span>shop lvl: {rebirlvl}</span>
       {/* 🔒 Aviso de límite alcanzado */}
       {multiplier >= unlockedLvl && (
         <p className="text-warning text-center">
@@ -26,17 +32,12 @@ export const MejorasProges = ({
       )}
 
       <div className="shop-grid">
-        {upgrades.map((up, i) => {
-          const isUnlocked = up.tier === 1 || rebirlvl >= up.tier;
-
-          // 🔥 Validación completa (incluye overshoot)
+        {currentLevelUpgrades.map((up, i) => {
+          // 🔥 Validación simplificada (solo verificar nivel actual)
           const canBuy =
             money >= up.cost &&
             multiplier < up.max &&
-            (multiplier + up.value) <= unlockedLvl &&
-            isUnlocked;
-
-          if (!isUnlocked) return null;
+            (multiplier + up.value) <= unlockedLvl;
 
           const willExceed = multiplier + up.value > unlockedLvl;
 

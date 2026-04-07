@@ -12,7 +12,9 @@ export const ReiniciosLvl = ({
 }) => {
   // Mostrar el nivel correspondiente al rebirlvl actual
   const currentLevel =
-    rebirthReq.find((req) => req.level === rebirlvl) || rebirthReq[0];
+  rebirthReq.find((req) => req.level === rebirlvl) || 
+  rebirthReq.find((req) => req.level === rebirlvl - 1) ||
+  rebirthReq[0];
 
   const canRebirth =
   money >= currentLevel.money &&

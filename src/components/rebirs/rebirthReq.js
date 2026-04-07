@@ -1,4 +1,6 @@
+
 const rebirthReq = [
+  { level: 0, money: 100, multiplier: 5, bonus: 0 }, 
   { level: 1, money: 10000, multiplier: 50, bonus: 10 },
   { level: 2, money: 30000, multiplier: 70, bonus: 15 },
   { level: 3, money: 50000, multiplier: 100, bonus: 20 },
