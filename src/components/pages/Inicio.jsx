@@ -60,6 +60,7 @@ export const Inicio = ({
               setMoney={setMoney}
               multiplier={multiplier}
               setRebirLvl={setRebirLvl}
+              rebirlvl={rebirlvl}
             />
           </div></Col>
       </Row>
