@@ -20,15 +20,23 @@ function App() {
 
   // 🔥 nueva lógica progresiva
   const buyUpgrade = (cost, increment, max) => {
-    if (money >= cost && multiplier < max) {
-      setMoney((prev) => prev - cost);
+  setMultiplier((prev) => {
+    const newValue = prev + increment;
 
-      setMultiplier((prev) => {
-        const newValue = prev + increment;
-        return Number((newValue > max ? max : newValue).toFixed(2));
-      });
+    // 🔒 VALIDACIÓN REAL
+    if (
+      money < cost ||
+      prev >= max ||
+      newValue > unlockedLvl
+    ) {
+      return prev;
     }
-  };
+
+    setMoney((m) => m - cost);
+
+    return Number(Math.min(newValue, max, unlockedLvl).toFixed(2));
+  });
+};
 
   return (
     <>

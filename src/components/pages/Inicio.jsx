@@ -33,11 +33,12 @@ export const Inicio = ({
           </div>
           <div className="upgrader-section">
             <MejorasProges
-              money={money}
-              multiplier={multiplier}
-              buyUpgrade={buyUpgrade}
-              rebirlvl={rebirlvl}
-            />
+  money={money}
+  multiplier={multiplier}
+  buyUpgrade={buyUpgrade}
+  rebirlvl={rebirlvl}
+  unlockedLvl={unlockedLvl} // 🔥 ESTE FALTABA
+/>
           </div>
         </Col>
 

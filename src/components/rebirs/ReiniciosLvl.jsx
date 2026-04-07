@@ -14,7 +14,8 @@ export const ReiniciosLvl = ({
     rebirthReq.find((req) => req.level === rebirlvl) || rebirthReq[0];
 
   const canRebirth =
-    money >= currentLevel.money && multiplier <= currentLevel.multiplier;
+  money >= currentLevel.money &&
+  multiplier >= currentLevel.multiplier;
 
   const handleRebirth = () => {
     if (!canRebirth) return;
