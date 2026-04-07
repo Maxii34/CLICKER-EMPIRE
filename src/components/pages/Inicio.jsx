@@ -3,6 +3,7 @@ import { ClikerGamer } from "../ClikerGamer";
 import { BonusBienvenida } from "../bonus/BonusBienvenida";
 import { MejorasProges } from "../upgrader/MejorasProges";
 import { ReiniciosLvl } from "../rebirs/ReiniciosLvl";
+import { useState } from "react";
 
 export const Inicio = ({
   money,
@@ -13,8 +14,12 @@ export const Inicio = ({
   handleClick,
   addMoneyDev,
   setRebirLvl,
-  rebirlvl
+  rebirlvl,
+  setUnlockedLvl,
+  unlockedLvl,
 }) => {
+  //estado para controlar niveles desbloqueados en la tienda
+
   return (
     <Container fluid className="py-5">
       <Row className="g-4">
@@ -48,28 +53,29 @@ export const Inicio = ({
               multiplier={multiplier}
               handleClick={handleClick}
               addMoneyDev={addMoneyDev}
+              unlockedLvl={unlockedLvl}
             />
           </div>
         </Col>
 
         {/* Columna Derecha - Vacía */}
         <Col lg={3} md={12}>
-        <div className="reinicio-bottom-section">
+          <div className="reinicio-bottom-section">
             <ReiniciosLvl
               money={money}
               setMoney={setMoney}
               multiplier={multiplier}
               setRebirLvl={setRebirLvl}
               rebirlvl={rebirlvl}
+              setUnlockedLvl={setUnlockedLvl}
             />
-          </div></Col>
+          </div>
+        </Col>
       </Row>
 
       {/* Sección inferior centrada - Reinicio */}
       <Row className="g-4 mt-5">
-        <Col xs={12} className="d-flex justify-content-center">
-          
-        </Col>
+        <Col xs={12} className="d-flex justify-content-center"></Col>
       </Row>
     </Container>
   );

@@ -7,19 +7,22 @@ export const ReiniciosLvl = ({
   setMoney,
   rebirlvl,
   setRebirLvl,
+  setUnlockedLvl,
 }) => {
   // Mostrar el nivel correspondiente al rebirlvl actual
   const currentLevel =
     rebirthReq.find((req) => req.level === rebirlvl) || rebirthReq[0];
 
   const canRebirth =
-    money >= currentLevel.money && multiplier >= currentLevel.multiplier;
+    money >= currentLevel.money && multiplier <= currentLevel.multiplier;
 
   const handleRebirth = () => {
     if (!canRebirth) return;
 
     setRebirLvl(currentLevel.level + 1); // subimos el nivel de renacimiento
     setMoney(0);
+    //mandamos el limite de multiplier, para bloquear las mejoras si ya llego al nivel requerido, hasta que haga el rebirth y se desbloquee el siguiente nivel de mejoras
+    setUnlockedLvl(currentLevel.multiplier);
   };
 
   return (

@@ -7,6 +7,8 @@ function App() {
   const [money, setMoney] = useState(0);
   const [multiplier, setMultiplier] = useState(1);
   const [rebirlvl, setRebirLvl] = useState(0);
+  const [unlockedLvl, setUnlockedLvl] = useState(Infinity);
+
 
   const handleClick = () => {
     setMoney((prev) => prev + multiplier);
@@ -40,6 +42,8 @@ function App() {
         addMoneyDev={addMoneyDev}
         setRebirLvl={setRebirLvl}
         rebirlvl={rebirlvl}
+        setUnlockedLvl={setUnlockedLvl}
+        unlockedLvl={unlockedLvl}
       />
     </>
   );
