@@ -1,70 +1,80 @@
+import { useState } from "react";
 import "./Bonus.css";
 
-export const BonusAutoClick = ({ level = 0, cost = 1000, isActive, setIsActive }) => {
+export const BonusAutoClick = ({
+  setAutoClickSpeed,
+  money,
+  setMoney,
+  rebirlvl,
+}) => {
   const maxLevels = 5;
+  const upgraderClicker = [
+    { level: 1, cost: 10000, speed: 900, reqRebirth: 2 },
+    { level: 2, cost: 50000, speed: 800, reqRebirth: 2 },
+    { level: 3, cost: 100000, speed: 700, reqRebirth: 3 },
+    { level: 4, cost: 250000, speed: 600, reqRebirth: 4 },
+    { level: 5, cost: 500000, speed: 500, reqRebirth: 5 },
+  ];
+
+  const [level, setLevel] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+
+  const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
+  const canUpgrade = nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
+
+  const handleUpgrade = () => {
+    if (!canUpgrade) return;
+    setMoney((prev) => prev - nextUpgrade.cost);
+    setAutoClickSpeed(nextUpgrade.speed);
+    setLevel((prev) => prev + 1);
+  };
 
   return (
     <div className="upgrade-container">
-      {/* HEADER: Título y Nivel */}
+      {/* HEADER: Nivel mejorado como badge */}
       <div className="upgrade-header">
-        <div className="upgrade-title-section">
-          <div>
-            <h5 className="upgrade-name">Auto-Clicker Pro</h5>
-            <p className="upgrade-level-text">
-              Nivel{" "}
-              <span className="level-number">
-                {level}/{maxLevels}
-              </span>
-            </p>
-          </div>
+        <div className="upgrade-title-group">
+          <h5 className="upgrade-name">Auto-Clicker</h5>
+          <span className="req-rebirth-tag">Rebirth Req: {nextUpgrade?.reqRebirth || "MAX"}</span>
         </div>
-        
-        {/* Badge dinámico: Solo aparece si el nivel es > 0 y está encendido */}
-        {level > 0 && isActive && (
-          <div className="upgrade-active-badge">
-            <div className="dot-blink"></div>
-            TRABAJANDO
-          </div>
-        )}
+        <div className="level-badge-compact">
+          Lvl {level}/{maxLevels}
+        </div>
       </div>
 
-      {/* BODY: Barra de progreso */}
       <div className="upgrade-progress-bar">
         {[...Array(maxLevels)].map((_, i) => (
-          <div
-            key={i}
-            className={`progress-step ${i < level ? "step-filled" : ""}`}
-          />
+          <div key={i} className={`progress-step ${i < level ? "step-filled" : ""}`} />
         ))}
       </div>
 
-      {/* FOOTER: Compra de niveles */}
-      <div className="upgrade-footer">
-        <div className="upgrade-price">
-          <span className="price-tag">Costo:</span>
-          <span className="price-value">${cost.toLocaleString()}</span>
+      <div className="upgrade-grid">
+        <div className={`mini-req ${nextUpgrade && money >= nextUpgrade.cost ? "ok" : "locked"}`}>
+          💰 ${nextUpgrade ? nextUpgrade.cost.toLocaleString() : "---"}
         </div>
-
-        <button
-          className={`upgrade-buy-btn ${level >= maxLevels ? "maxed" : ""}`}
-          disabled={level >= maxLevels}
-        >
-          {level >= maxLevels ? "MAX" : "MEJORAR"}
-        </button>
+        <div className={`mini-req ${nextUpgrade && rebirlvl >= nextUpgrade.reqRebirth ? "ok" : "locked"}`}>
+           Rebirth Lvl {nextUpgrade ? nextUpgrade.reqRebirth : "---"}
+        </div>
       </div>
 
-      {/* SECCIÓN DE ACTIVACIÓN (SOLO SI TIENE NIVEL) */}
-      <div className="upgrade-toggle-section">
-        {level > 0 ? (
+      {/* FOOTER: Botones juntos sin división */}
+      <div className="upgrade-actions-group">
+        <button
+          className={`main-upgrade-btn ${canUpgrade ? "ready" : "disabled"}`}
+          onClick={handleUpgrade}
+          disabled={!canUpgrade || level >= maxLevels}
+        >
+          {level >= maxLevels ? "MÁXIMO ✅" : canUpgrade ? "MEJORAR" : "BLOQUEADO"}
+        </button>
+
+        {level > 0 && (
           <button 
+            className={`toggle-action-btn ${isActive ? "active-on" : "active-off"}`}
             onClick={() => setIsActive(!isActive)}
-            className={`toggle-btn ${isActive ? "btn-on" : "btn-off"}`}
           >
-            <div className="toggle-indicator"></div>
-            {isActive ? "DESACTIVAR AUTOCLICK" : "ACTIVAR AUTOCLICK"}
+            <div className={`status-led ${isActive ? "led-green" : ""}`}></div>
+            {isActive ? "OFF" : "ON"}
           </button>
-        ) : (
-          <p className="unlock-message">Activable desde el reinicio 2</p>
         )}
       </div>
     </div>

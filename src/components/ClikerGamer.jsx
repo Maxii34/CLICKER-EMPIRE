@@ -7,15 +7,6 @@ export const ClikerGamer = ({
   handleClick,
   addMoneyDev,
 }) => {
-  const [autoClick, setAutoClick] = useState(false);
-
-  useEffect(() => {
-    if (!autoClick) return;
-    const interval = setInterval(() => {
-      handleClick();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [autoClick, handleClick]);
 
   return (
     <div className="game-center">
@@ -32,13 +23,6 @@ export const ClikerGamer = ({
         <div className="action-row">
           <button className="btn-dev" onClick={addMoneyDev}>
             +$ DEV
-          </button>
-
-          <button
-            className={`btn-auto ${autoClick ? "active" : ""}`}
-            onClick={() => setAutoClick(!autoClick)}
-          >
-            {autoClick ? "AUTO: ON ⚡" : "AUTO: OFF"}
           </button>
         </div>
       </div>

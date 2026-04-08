@@ -25,7 +25,9 @@
   position: relative;
 }
 
-.bonus-emoji { font-size: 1.5rem; }
+.bonus-emoji {
+  font-size: 1.5rem;
+}
 
 .bonus-title {
   font-size: 0.8rem;
@@ -41,7 +43,10 @@
   color: #94a3b8;
 }
 
-.highlight { color: #4ade80; font-weight: bold; }
+.highlight {
+  color: #4ade80;
+  font-weight: bold;
+}
 
 .badge-perm {
   position: absolute;
@@ -69,8 +74,14 @@
   transition: all 0.1s;
 }
 
-.btn-activate-bonus:hover { transform: translateY(-1px); filter: brightness(1.1); }
-.btn-activate-bonus:active { transform: translateY(2px); box-shadow: none; }
+.btn-activate-bonus:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+.btn-activate-bonus:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
 
 /* ESTADO ACTIVO (PÍLDORA FLOTANTE) */
 .bonus-status-pill {
@@ -96,259 +107,162 @@
 }
 
 @keyframes pulse-green {
-  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
-  70% { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/*Clases btn autoclick*/
-/* CONTENEDOR PRINCIPAL */
 .upgrade-container {
-  background: rgba(30, 41, 59, 0.9);
-  border: 1px solid rgba(245, 158, 11, 0.4);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 12px;
   border-radius: 12px;
-  padding: 16px;
-  width: auto;
-  height: 100%;
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.upgrade-container:hover {
-  border-color: #f59e0b;
-  transform: translateY(-2px);
-}
-
-/* HEADER */
 .upgrade-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.upgrade-title-section {
-  display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.upgrade-icon {
-  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 .upgrade-name {
-  color: #f8fafc;
-  font-size: 16px;
-  font-weight: 800;
-  margin: 0px;
-  padding-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.upgrade-level-text {
-  color: #94a3b8;
-  font-size: 12px;
-  margin: 0px;
-}
-
-.level-number {
   color: #f59e0b;
-  font-weight: bold;
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0;
 }
 
-/* BADGE ACTIVO */
-.upgrade-active-badge {
-  background: rgba(74, 222, 128, 0.1);
-  border: 1px solid #4ade80;
-  color: #4ade80;
+.req-rebirth-tag {
+  font-size: 10px;
+  color: #94a3b8;
+  display: block;
+}
+
+/* Nivel decorado compacto */
+.level-badge-compact {
+  background: #f59e0b;
+  color: #000;
   font-size: 10px;
   font-weight: 900;
   padding: 2px 8px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
 }
 
-.dot-blink {
-  width: 6px;
-  height: 6px;
-  background: #4ade80;
-  border-radius: 50%;
-  animation: upgrade-pulse 1.5s infinite;
-}
-
-/* BARRA DE PROGRESO (PASOS) */
 .upgrade-progress-bar {
   display: flex;
-  gap: 5px;
-  margin-bottom: 15px;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 
 .progress-step {
   flex: 1;
-  height: 6px;
-  background: #0f172a;
-  border-radius: 10px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
 
 .step-filled {
   background: #f59e0b;
-  box-shadow: 0px 0px 8px rgba(245, 158, 11, 0.5);
 }
 
-/* FOOTER Y PRECIO */
-.upgrade-footer {
+.upgrade-grid {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
-.upgrade-price {
-  display: flex;
-  flex-direction: column;
-}
-
-.price-tag {
+.mini-req {
+  flex: 1;
   font-size: 10px;
-  color: #94a3b8;
-  text-transform: uppercase;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #ef4444;
 }
 
-.price-value {
+.mini-req.ok {
   color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+/* GRUPO DE BOTONES (Juntos) */
+.upgrade-actions-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.main-upgrade-btn {
+  flex: 3; /* El de mejorar es más largo */
+  height: 32px;
+  border-radius: 6px;
   font-weight: 800;
-  font-size: 18px;
-}
-
-/* BOTÓN COMPRAR */
-.upgrade-buy-btn {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: #000;
-  font-weight: 900;
-  font-size: 12px;
-  cursor: pointer;
-  box-shadow: 0px 4px 0px #92400e;
-  transition: all 0.1s;
-}
-
-.upgrade-buy-btn:hover:not(:disabled) {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-.upgrade-buy-btn:active:not(:disabled) {
-  transform: translateY(3px);
-  box-shadow: none;
-}
-
-.upgrade-buy-btn:disabled {
-  background: #334155;
-  box-shadow: none;
-  color: #94a3b8;
-  cursor: not-allowed;
-}
-
-/* ANIMACIÓN */
-@keyframes upgrade-pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.3; }
-  100% { opacity: 1; }
-}
-
-/* --- Mantén el CSS anterior de upgrade-container, header y progress bar --- */
-
-/* SECCIÓN DEL BOTÓN DE ACTIVACIÓN */
-.upgrade-toggle-section {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: center;
-}
-
-.toggle-btn {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 900;
   font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  border: none;
   cursor: pointer;
+}
+
+.main-upgrade-btn.ready {
+  background: #f59e0b;
+  color: #000;
+}
+
+.main-upgrade-btn.disabled {
+  background: #1e293b;
+  color: #475569;
+}
+
+.toggle-action-btn {
+  flex: 1; /* El de ON/OFF es más corto */
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
-
-/* Estilo cuando está APAGADO */
-.btn-off {
-  background: #334155;
-  color: #94a3b8;
-  box-shadow: inset 0px 2px 4px rgba(0,0,0,0.3);
-}
-
-.btn-off .toggle-indicator {
-  width: 8px;
-  height: 8px;
-  background: #64748b;
-  border-radius: 50%;
-}
-
-/* Estilo cuando está ENCENDIDO */
-.btn-on {
-  background: rgba(74, 222, 128, 0.2);
-  color: #4ade80;
-  border: 1px solid #4ade80;
-  box-shadow: 0px 0px 15px rgba(74, 222, 128, 0.2);
-}
-
-.btn-on .toggle-indicator {
-  width: 8px;
-  height: 8px;
-  background: #4ade80;
-  border-radius: 50%;
-  box-shadow: 0px 0px 8px #4ade80;
-  animation: indicator-blink 1s infinite;
-}
-
-.btn-on:hover {
-  background: rgba(74, 222, 128, 0.3);
-  transform: scale(1.02);
-}
-
-/* Mensaje de bloqueo */
-.unlock-message {
+  gap: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0f172a;
+  color: #fff;
   font-size: 10px;
-  color: #f59e0b;
-  font-style: italic;
-  margin: 0;
+  font-weight: 900;
+  cursor: pointer;
 }
 
-/* Animaciones */
-@keyframes indicator-blink {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.5; }
-  100% { transform: scale(1); opacity: 1; }
+.active-on {
+  border-color: #4ade80;
+  color: #4ade80;
 }
 
-/* Ajuste rápido para el botón de compra (más pequeño para que quepan los dos) */
-.upgrade-buy-btn {
-  padding: 6px 12px;
-  font-size: 11px;
+.status-led {
+  width: 6px;
+  height: 6px;
+  background: #334155;
+  border-radius: 50%;
+}
+
+.led-green {
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
 }

@@ -9,54 +9,68 @@ function App() {
   const [rebirlvl, setRebirLvl] = useState(0);
   const [unlockedLvl, setUnlockedLvl] = useState(Infinity);
   const [bonusActivo, setBonusActivo] = useState(false);
-
+  // Nuevo estado para el bonus de autoclick
+  const [isActive, setIsActive] = useState(false);
+  //logica para el autoclick
+  const [autoClick, setAutoClick] = useState(false);
+  const [autoClickSpeed, setAutoClickSpeed] = useState(1000);
 
   const handleClick = () => {
     setMoney((prev) => prev + multiplier);
   };
 
+  useEffect(() => {
+    if (!autoClick) return;
+    const interval = setInterval(() => {
+      handleClick();
+    }, autoClickSpeed);
+    return () => clearInterval(interval);
+  }, [autoClick, handleClick]);
+
   const addMoneyDev = () => {
     setMoney((prev) => prev + 500000);
-  }
+  };
 
   // 🔥 nueva lógica progresiva
   const buyUpgrade = (cost, increment, max) => {
-  if (money < cost) return;
+    if (money < cost) return;
 
-  const newValue = multiplier + increment;
+    const newValue = multiplier + increment;
 
-  // 🔒 VALIDACIÓN TOTAL
-  if (
-    multiplier >= max ||
-    newValue > unlockedLvl
-  ) return;
+    // 🔒 VALIDACIÓN TOTAL
+    if (multiplier >= max || newValue > unlockedLvl) return;
 
-  // ✅ aplicar cambios
-  setMoney((prev) => prev - cost);
+    // ✅ aplicar cambios
+    setMoney((prev) => prev - cost);
 
-  setMultiplier((prev) =>
-    Number(Math.min(prev + increment, max, unlockedLvl).toFixed(2))
-  );
-};
+    setMultiplier((prev) =>
+      Number(Math.min(prev + increment, max, unlockedLvl).toFixed(2)),
+    );
+  };
   return (
     <>
-      <MenuNav money={money} multiplier={multiplier} bonusActivo={bonusActivo} />
-      <main >
-      <Inicio
+      <MenuNav
         money={money}
-        setMoney={setMoney}
         multiplier={multiplier}
-        setMultiplier={setMultiplier}
-        buyUpgrade={buyUpgrade}
-        handleClick={handleClick}
-        addMoneyDev={addMoneyDev}
-        setRebirLvl={setRebirLvl}
-        rebirlvl={rebirlvl}
-        setUnlockedLvl={setUnlockedLvl}
-        unlockedLvl={unlockedLvl}
         bonusActivo={bonusActivo}
-        setBonusActivo={setBonusActivo}
       />
+      <main>
+        <Inicio
+          money={money}
+          setMoney={setMoney}
+          multiplier={multiplier}
+          setMultiplier={setMultiplier}
+          buyUpgrade={buyUpgrade}
+          handleClick={handleClick}
+          addMoneyDev={addMoneyDev}
+          setRebirLvl={setRebirLvl}
+          rebirlvl={rebirlvl}
+          setUnlockedLvl={setUnlockedLvl}
+          unlockedLvl={unlockedLvl}
+          bonusActivo={bonusActivo}
+          setBonusActivo={setBonusActivo}
+          setAutoClickSpeed={setAutoClickSpeed}
+        />
       </main>
     </>
   );

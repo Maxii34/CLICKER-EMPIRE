@@ -20,6 +20,7 @@ export const Inicio = ({
   unlockedLvl,
   bonusActivo,
   setBonusActivo,
+  setAutoClickSpeed,
 }) => {
   return (
     <Container fluid className="inicio-container">
@@ -48,7 +49,6 @@ export const Inicio = ({
           {/* SECCIÓN DERECHA (TIENDA Y MEJORAS) */}
           <Col lg={4} md={5} className="inicio-right scroll-fix">
             <div className="inicio-panel">
-              
               {/* MEJORAS PROGRESIVAS (ARRIBA) */}
               <div className="shop-section mb-3">
                 <MejorasProges
@@ -61,7 +61,9 @@ export const Inicio = ({
               </div>
 
               {/* CONTENEDOR COMPARTIDO: REINICIOS Y AUTOCLICK */}
-              <Row className="g-2"> {/* g-2 añade una separación pequeña entre columnas */}
+              <Row className="g-2">
+                {" "}
+                {/* g-2 añade una separación pequeña entre columnas */}
                 <Col xs={12} xl={6}>
                   <div className="rebirth-section h-100">
                     <ReiniciosLvl
@@ -75,15 +77,19 @@ export const Inicio = ({
                     />
                   </div>
                 </Col>
-                
                 <Col xs={12} xl={6}>
                   <div className="autoclick-section h-100">
                     {/* Aquí puedes pasarle las props de nivel y costo cuando las tengas */}
-                    <BonusAutoClick level={0} cost={5000} />
+                    <BonusAutoClick
+                      setAutoClickSpeed={setAutoClickSpeed}
+                      money={money}
+                      setMoney={setMoney}
+                      rebirlvl={rebirlvl}
+                      handleClick={handleClick}
+                    />
                   </div>
                 </Col>
               </Row>
-
             </div>
           </Col>
         </Row>
