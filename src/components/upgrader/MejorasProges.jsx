@@ -42,7 +42,7 @@ export const MejorasProges = ({
             <button
               key={i}
               className={`upgrade-btn ${canBuy ? "active" : "disabled"}`}
-              onClick={() => buyUpgrade(up.cost, up.value, up.max)}
+              onClick={() => buyUpgrade(up.cost, up.value, up.max, up.level)}
               disabled={!canBuy}
             >
               <span className="up-value">+{up.value}</span>
