@@ -1,6 +1,6 @@
 import "./Bonus.css";
 
-export const BonusAutoClick = ({ level = 0, cost = 1000 }) => {
+export const BonusAutoClick = ({ level = 0, cost = 1000, isActive, setIsActive }) => {
   const maxLevels = 5;
 
   return (
@@ -8,7 +8,6 @@ export const BonusAutoClick = ({ level = 0, cost = 1000 }) => {
       {/* HEADER: Título y Nivel */}
       <div className="upgrade-header">
         <div className="upgrade-title-section">
-          <span className="upgrade-icon">🤖</span>
           <div>
             <h5 className="upgrade-name">Auto-Clicker Pro</h5>
             <p className="upgrade-level-text">
@@ -19,15 +18,17 @@ export const BonusAutoClick = ({ level = 0, cost = 1000 }) => {
             </p>
           </div>
         </div>
-        {level > 0 && (
+        
+        {/* Badge dinámico: Solo aparece si el nivel es > 0 y está encendido */}
+        {level > 0 && isActive && (
           <div className="upgrade-active-badge">
             <div className="dot-blink"></div>
-            ACTIVO
+            TRABAJANDO
           </div>
         )}
       </div>
 
-      {/* BODY: Barra de progreso de niveles */}
+      {/* BODY: Barra de progreso */}
       <div className="upgrade-progress-bar">
         {[...Array(maxLevels)].map((_, i) => (
           <div
@@ -37,7 +38,7 @@ export const BonusAutoClick = ({ level = 0, cost = 1000 }) => {
         ))}
       </div>
 
-      {/* FOOTER: Precio y Botón */}
+      {/* FOOTER: Compra de niveles */}
       <div className="upgrade-footer">
         <div className="upgrade-price">
           <span className="price-tag">Costo:</span>
@@ -48,8 +49,23 @@ export const BonusAutoClick = ({ level = 0, cost = 1000 }) => {
           className={`upgrade-buy-btn ${level >= maxLevels ? "maxed" : ""}`}
           disabled={level >= maxLevels}
         >
-          {level >= maxLevels ? "NIVEL MÁXIMO" : "MEJORAR"}
+          {level >= maxLevels ? "MAX" : "MEJORAR"}
         </button>
+      </div>
+
+      {/* SECCIÓN DE ACTIVACIÓN (SOLO SI TIENE NIVEL) */}
+      <div className="upgrade-toggle-section">
+        {level > 0 ? (
+          <button 
+            onClick={() => setIsActive(!isActive)}
+            className={`toggle-btn ${isActive ? "btn-on" : "btn-off"}`}
+          >
+            <div className="toggle-indicator"></div>
+            {isActive ? "DESACTIVAR AUTOCLICK" : "ACTIVAR AUTOCLICK"}
+          </button>
+        ) : (
+          <p className="unlock-message">Activable desde el reinicio 2</p>
+        )}
       </div>
     </div>
   );

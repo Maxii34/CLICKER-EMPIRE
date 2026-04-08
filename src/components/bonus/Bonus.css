@@ -113,7 +113,8 @@
   border: 1px solid rgba(245, 158, 11, 0.4);
   border-radius: 12px;
   padding: 16px;
-  width: 320px;
+  width: auto;
+  height: 100%;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
 }
@@ -146,6 +147,7 @@
   font-size: 16px;
   font-weight: 800;
   margin: 0px;
+  padding-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -264,4 +266,89 @@
   0% { opacity: 1; }
   50% { opacity: 0.3; }
   100% { opacity: 1; }
+}
+
+/* --- Mantén el CSS anterior de upgrade-container, header y progress bar --- */
+
+/* SECCIÓN DEL BOTÓN DE ACTIVACIÓN */
+.upgrade-toggle-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.toggle-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 900;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+/* Estilo cuando está APAGADO */
+.btn-off {
+  background: #334155;
+  color: #94a3b8;
+  box-shadow: inset 0px 2px 4px rgba(0,0,0,0.3);
+}
+
+.btn-off .toggle-indicator {
+  width: 8px;
+  height: 8px;
+  background: #64748b;
+  border-radius: 50%;
+}
+
+/* Estilo cuando está ENCENDIDO */
+.btn-on {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  border: 1px solid #4ade80;
+  box-shadow: 0px 0px 15px rgba(74, 222, 128, 0.2);
+}
+
+.btn-on .toggle-indicator {
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0px 0px 8px #4ade80;
+  animation: indicator-blink 1s infinite;
+}
+
+.btn-on:hover {
+  background: rgba(74, 222, 128, 0.3);
+  transform: scale(1.02);
+}
+
+/* Mensaje de bloqueo */
+.unlock-message {
+  font-size: 10px;
+  color: #f59e0b;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Animaciones */
+@keyframes indicator-blink {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Ajuste rápido para el botón de compra (más pequeño para que quepan los dos) */
+.upgrade-buy-btn {
+  padding: 6px 12px;
+  font-size: 11px;
 }
