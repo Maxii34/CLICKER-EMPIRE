@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Inicio } from "./components/pages/Inicio";
+import { menu } from "./components/shared/menu";
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   };
 
   const addMoneyDev = () => {
-    setMoney((prev) => prev + 10000);
+    setMoney((prev) => prev + 500000);
   }
 
   // 🔥 nueva lógica progresiva
