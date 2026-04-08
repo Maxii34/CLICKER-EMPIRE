@@ -25,7 +25,7 @@ function App() {
       handleClick();
     }, autoClickSpeed);
     return () => clearInterval(interval);
-  }, [autoClick, handleClick]);
+  }, [autoClick, autoClickSpeed, handleClick]);
 
   const addMoneyDev = () => {
     setMoney((prev) => prev + 500000);
@@ -70,6 +70,8 @@ function App() {
           bonusActivo={bonusActivo}
           setBonusActivo={setBonusActivo}
           setAutoClickSpeed={setAutoClickSpeed}
+          autoClick={autoClick}
+          setAutoClick={setAutoClick}
         />
       </main>
     </>

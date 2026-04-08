@@ -21,6 +21,8 @@ export const Inicio = ({
   bonusActivo,
   setBonusActivo,
   setAutoClickSpeed,
+  autoClick,
+  setAutoClick,
 }) => {
   return (
     <Container fluid className="inicio-container">
@@ -85,7 +87,8 @@ export const Inicio = ({
                       money={money}
                       setMoney={setMoney}
                       rebirlvl={rebirlvl}
-                      handleClick={handleClick}
+                      autoClick={autoClick}
+                      setAutoClick={setAutoClick}
                     />
                   </div>
                 </Col>

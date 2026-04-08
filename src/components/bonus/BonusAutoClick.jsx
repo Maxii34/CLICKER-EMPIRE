@@ -6,6 +6,9 @@ export const BonusAutoClick = ({
   money,
   setMoney,
   rebirlvl,
+  setRebirLvl,
+  autoClick,
+  setAutoClick,
 }) => {
   const maxLevels = 5;
   const upgraderClicker = [
@@ -17,7 +20,6 @@ export const BonusAutoClick = ({
   ];
 
   const [level, setLevel] = useState(0);
-  const [isActive, setIsActive] = useState(false);
 
   const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
   const canUpgrade = nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
@@ -69,11 +71,11 @@ export const BonusAutoClick = ({
 
         {level > 0 && (
           <button 
-            className={`toggle-action-btn ${isActive ? "active-on" : "active-off"}`}
-            onClick={() => setIsActive(!isActive)}
+            className={`toggle-action-btn ${autoClick ? "active-on" : "active-off"}`}
+            onClick={() => setAutoClick(!autoClick)}
           >
-            <div className={`status-led ${isActive ? "led-green" : ""}`}></div>
-            {isActive ? "OFF" : "ON"}
+            <div className={`status-led ${autoClick ? "led-green" : ""}`}></div>
+            {autoClick ? "OFF" : "ON"}
           </button>
         )}
       </div>
