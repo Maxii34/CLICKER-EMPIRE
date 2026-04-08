@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Inicio } from "./components/pages/Inicio";
-import { menu } from "./components/shared/menu";
-
+import { MenuNav } from "./components/shared/MenuNav";
 
 function App() {
   const [money, setMoney] = useState(0);
@@ -41,6 +40,8 @@ function App() {
 };
   return (
     <>
+      <MenuNav money={money} multiplier={multiplier} />
+      <main >
       <Inicio
         money={money}
         setMoney={setMoney}
@@ -56,6 +57,7 @@ function App() {
         bonusActivo={bonusActivo}
         setBonusActivo={setBonusActivo}
       />
+      </main>
     </>
   );
 }
