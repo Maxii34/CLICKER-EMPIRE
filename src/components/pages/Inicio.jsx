@@ -3,7 +3,9 @@ import { ClikerGamer } from "../ClikerGamer";
 import { BonusBienvenida } from "../bonus/BonusBienvenida";
 import { MejorasProges } from "../upgrader/MejorasProges";
 import { ReiniciosLvl } from "../rebirs/ReiniciosLvl";
+import { BonusAutoClick } from "../bonus/BonusAutoClick";
 import "./Pages.css";
+
 
 export const Inicio = ({
   money,
@@ -68,6 +70,7 @@ export const Inicio = ({
                   setMultiplier={setMultiplier}
                 />
               </div>
+              <div><BonusAutoClick /></div>
             </div>
           </Col>
         </Row>
