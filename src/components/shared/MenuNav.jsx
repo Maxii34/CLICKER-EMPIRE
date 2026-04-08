@@ -2,14 +2,12 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import "./Menu.css";
 
-export const MenuNav = ({ money, multiplier }) => {
+export const MenuNav = ({ money, multiplier, bonusActivo }) => {
   return (
     <Navbar expand="lg" className="custom-navbar shadow-lg">
       <Container fluid className="navbar-container">
         {/* LOGO */}
-        <Navbar.Brand className="brand-logo">
-          ⚡ CLICKER PRO
-        </Navbar.Brand>
+        <Navbar.Brand className="brand-logo">⚡ CLICKER PRO</Navbar.Brand>
 
         {/* TOGGLE para móviles */}
         <Navbar.Toggle aria-controls="navbar-content" />
@@ -30,6 +28,16 @@ export const MenuNav = ({ money, multiplier }) => {
               <small className="status-label text-info">Multiplicador</small>
               <span className="status-value text-info">x{multiplier}</span>
             </div>
+
+            {/* BONUS */}
+            {bonusActivo && (
+              <div className="">
+                <div className="bonus-status-pill">
+                  <span className="pulsing-dot"></span>
+                  🎁 x2 Activo
+                </div>
+              </div>
+            )}
           </div>
         </Navbar.Collapse>
       </Container>

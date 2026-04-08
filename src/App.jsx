@@ -40,7 +40,7 @@ function App() {
 };
   return (
     <>
-      <MenuNav money={money} multiplier={multiplier} />
+      <MenuNav money={money} multiplier={multiplier} bonusActivo={bonusActivo} />
       <main >
       <Inicio
         money={money}

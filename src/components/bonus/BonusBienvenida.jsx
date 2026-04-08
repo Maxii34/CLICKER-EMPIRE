@@ -15,7 +15,7 @@ export const BonusBienvenida = ({
 
   return (
     <div className="bonus-wrapper">
-      {!bonusActivo ? (
+      {!bonusActivo  && (
         <div className="bonus-card-compact">
           <div className="bonus-info">
             <span className="bonus-emoji">🎁</span>
@@ -29,11 +29,6 @@ export const BonusBienvenida = ({
           <button className="btn-activate-bonus" onClick={handleBonus}>
             ACTIVAR
           </button>
-        </div>
-      ) : (
-        <div className="bonus-status-pill">
-          <span className="pulsing-dot"></span>
-          🎁 x2 Activo
         </div>
       )}
     </div>
