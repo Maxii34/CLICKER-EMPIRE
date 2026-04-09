@@ -80,9 +80,17 @@
 }
 
 .up-cost {
-  font-size: 9px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 900;
   color: #aaa;
+  background-color: #d97706;
+  padding: 3px 8px;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #92400e;
+}
+
+.up-cost:hover {
+  color: #ff4757;
 }
 
 /* BOTÓN ACTIVO - COLOR LINDO (DORADO VIBRANTE) */

@@ -13,6 +13,14 @@ export const MejorasProges = ({
     (up) => up.level === rebirlvl
   );
 
+  const formatNumber = (num) => {
+    if (num < 10000) return num.toLocaleString("es-AR");
+    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
+    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
+    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
+    return num;
+  };
+
   return (
     <div className="shop-box">
       {/* --- Elementos recuperados --- */}
@@ -46,7 +54,7 @@ export const MejorasProges = ({
               disabled={!canBuy}
             >
               <span className="up-value">+{up.value}</span>
-              <span className="up-cost">${up.cost}</span>
+              <span className="up-cost">${formatNumber(up.cost)}</span>
 
               {/* Punto de límite */}
               {willExceed && multiplier < unlockedLvl && (
