@@ -4,7 +4,9 @@ import { BonusBienvenida } from "../bonus/BonusBienvenida";
 import { MejorasProges } from "../upgrader/MejorasProges";
 import { ReiniciosLvl } from "../rebirs/ReiniciosLvl";
 import { BonusAutoClick } from "../bonus/BonusAutoClick";
+import { MinerProges } from "../upgrader/MinerProgres";
 import "./Pages.css";
+
 
 export const Inicio = ({
   money,
@@ -96,6 +98,15 @@ export const Inicio = ({
                   </div>
                 </Col>
               </Row>
+              <div>
+                <MinerProges
+                  money={money}
+                  multiplier={multiplier}
+                  buyUpgrade={buyUpgrade}
+                  rebirlvl={rebirlvl}
+                  unlockedLvl={unlockedLvl}
+                />
+              </div>
             </div>
           </Col>
         </Row>

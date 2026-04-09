@@ -28,7 +28,7 @@ function App() {
   }, [autoClick, autoClickSpeed, handleClick]);
 
   const addMoneyDev = () => {
-    setMoney((prev) => prev + 500000);
+    setMoney((prev) => prev + 5000000);
   };
 
   // 🔥 nueva lógica progresiva

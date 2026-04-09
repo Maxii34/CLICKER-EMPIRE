@@ -1,0 +1,20 @@
+/* ESTILOS GLOBALES PARA CUBRIR TODA LA ALTURA */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Asegura que el main ocupe toda la altura disponible */
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
