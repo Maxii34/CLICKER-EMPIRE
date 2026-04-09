@@ -58,6 +58,9 @@ export const BonusAutoClick = ({
            Rebirth Lvl {nextUpgrade ? nextUpgrade.reqRebirth : "---"}
         </div>
       </div>
+        <div className="req-rebirth-tag text-center text-capitalize py-1 fw-bold">
+        <span>Mejoras en Rebir: 02, 04, 06, 08, 10</span>
+        </div>
 
       {/* FOOTER: Botones juntos sin división */}
       <div className="upgrade-actions-group">

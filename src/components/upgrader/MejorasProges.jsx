@@ -17,7 +17,7 @@ export const MejorasProges = ({
     if (num < 10000) return num.toLocaleString("es-AR");
     if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
     if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
+    if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
     return num;
   };
 
@@ -32,7 +32,7 @@ export const MejorasProges = ({
       {/* 🔒 Aviso de límite recuperado */}
       {multiplier >= unlockedLvl && (
         <p className="limit-warning">
-          ⚠️ Alcanzaste el límite, hacé renacimiento
+          ⚠️ Alcanzaste el límite, debes renacimiento
         </p>
       )}
 

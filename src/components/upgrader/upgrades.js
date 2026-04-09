@@ -1,6 +1,5 @@
 const upgrades = [
   // 🔹 LEVEL 0 (Inicial - hasta x15)
-  { cost: 10, value: 0.05, max: 15, unlock: 0, level: 0 },
   { cost: 20, value: 0.1, max: 15, unlock: 0, level: 0 },
   { cost: 40, value: 0.15, max: 15, unlock: 0, level: 0 },
   { cost: 80, value: 0.2, max: 15, unlock: 0, level: 0 },
@@ -10,6 +9,8 @@ const upgrades = [
   { cost: 600, value: 0.4, max: 15, unlock: 0, level: 0 },
   { cost: 850, value: 0.45, max: 15, unlock: 0, level: 0 },
   { cost: 1200, value: 0.5, max: 15, unlock: 0, level: 0 },
+  { cost: 1500, value: 1, max: 15, unlock: 0, level: 0 },
+
 
   // 🔹 LEVEL 1 (Después 1er rebirth - hasta x50)
   { cost: 1000, value: 1, max: 50, unlock: 1, level: 1 },

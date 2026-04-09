@@ -13,8 +13,8 @@ export const MinerProges = ({
   const formatNumber = (num) => {
     if (num < 10000) return num.toLocaleString("es-AR");
     if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
+    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M"; 
+    if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
     return num;
   };
 
@@ -27,7 +27,7 @@ export const MinerProges = ({
 
       {multiplier >= unlockedLvl && (
         <p className="limit-warning">
-          ⚠️ Alcanzaste el límite, hacé renacimiento
+          ⚠️ Alcanzaste el límite, debes renacimiento
         </p>
       )}
 
@@ -66,18 +66,6 @@ export const MinerProges = ({
               <span className="up-cost">
                 ${formatNumber(up.cost)}
               </span>
-
-              {state === "no-money" && (
-                <span className="req-text">
-                  💸 Falta dinero
-                </span>
-              )}
-
-              {state === "maxed" && (
-                <span className="req-text">
-                  🚫 Límite alcanzado
-                </span>
-              )}
 
               {/* Indicador visual */}
               {willExceed && multiplier < unlockedLvl && (

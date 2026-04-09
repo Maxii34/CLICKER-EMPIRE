@@ -24,7 +24,7 @@ export const ReiniciosLvl = ({
     const nextLevel = rebirthReq.find((r) => r.level === currentLevel.level + 1);
     setRebirLvl((prev) => prev + 1);
     setMoney(0);
-    setMultiplier(rebirthReq.find((r) => r.level === currentLevel.level + 1)?.bonus || 0);
+    setMultiplier(rebirthReq.find((r) => r.level === currentLevel.level)?.bonus || 0);
     setUnlockedLvl(nextLevel ? nextLevel.multiplier : Infinity);
   };
 
@@ -49,13 +49,13 @@ export const ReiniciosLvl = ({
       <div className={`mini-bonus-box ${canRebirth ? "unlocked" : ""}`}>
         <p className="bonus-label">🎁 DESBLOQUEA:</p>
         <div className="bonus-content">
-          <span>+{currentLevel.bonus} Al iniciar</span>
-          <span>Tienda Lvl {currentLevel.level + 1} Desbloqueada</span>
-          {currentLevel.level + 1 === 2 && <span>AutoClikc Desbloqueada lvl 1</span>}
-          {currentLevel.level + 1 === 4 && <span>AutoClikc Desbloqueada lvl 2</span>}
-          {currentLevel.level + 1 === 6 && <span>AutoClikc Desbloqueada lvl 3</span>}
-          {currentLevel.level + 1 === 10 && <span>AutoClikc Desbloqueada lvl 4</span>}
-          {currentLevel.level + 1 === 12 && <span>AutoClikc Desbloqueada lvl 5</span>}
+          <span>- Multiplicador X{currentLevel.bonus} Al iniciar</span>
+          <span>- Tienda Lvl {currentLevel.level + 1} Desbloqueada</span>
+          {currentLevel.level + 1 === 2 && <span>- AutoClikc Desbloqueada lvl 1</span>}
+          {currentLevel.level + 1 === 4 && <span>- AutoClikc Desbloqueada lvl 2</span>}
+          {currentLevel.level + 1 === 6 && <span>- AutoClikc Desbloqueada lvl 3</span>}
+          {currentLevel.level + 1 === 10 && <span>- AutoClikc Desbloqueada lvl 4</span>}
+          {currentLevel.level + 1 === 12 && <span>- AutoClikc Desbloqueada lvl 5</span>}
 
 
         </div>
