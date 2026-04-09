@@ -31,8 +31,8 @@ export const ReiniciosLvl = ({
   return (
     <div className="rebirth-container">
       <div className="rebirth-header">
-        <h2 className="rebirth-title">Renacimiento ✨</h2>
-        <span className="req-lvl-tag">Req. Lvl: {currentLevel.level}</span>
+        <h2 className="rebirth-title">Renacimiento</h2>
+        <span className="req-lvl-tag">Lvl: {currentLevel.level}</span>
       </div>
 
       <div className="rebirth-grid">
@@ -65,7 +65,7 @@ export const ReiniciosLvl = ({
         onClick={handleRebirth}
         disabled={!canRebirth}
       >
-        {canRebirth ? "REINICIAR AHORA 🔄" : "BLOQUEADO 🔒"}
+        {canRebirth ? "REINICIAR AHORA" : "BLOQUEADO"}
       </button>
     </div>
   );

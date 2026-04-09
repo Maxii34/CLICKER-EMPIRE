@@ -28,8 +28,16 @@ export const Inicio = ({
     <Container fluid className="inicio-container">
       <main className="inicio-main">
         <Row className="h-100 g-0">
-          {/* SECCIÓN IZQUIERDA (JUEGO) */}
-          <Col lg={8} md={7} className="inicio-left">
+          {/* 1. NUEVA SECCIÓN IZQUIERDA (Panel Lateral / Stats Extras) */}
+          <Col lg={2} md={3} className="inicio-sidebar scroll-fix">
+            <div className="sidebar-content p-3">
+              {/* Aquí puedes poner inventario, logros o stats secundarios */}
+              <h6 className="text-muted text-center">PANEL LATERAL</h6>
+            </div>
+          </Col>
+
+          {/* 2. SECCIÓN CENTRAL (JUEGO) */}
+          <Col lg={6} md={5} className="inicio-left">
             <div className="mb-4">
               <BonusBienvenida
                 multiplier={multiplier}
@@ -48,10 +56,9 @@ export const Inicio = ({
             />
           </Col>
 
-          {/* SECCIÓN DERECHA (TIENDA Y MEJORAS) */}
-          <Col lg={4} md={5} className="inicio-right scroll-fix">
+          {/* 3. SECCIÓN DERECHA (TIENDA Y MEJORAS) */}
+          <Col lg={4} md={4} className="inicio-right scroll-fix">
             <div className="inicio-panel">
-              {/* MEJORAS PROGRESIVAS (ARRIBA) */}
               <div className="shop-section mb-3">
                 <MejorasProges
                   money={money}
@@ -62,10 +69,7 @@ export const Inicio = ({
                 />
               </div>
 
-              {/* CONTENEDOR COMPARTIDO: REINICIOS Y AUTOCLICK */}
               <Row className="g-2">
-                {" "}
-                {/* g-2 añade una separación pequeña entre columnas */}
                 <Col xs={12} xl={6}>
                   <div className="rebirth-section h-100">
                     <ReiniciosLvl
@@ -81,7 +85,6 @@ export const Inicio = ({
                 </Col>
                 <Col xs={12} xl={6}>
                   <div className="autoclick-section h-100">
-                    {/* Aquí puedes pasarle las props de nivel y costo cuando las tengas */}
                     <BonusAutoClick
                       setAutoClickSpeed={setAutoClickSpeed}
                       money={money}
