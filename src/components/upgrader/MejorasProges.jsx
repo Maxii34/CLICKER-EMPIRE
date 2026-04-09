@@ -17,8 +17,8 @@ export const MejorasProges = ({
     <div className="shop-box">
       {/* --- Elementos recuperados --- */}
       <div className="shop-header">
-        <h2 className="shop-title">Tienda de aumento 🛒</h2>
-        <span className="shop-lvl-badge">Shop-lvl: {rebirlvl}</span>
+        <h2 className="shop-title">Tienda de aumento x$</h2>
+        <span className="shop-lvl-badge">Tienda - lvl: {rebirlvl}</span>
       </div>
 
       {/* 🔒 Aviso de límite recuperado */}

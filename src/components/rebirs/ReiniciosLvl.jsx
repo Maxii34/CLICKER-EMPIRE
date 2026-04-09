@@ -51,10 +51,11 @@ export const ReiniciosLvl = ({
         <div className="bonus-content">
           <span>+{currentLevel.bonus} Al iniciar</span>
           <span>Tienda Lvl {currentLevel.level + 1} Desbloqueada</span>
-          {currentLevel.level + 1 === 2 && <span>AutoClikc Desbloqueada lvl 1 & 2</span>}
-          {currentLevel.level + 1 === 3 && <span>AutoClikc Desbloqueada lvl 3</span>}
-          {currentLevel.level + 1 === 4 && <span>AutoClikc Desbloqueada lvl 4</span>}
-          {currentLevel.level + 1 === 5 && <span>AutoClikc Desbloqueada lvl 5</span>}
+          {currentLevel.level + 1 === 2 && <span>AutoClikc Desbloqueada lvl 1</span>}
+          {currentLevel.level + 1 === 4 && <span>AutoClikc Desbloqueada lvl 2</span>}
+          {currentLevel.level + 1 === 6 && <span>AutoClikc Desbloqueada lvl 3</span>}
+          {currentLevel.level + 1 === 10 && <span>AutoClikc Desbloqueada lvl 4</span>}
+          {currentLevel.level + 1 === 12 && <span>AutoClikc Desbloqueada lvl 5</span>}
 
 
         </div>

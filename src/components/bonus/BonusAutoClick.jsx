@@ -13,10 +13,10 @@ export const BonusAutoClick = ({
   const maxLevels = 5;
   const upgraderClicker = [
     { level: 1, cost: 10000, speed: 900, reqRebirth: 2 },
-    { level: 2, cost: 50000, speed: 800, reqRebirth: 2 },
-    { level: 3, cost: 100000, speed: 700, reqRebirth: 3 },
-    { level: 4, cost: 250000, speed: 600, reqRebirth: 4 },
-    { level: 5, cost: 500000, speed: 500, reqRebirth: 5 },
+    { level: 2, cost: 50000, speed: 800, reqRebirth: 4 },
+    { level: 3, cost: 100000, speed: 700, reqRebirth: 6 },
+    { level: 4, cost: 250000, speed: 600, reqRebirth: 8 },
+    { level: 5, cost: 500000, speed: 500, reqRebirth: 10 },
   ];
 
   const [level, setLevel] = useState(0);
