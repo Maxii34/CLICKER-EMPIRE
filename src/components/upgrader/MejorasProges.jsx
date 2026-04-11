@@ -8,10 +8,10 @@ export const MejorasProges = ({
   rebirlvl,
   unlockedLvl,
 }) => {
-  // 🎯 Tu lógica de filtrado original
+  // 🎯 Filtrar nivel actual y anterior
   const currentLevelUpgrades = upgrades.filter(
-    (up) => up.level === rebirlvl
-  );
+    (up) => up.level === rebirlvl || up.level === rebirlvl - 1
+  ).sort((a, b) => a.level - b.level);
 
   const formatNumber = (num) => {
     if (num < 10000) return num.toLocaleString("es-AR");

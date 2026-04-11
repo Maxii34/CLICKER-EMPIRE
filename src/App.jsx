@@ -41,7 +41,7 @@ function App() {
 
   // Función para agregar dinero de desarrollo (testing).
   const addMoneyDev = () => {
-    setMoney((prev) => prev + 50000);
+    setMoney((prev) => prev + 50000000);
   };
   const removeMoney = () => {
     setMoney(0);
@@ -54,7 +54,7 @@ function App() {
     // CALCULAR: Nuevo valor del multiplicador después de la compra
     const newValue = multiplier + increment;
     // VALIDAR: No permitir comprar si se supera el máximo o el nivel desbloqueado
-    if (multiplier >= max || newValue > unlockedLvl) return;
+    if (newValue > max || newValue > unlockedLvl) return;
     // ACTUALIZAR: Restar el costo y aumentar el multiplicador
     setMoney((prev) => prev - cost);
     // Asegurar que el nuevo multiplicador no supere el máximo ni el nivel desbloqueado
