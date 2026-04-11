@@ -4,45 +4,60 @@ import { Inicio } from "./components/pages/Inicio";
 import { MenuNav } from "./components/shared/MenuNav";
 
 function App() {
+  // Estado del dinero.
   const [money, setMoney] = useState(0);
+  // Estado del multiplicador.
   const [multiplier, setMultiplier] = useState(1);
+  // Estados para rebirths y niveles desbloqueados.
   const [rebirlvl, setRebirLvl] = useState(0);
+  // Estado de los niveles desbloqueados.
   const [unlockedLvl, setUnlockedLvl] = useState(Infinity);
+  // Estado para el bonus de bienvenida
   const [bonusActivo, setBonusActivo] = useState(false);
-  // Nuevo estado para el bonus de autoclick
+  // Estado para el bonus de autoclick
   const [isActive, setIsActive] = useState(false);
-  //logica para el autoclick
+  //Estados para el autoclick
   const [autoClick, setAutoClick] = useState(false);
+  // Estado para la velocidad del autoclick
   const [autoClickSpeed, setAutoClickSpeed] = useState(1000);
 
+  // Función para manejar el clic principal del juego.
   const handleClick = () => {
     setMoney((prev) => prev + multiplier);
   };
+  // Función para manejar el clic del autoclicker.
+  const handleAutoClick = () => {
+    setMoney((prev) => prev + (multiplier * 4));
+  };
 
+  // Efecto para manejar el autoclick.
   useEffect(() => {
     if (!autoClick) return;
     const interval = setInterval(() => {
-      handleClick();
+      handleAutoClick(); // ← Usa la función con el x4
     }, autoClickSpeed);
     return () => clearInterval(interval);
-  }, [autoClick, autoClickSpeed, handleClick]);
+  }, [autoClick, autoClickSpeed, multiplier]);
 
+  // Función para agregar dinero de desarrollo (testing).
   const addMoneyDev = () => {
-    setMoney((prev) => prev + 5000000);
+    setMoney((prev) => prev + 50000);
+  };
+  const removeMoney = () => {
+    setMoney(0);
   };
 
-  // 🔥 nueva lógica progresiva
+
+  // Función para comprar mejoras.
   const buyUpgrade = (cost, increment, max) => {
     if (money < cost) return;
-
+    // CALCULAR: Nuevo valor del multiplicador después de la compra
     const newValue = multiplier + increment;
-
-    // 🔒 VALIDACIÓN TOTAL
+    // VALIDAR: No permitir comprar si se supera el máximo o el nivel desbloqueado
     if (multiplier >= max || newValue > unlockedLvl) return;
-
-    // ✅ aplicar cambios
+    // ACTUALIZAR: Restar el costo y aumentar el multiplicador
     setMoney((prev) => prev - cost);
-
+    // Asegurar que el nuevo multiplicador no supere el máximo ni el nivel desbloqueado
     setMultiplier((prev) =>
       Number(Math.min(prev + increment, max, unlockedLvl).toFixed(2)),
     );
@@ -63,6 +78,7 @@ function App() {
           buyUpgrade={buyUpgrade}
           handleClick={handleClick}
           addMoneyDev={addMoneyDev}
+          removeMoney={removeMoney}
           setRebirLvl={setRebirLvl}
           rebirlvl={rebirlvl}
           setUnlockedLvl={setUnlockedLvl}

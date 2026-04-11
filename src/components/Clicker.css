@@ -109,7 +109,8 @@
   transition: all 0.1s;
 }
 
-.click-circle-inner:active {
+/* Click manual - solo cuando NO está en autoClick */
+.click-circle-inner:active:not(.auto-clicking) {
   transform: translateY(10px);
   box-shadow: 0 5px 0 #92400e, 0 10px 20px rgba(0, 0, 0, 0.5);
 }
@@ -140,4 +141,32 @@
   border-radius: 50%;
   filter: blur(10px);
   margin-top: 30px;
+}
+
+/* ====== ANIMACIONES ====== */
+
+/* Animación cuando autoClick está activo - EFECTO DE CLICK CONTINUO */
+.click-circle-inner.auto-clicking {
+  animation: autoClickPress 0.3s ease-in-out infinite;
+  cursor: not-allowed;
+}
+
+/* Simula presionar y soltar continuamente */
+@keyframes autoClickPress {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 15px 0 #92400e, 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  25% {
+    transform: translateY(10px) scale(0.98);
+    box-shadow: 0 5px 0 #92400e, 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 0 5px rgba(76, 175, 80, 0.4);
+  }
+  75% {
+    transform: translateY(10px) scale(0.98);
+    box-shadow: 0 5px 0 #92400e, 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 0 5px rgba(76, 175, 80, 0.4);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 15px 0 #92400e, 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(76, 175, 80, 0);
+  }
 }

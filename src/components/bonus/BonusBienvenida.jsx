@@ -1,7 +1,6 @@
 import "./Bonus.css";
 
 export const BonusBienvenida = ({
-  multiplier,
   setMultiplier,
   bonusActivo,
   setBonusActivo,

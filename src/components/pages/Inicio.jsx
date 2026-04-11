@@ -16,6 +16,7 @@ export const Inicio = ({
   buyUpgrade,
   handleClick,
   addMoneyDev,
+  removeMoney,
   setRebirLvl,
   rebirlvl,
   setUnlockedLvl,
@@ -40,9 +41,8 @@ export const Inicio = ({
 
           {/* 2. SECCIÓN CENTRAL (JUEGO) */}
           <Col lg={6} md={5} className="inicio-left">
-            <div className="mb-4">
+            <div className="mb-4 mt-4">
               <BonusBienvenida
-                multiplier={multiplier}
                 setMultiplier={setMultiplier}
                 bonusActivo={bonusActivo}
                 setBonusActivo={setBonusActivo}
@@ -51,10 +51,13 @@ export const Inicio = ({
 
             <ClikerGamer
               money={money}
+              setMoney={setMoney}
               multiplier={multiplier}
               handleClick={handleClick}
               addMoneyDev={addMoneyDev}
+              removeMoney={removeMoney}
               unlockedLvl={unlockedLvl}
+              autoClick={autoClick}
             />
           </Col>
 

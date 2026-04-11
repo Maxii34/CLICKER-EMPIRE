@@ -6,7 +6,6 @@ export const BonusAutoClick = ({
   money,
   setMoney,
   rebirlvl,
-  setRebirLvl,
   autoClick,
   setAutoClick,
 }) => {
@@ -19,17 +18,22 @@ export const BonusAutoClick = ({
     { level: 5, cost: 500000, speed: 500, reqRebirth: 10 },
   ];
 
+  // Estado para el nivel actual del autoclicker
   const [level, setLevel] = useState(0);
-
+  // Calcular la próxima mejora disponible
   const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
+  // Validar si el jugador puede comprar la mejora actual
   const canUpgrade = nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
 
+  // Función para manejar la compra de la mejora
   const handleUpgrade = () => {
     if (!canUpgrade) return;
     setMoney((prev) => prev - nextUpgrade.cost);
     setAutoClickSpeed(nextUpgrade.speed);
     setLevel((prev) => prev + 1);
   };
+
+  console.log("AutoClick Activo:", autoClick);
 
   return (
     <div className="upgrade-container">
