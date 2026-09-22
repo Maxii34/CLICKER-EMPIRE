@@ -7,8 +7,10 @@ import { BonusAutoClick } from "../bonus/BonusAutoClick";
 import { MinerProges } from "../upgrader/MinerProgres";
 import { ImperioMejoras } from "../imperio/ImperioMejoras";
 import { GuiaDesbloqueos } from "../shared/GuiaDesbloqueos";
+import { LogrosPanel } from "../logros/LogrosPanel";
 import "../imperio/Imperio.css";
 import "../shared/Guia.css";
+import "../logros/Logros.css";
 import "./Pages.css";
 
 
@@ -19,8 +21,6 @@ export const Inicio = ({
   setMultiplier,
   buyUpgrade,
   handleClick,
-  addMoneyDev,
-  removeMoney,
   setRebirLvl,
   rebirlvl,
   setUnlockedLvl,
@@ -33,7 +33,6 @@ export const Inicio = ({
   setAutoClick,
   autoClickLevel,
   setAutoClickLevel,
-  resetSave,
   clickBonus,
   passiveRate,
   autoPower,
@@ -58,6 +57,7 @@ export const Inicio = ({
   frenzyLeft,
   goldenMsg,
   collectGolden,
+  unlockedIds,
 }) => {
   return (
     <Container fluid className="inicio-container">
@@ -85,6 +85,7 @@ export const Inicio = ({
                 buyCrit={buyCrit}
                 buyCollector={buyCollector}
               />
+              <LogrosPanel unlockedIds={unlockedIds} />
             </div>
           </Col>
 
@@ -103,9 +104,6 @@ export const Inicio = ({
               setMoney={setMoney}
               multiplier={multiplier}
               handleClick={handleClick}
-              addMoneyDev={addMoneyDev}
-              removeMoney={removeMoney}
-              resetSave={resetSave}
               autoClick={autoClick}
               moneyPerClick={moneyPerClick}
               moneyPerAuto={moneyPerAuto}

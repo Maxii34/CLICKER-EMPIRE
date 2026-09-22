@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import { Inicio } from "./components/pages/Inicio";
 import { MenuNav } from "./components/shared/MenuNav";
+import { ACHIEVEMENTS } from "./components/logros/achievements.js";
 
 const SAVE_KEY = "clicker-empire-save-v1";
 
@@ -65,6 +66,16 @@ function App() {
   // Bóveda minera: lo minado se acumula aquí hasta RECAUDAR.
   const [vault, setVault] = useState(saved?.vault ?? 0);
 
+  // --- ESTADÍSTICAS PARA LOGROS (persistidas) ---
+  const [maxMoney, setMaxMoney] = useState(saved?.maxMoney ?? 0);
+  const [totalCollected, setTotalCollected] = useState(saved?.totalCollected ?? 0);
+  const [goldenCount, setGoldenCount] = useState(saved?.goldenCount ?? 0);
+
+  // Récord de dinero (solo sube, las compras no lo bajan).
+  useEffect(() => {
+    setMaxMoney((m) => Math.max(m, money));
+  }, [money]);
+
   // Autoguardado en cada cambio relevante.
   useEffect(() => {
     try {
@@ -86,6 +97,9 @@ function App() {
           miningRate,
           purchasedMinerIds,
           vault,
+          maxMoney,
+          totalCollected,
+          goldenCount,
         }),
       );
     } catch {
@@ -107,7 +121,62 @@ function App() {
     miningRate,
     purchasedMinerIds,
     vault,
+    maxMoney,
+    totalCollected,
+    goldenCount,
   ]);
+
+  // --- LOGROS: desbloqueo derivado + toast solo para los nuevos ---
+  const achStats = {
+    totalClicks,
+    maxMoney,
+    rebirlvl,
+    rigs: purchasedMinerIds.length,
+    bonusActivo,
+    autoClickLevel,
+    crit: imperioLvl.crit || 0,
+    collector: imperioLvl.collector || 0,
+    totalCollected,
+    goldenCount,
+  };
+  const unlockedIds = useMemo(
+    () => ACHIEVEMENTS.filter((a) => a.test(achStats)).map((a) => a.id),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      totalClicks,
+      maxMoney,
+      rebirlvl,
+      purchasedMinerIds.length,
+      bonusActivo,
+      autoClickLevel,
+      imperioLvl.crit,
+      imperioLvl.collector,
+      totalCollected,
+      goldenCount,
+    ],
+  );
+  const seenAchRef = useRef(null);
+  const [achToast, setAchToast] = useState(null);
+
+  useEffect(() => {
+    // Primera vez: marca la base sin avisar (partida ya avanzada).
+    if (seenAchRef.current === null) {
+      seenAchRef.current = new Set(unlockedIds);
+      return;
+    }
+    const fresh = unlockedIds.filter((id) => !seenAchRef.current.has(id));
+    if (fresh.length > 0) {
+      fresh.forEach((id) => seenAchRef.current.add(id));
+      setAchToast(ACHIEVEMENTS.find((a) => a.id === fresh[0]));
+    }
+  }, [unlockedIds]);
+
+  // El toast se oculta solo a los 4s.
+  useEffect(() => {
+    if (!achToast) return;
+    const id = setTimeout(() => setAchToast(null), 4000);
+    return () => clearTimeout(id);
+  }, [achToast]);
 
   const resetSave = () => {
     try {
@@ -197,6 +266,7 @@ function App() {
   const collectGolden = () => {
     if (!golden) return;
     setGolden(null);
+    setGoldenCount((c) => c + 1);
     beep();
     if (Math.random() < 0.5) {
       setFrenzyLeft(20);
@@ -253,6 +323,7 @@ function App() {
   const collectVault = () => {
     if (vault <= 0) return;
     setMoney((prev) => prev + vault);
+    setTotalCollected((c) => c + Math.floor(vault));
     setVault(0);
   };
 
@@ -270,6 +341,7 @@ function App() {
       if (v > 0) {
         setVault(0);
         setMoney((m) => m + v);
+        setTotalCollected((c) => c + v);
       }
     }, collectEverySec * 1000);
     return () => clearInterval(id);
@@ -335,6 +407,9 @@ function App() {
         moneyPerClick={moneyPerClick}
         passiveTotal={passiveRate}
         autoClick={autoClick}
+        addMoneyDev={addMoneyDev}
+        removeMoney={removeMoney}
+        resetSave={resetSave}
       />
       <main>
         <Inicio
@@ -344,8 +419,6 @@ function App() {
           setMultiplier={setMultiplier}
           buyUpgrade={buyUpgrade}
           handleClick={handleClick}
-          addMoneyDev={addMoneyDev}
-          removeMoney={removeMoney}
           setRebirLvl={setRebirLvl}
           rebirlvl={rebirlvl}
           setUnlockedLvl={setUnlockedLvl}
@@ -358,7 +431,6 @@ function App() {
           setAutoClick={setAutoClick}
           autoClickLevel={autoClickLevel}
           setAutoClickLevel={setAutoClickLevel}
-          resetSave={resetSave}
           clickBonus={clickBonus}
           passiveRate={passiveRate}
           autoPower={autoPower}
@@ -383,8 +455,22 @@ function App() {
           frenzyLeft={frenzyLeft}
           goldenMsg={goldenMsg}
           collectGolden={collectGolden}
+          unlockedIds={unlockedIds}
         />
       </main>
+
+      {/* Toast de logro desbloqueado */}
+      {achToast && (
+        <div className="ach-toast" key={achToast.id}>
+          <span className="ach-toast-icon">
+            <achToast.icon />
+          </span>
+          <span className="ach-toast-text">
+            <strong>¡Logro desbloqueado!</strong>
+            <small>{achToast.name}</small>
+          </span>
+        </div>
+      )}
     </>
   );
 }

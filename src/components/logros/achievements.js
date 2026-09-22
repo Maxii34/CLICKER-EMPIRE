@@ -1,0 +1,42 @@
+import {
+  FaMousePointer,
+  FaMoneyBillWave,
+  FaCoins,
+  FaGem,
+  FaRedo,
+  FaMedal,
+  FaCrown,
+  FaHardHat,
+  FaGift,
+  FaRobot,
+  FaCrosshairs,
+  FaTruck,
+  FaBoxOpen,
+  FaStar,
+} from "react-icons/fa";
+import MineriaX from "../upgrader/MineriaX.js";
+
+// s = { totalClicks, maxMoney, rebirlvl, rigs, bonusActivo,
+//       autoClickLevel, crit, collector, totalCollected, goldenCount }
+export const ACHIEVEMENTS = [
+  { id: "c1", icon: FaMousePointer, name: "Primer click", desc: "Hacer 1 click.", test: (s) => s.totalClicks >= 1 },
+  { id: "c100", icon: FaMousePointer, name: "Dedos calientes", desc: "Hacer 100 clicks.", test: (s) => s.totalClicks >= 100 },
+  { id: "c1k", icon: FaMousePointer, name: "Clicker pro", desc: "Hacer 1.000 clicks.", test: (s) => s.totalClicks >= 1000 },
+  { id: "c10k", icon: FaStar, name: "Dedo de acero", desc: "Hacer 10.000 clicks.", test: (s) => s.totalClicks >= 10000 },
+  { id: "m10k", icon: FaMoneyBillWave, name: "Ahorrista", desc: "Llegar a $10K máximos.", test: (s) => s.maxMoney >= 10000 },
+  { id: "m1m", icon: FaCoins, name: "Millonario", desc: "Llegar a $1M máximos.", test: (s) => s.maxMoney >= 1000000 },
+  { id: "m100m", icon: FaGem, name: "Magnate", desc: "Llegar a $100M máximos.", test: (s) => s.maxMoney >= 100000000 },
+  { id: "r1", icon: FaRedo, name: "Renacido", desc: "Hacer tu primer renacimiento.", test: (s) => s.rebirlvl >= 1 },
+  { id: "r5", icon: FaMedal, name: "Fénix", desc: "Llegar a RB 5.", test: (s) => s.rebirlvl >= 5 },
+  { id: "r10", icon: FaMedal, name: "Inmortal", desc: "Llegar a RB 10.", test: (s) => s.rebirlvl >= 10 },
+  { id: "r20", icon: FaCrown, name: "Leyenda", desc: "Llegar a RB 20 (máximo).", test: (s) => s.rebirlvl >= 20 },
+  { id: "mine1", icon: FaHardHat, name: "Minero", desc: "Comprar tu primer rig.", test: (s) => s.rigs >= 1 },
+  { id: "mine12", icon: FaHardHat, name: "Excavación", desc: "Tener 12 rigs.", test: (s) => s.rigs >= 12 },
+  { id: "mineAll", icon: FaHardHat, name: "Imperio minero", desc: `Tener los ${MineriaX.length} rigs.`, test: (s) => s.rigs >= MineriaX.length },
+  { id: "bonus", icon: FaGift, name: "Bienvenido", desc: "Activar el bonus x2.", test: (s) => s.bonusActivo },
+  { id: "auto1", icon: FaRobot, name: "Automatizado", desc: "Comprar el Auto-Clicker.", test: (s) => s.autoClickLevel >= 1 },
+  { id: "crit1", icon: FaCrosshairs, name: "Francotirador", desc: "Comprar Golpe Crítico.", test: (s) => s.crit >= 1 },
+  { id: "coll1", icon: FaTruck, name: "Logística", desc: "Comprar el Recolector.", test: (s) => s.collector >= 1 },
+  { id: "vault1", icon: FaBoxOpen, name: "Cosecha", desc: "Recaudar la bóveda alguna vez.", test: (s) => s.totalCollected > 0 },
+  { id: "gold1", icon: FaStar, name: "Cazadorado", desc: "Atrapar un evento dorado.", test: (s) => s.goldenCount >= 1 },
+];

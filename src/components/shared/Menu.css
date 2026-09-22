@@ -105,6 +105,65 @@
   border-color: rgba(74,222,128,.3);
 }
 
+/* Acciones a la derecha (gear + toggle móvil) */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+}
+.gear-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #94a3b8;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.gear-btn:hover {
+  color: #fbbf24;
+  border-color: rgba(245,158,11,.5);
+  transform: rotate(30deg);
+}
+.gear-btn::after { display: none; } /* sin caret de bootstrap */
+
+/* Panel del desplegable DEV */
+.dev-dropdown-menu {
+  background: linear-gradient(180deg, #141c30, #0d1322);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  padding: 12px;
+  min-width: 250px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.6);
+}
+.dev-menu-title {
+  font-size: .65rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+.dev-menu-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.dev-menu-row .btn-dev { flex: 1; }
+.dev-menu-note {
+  font-size: .62rem;
+  color: #475569;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 700;
+}
+
 .auto-pill {
   display: flex;
   align-items: center;

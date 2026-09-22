@@ -1,0 +1,106 @@
+/* ===== PANEL LOGROS (lateral izquierdo, compacto) ===== */
+.logros-box {
+  background: linear-gradient(180deg, rgba(21,28,45,.92), rgba(13,18,32,.94));
+  border: 1px solid rgba(251,191,36,.22);
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.45);
+  margin-top: 12px;
+}
+.logros-head {
+  appearance: none;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: 100%;
+  min-height: 50px;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  border-radius: 10px;
+}
+.logros-head:hover { background: rgba(255,255,255,.04); }
+.logros-head:focus-visible { outline: 2px solid #fbbf24; border-radius: 10px; }
+.logros-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(251,191,36,.3);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logros-icon svg { font-size: 1.05rem; color: #fbbf24; }
+.logros-head-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+}
+.logros-title {
+  font-size: .78rem;
+  font-weight: 900;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.logros-sub {
+  font-size: .62rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Expandible (autocontenido, misma técnica que los otros paneles) */
+.collapse-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .28s ease;
+}
+.collapse-body.open { grid-template-rows: 1fr; }
+.collapse-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.collapse-chevron {
+  display: inline-flex;
+  font-size: .6rem;
+  color: #94a3b8;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* Grilla de medallas */
+.logros-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding-top: 10px;
+}
+.logro-tile {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  color: #475569;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 9px;
+}
+.logro-tile.has {
+  color: #1a0e00;
+  background: linear-gradient(145deg, #fbbf24, #d97706);
+  border-color: rgba(255,255,255,.25);
+  box-shadow: 0 2px 0 #92400e;
+}

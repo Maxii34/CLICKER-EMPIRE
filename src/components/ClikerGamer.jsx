@@ -5,9 +5,6 @@ import "./Clicker.css";
 export const ClikerGamer = ({
   money,
   handleClick,
-  addMoneyDev,
-  removeMoney,
-  resetSave,
   multiplier,
   autoClick,
   moneyPerClick,
@@ -86,29 +83,6 @@ export const ClikerGamer = ({
           </div>
         )}
 
-        {/* ACCIONES SECUNDARIAS */}
-        <details className="dev-tools">
-          <summary>Herramientas DEV • 💾 autoguardado activo</summary>
-          <div className="action-row">
-            <button className="btn-dev text-success" onClick={addMoneyDev}>
-              <b className=" fw-bold text-success">+$</b> DEV
-            </button>
-            <button className="btn-dev text-danger" onClick={removeMoney}>
-              <b className=" fw-bold text-danger">-$</b> DEV
-            </button>
-            {resetSave && (
-              <button
-                className="btn-dev text-warning"
-                onClick={() => {
-                  if (window.confirm("¿Borrar partida guardada y empezar de cero?")) resetSave();
-                }}
-                title="Borra el localStorage y recarga"
-              >
-                🗑️ RESET
-              </button>
-            )}
-          </div>
-        </details>
       </div>
 
       {/* EL GRAN BOTÓN DE CLICK */}

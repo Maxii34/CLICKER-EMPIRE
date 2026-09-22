@@ -1,6 +1,10 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
+import Dropdown from "react-bootstrap/Dropdown";
+import { FaCog } from "react-icons/fa";
 import rebirthReq from "../rebirs/rebirthReq.js";
+import { ResetGame } from "./ResetGame";
+import "./ResetGame.css";
 import "./Menu.css";
 
 const formatMoney = (num) => {
@@ -19,6 +23,9 @@ export const MenuNav = ({
   moneyPerClick = 0,
   passiveTotal = 0,
   autoClick = false,
+  addMoneyDev,
+  removeMoney,
+  resetSave,
 }) => {
   const req = rebirthReq.find((r) => r.level === rebirlvl) || rebirthReq[rebirthReq.length - 1];
   const isMax = rebirlvl >= rebirthReq.length;
@@ -43,8 +50,6 @@ export const MenuNav = ({
               {isMax ? "🏆 MAX" : `🔄 RB ${rebirlvl}`}
             </span>
           </div>
-
-          <Navbar.Toggle aria-controls="navbar-content" />
 
           {/* STATS: pills minimalistas */}
           <Navbar.Collapse id="navbar-content" className="justify-content-end">
@@ -76,6 +81,29 @@ export const MenuNav = ({
               )}
             </div>
           </Navbar.Collapse>
+
+          {/* Menú desplegable: herramientas DEV + borrado total */}
+          <div className="nav-actions">
+            <Dropdown autoClose="outside" align="end">
+              <Dropdown.Toggle className="gear-btn" title="Ajustes y herramientas DEV">
+                <FaCog />
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dev-dropdown-menu">
+                <div className="dev-menu-title">Herramientas DEV</div>
+                <div className="dev-menu-row">
+                  <button className="btn-dev text-success" onClick={addMoneyDev} title="Sumar $50M (testing)">
+                    +$ DEV
+                  </button>
+                  <button className="btn-dev text-danger" onClick={removeMoney} title="Poner dinero en 0">
+                    -$ DEV
+                  </button>
+                </div>
+                {resetSave && <ResetGame onReset={resetSave} />}
+                <div className="dev-menu-note">Autoguardado activo</div>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Navbar.Toggle aria-controls="navbar-content" />
+          </div>
         </Container>
       </Navbar>
 
