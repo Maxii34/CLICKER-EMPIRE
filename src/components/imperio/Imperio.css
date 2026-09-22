@@ -74,12 +74,18 @@
 .istat-value.blue { color: #38bdf8; }
 .istat-value.muted { color: #e2e8f0; }
 
-/* Cards comprables */
+/* Cards comprables: lista con scroll para no agrandar el panel */
 .imperio-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
+.imperio-list::-webkit-scrollbar { width: 6px; }
+.imperio-list::-webkit-scrollbar-track { background: rgba(0,0,0,.2); border-radius: 3px; }
+.imperio-list::-webkit-scrollbar-thumb { background: #b45309; border-radius: 3px; }
 
 .imperio-card {
   background: rgba(255,255,255,.025);
@@ -93,6 +99,12 @@
 .imperio-card.exo { border-left-color: #f59e0b; }
 .imperio-card.fondo { border-left-color: #22c55e; }
 .imperio-card.over { border-left-color: #38bdf8; }
+.imperio-card.crit { border-left-color: #e879f9; }
+.imperio-card.coll { border-left-color: #facc15; }
+.icard-icon svg {
+  font-size: 1.1rem;
+  color: #e2e8f0;
+}
 
 .imperio-card:hover { transform: translateY(-1px); border-color: rgba(251,191,36,.4); }
 

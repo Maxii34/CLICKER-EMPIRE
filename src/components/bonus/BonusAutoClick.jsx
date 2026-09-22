@@ -85,7 +85,7 @@ export const BonusAutoClick = ({
       </button>
 
       <div className={`collapse-body ${open ? "open" : ""}`}>
-      <div className="collapse-inner ac-detail">
+      <div className="collapse-inner ac-detail p-0">
       {/* Estado + rendimiento */}
       <div className="ac-status-row">
         <span className={`ac-state ${autoClick && level > 0 ? "on" : "off"}`}>

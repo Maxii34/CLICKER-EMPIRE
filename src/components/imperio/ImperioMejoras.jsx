@@ -1,6 +1,19 @@
+import {
+  FaDumbbell,
+  FaPiggyBank,
+  FaCogs,
+  FaCrosshairs,
+  FaTruck,
+} from "react-icons/fa";
+
 const costExo = (lvl) => Math.floor(500 * Math.pow(2.2, lvl));
 const costFondo = (lvl) => Math.floor(1500 * Math.pow(2.5, lvl));
 const costOverclock = (lvl) => Math.floor(5000 * Math.pow(3, lvl));
+const costCrit = (lvl) => Math.floor(3000 * Math.pow(3, lvl));
+const costCollector = (lvl) => Math.floor(8000 * Math.pow(2.8, lvl));
+
+const MAX_CRIT = 10; // 10 x 3% = 30% chance
+const MAX_COLLECTOR = 5; // cada 10s al máximo
 
 const formatNumber = (num) => {
   if (num < 10000) return num.toLocaleString("es-AR");
@@ -23,46 +36,79 @@ export const ImperioMejoras = ({
   buyExo,
   buyFondo,
   buyOverclock,
+  critChance = 0,
+  critMult = 5,
+  collectEverySec = 0,
+  buyCrit,
+  buyCollector,
 }) => {
+  const lvl = (k) => imperioLvl[k] || 0;
+
   const items = [
     {
       key: "exo",
-      icon: "💪",
+      icon: FaDumbbell,
       name: "Exoesqueleto",
       desc: "+$2 por click. Siempre disponible.",
-      lvl: imperioLvl.exo,
-      cost: costExo(imperioLvl.exo),
+      lvl: lvl("exo"),
+      max: Infinity,
+      cost: costExo(lvl("exo")),
       effect: `+$${clickBonus} /click`,
       req: 0,
-      can: money >= costExo(imperioLvl.exo),
-      buy: () => buyExo(costExo(imperioLvl.exo)),
+      buy: () => buyExo(costExo(lvl("exo"))),
       accent: "exo",
     },
     {
       key: "fondo",
-      icon: "🏦",
+      icon: FaPiggyBank,
       name: "Fondo Inversión",
       desc: "+$5 /seg pasivo, incluso sin clickear.",
-      lvl: imperioLvl.fondo,
-      cost: costFondo(imperioLvl.fondo),
+      lvl: lvl("fondo"),
+      max: Infinity,
+      cost: costFondo(lvl("fondo")),
       effect: `+$${passiveRate} /seg`,
       req: 1,
-      can: money >= costFondo(imperioLvl.fondo) && rebirlvl >= 1,
-      buy: () => buyFondo(costFondo(imperioLvl.fondo)),
+      buy: () => buyFondo(costFondo(lvl("fondo"))),
       accent: "fondo",
     },
     {
       key: "overclock",
-      icon: "⚙️",
+      icon: FaCogs,
       name: "Overclock",
       desc: "+x1 potencia del Auto-Clicker.",
-      lvl: imperioLvl.overclock,
-      cost: costOverclock(imperioLvl.overclock),
+      lvl: lvl("overclock"),
+      max: Infinity,
+      cost: costOverclock(lvl("overclock")),
       effect: `Auto x${autoPower}`,
       req: 2,
-      can: money >= costOverclock(imperioLvl.overclock) && rebirlvl >= 2,
-      buy: () => buyOverclock(costOverclock(imperioLvl.overclock)),
+      buy: () => buyOverclock(costOverclock(lvl("overclock"))),
       accent: "over",
+    },
+    {
+      key: "crit",
+      icon: FaCrosshairs,
+      name: "Golpe Crítico",
+      desc: `+3% chance de golpe x${critMult} por click.`,
+      lvl: lvl("crit"),
+      max: MAX_CRIT,
+      cost: costCrit(lvl("crit")),
+      effect: `${critChance}% x${critMult}`,
+      req: 1,
+      buy: () => buyCrit(costCrit(lvl("crit"))),
+      accent: "crit",
+    },
+    {
+      key: "collector",
+      icon: FaTruck,
+      name: "Recolector",
+      desc: "Vacía la bóveda minera solo, cada N seg.",
+      lvl: lvl("collector"),
+      max: MAX_COLLECTOR,
+      cost: costCollector(lvl("collector")),
+      effect: collectEverySec > 0 ? `Auto c/${collectEverySec}s` : "Apagado",
+      req: 2,
+      buy: () => buyCollector(costCollector(lvl("collector"))),
+      accent: "coll",
     },
   ];
 
@@ -70,7 +116,7 @@ export const ImperioMejoras = ({
     <div className="imperio-box">
       <div className="imperio-header">
         <div>
-          <h2 className="imperio-title">🏛️ Imperio</h2>
+          <h2 className="imperio-title">Imperio</h2>
           <p className="imperio-sub">Mejoras permanentes del imperio</p>
         </div>
         <span className="imperio-badge"> x{rebirlvl} RB</span>
@@ -96,13 +142,19 @@ export const ImperioMejoras = ({
         </div>
       </div>
 
+      {/* Lista scrolleable: el panel no crece aunque agregues opciones */}
       <div className="imperio-list">
         {items.map((it) => {
           const lockedByRb = rebirlvl < it.req;
+          const maxed = it.lvl >= it.max;
+          const can = !maxed && !lockedByRb && money >= it.cost;
+          const Icon = it.icon;
           return (
-            <div key={it.key} className={`imperio-card ${it.accent} ${!it.can ? "is-disabled" : ""}`}>
+            <div key={it.key} className={`imperio-card ${it.accent} ${!can ? "is-disabled" : ""}`}>
               <div className="icard-top">
-                <span className="icard-icon">{it.icon}</span>
+                <span className="icard-icon">
+                  <Icon />
+                </span>
                 <div className="icard-head">
                   <h3 className="icard-name">
                     {it.name} <span className="ilvl">Nv.{it.lvl}</span>
@@ -117,11 +169,18 @@ export const ImperioMejoras = ({
                   {it.req === 0 ? "Sin requisito" : `RB ${it.req}+`}
                 </span>
                 <button
-                  className={`ibuy ${it.can && !lockedByRb ? "ready" : ""}`}
-                  disabled={!it.can || lockedByRb}
+                  className={`ibuy ${can ? "ready" : ""}`}
+                  disabled={!can}
                   onClick={it.buy}
+                  title={maxed ? "Nivel máximo" : `Cuesta $${formatNumber(it.cost)}`}
                 >
-                  {lockedByRb ? "🔒 BLOQUEADO" : it.can ? `COMPRAR $${formatNumber(it.cost)}` : `$${formatNumber(it.cost)}`}
+                  {maxed
+                    ? "MÁXIMO"
+                    : lockedByRb
+                      ? "BLOQUEADO"
+                      : can
+                        ? `COMPRAR $${formatNumber(it.cost)}`
+                        : `$${formatNumber(it.cost)}`}
                 </button>
               </div>
 
@@ -138,7 +197,7 @@ export const ImperioMejoras = ({
       </div>
 
       <p className="imperio-tip">
-        💡 Sobreviven al renacimiento. Prioriza <b>Exoesqueleto</b> al inicio y <b>Fondo</b> desde RB1.
+        Sobreviven al renacimiento. <b>Crítico</b> y <b>Recolector</b> tienen nivel máximo.
       </p>
     </div>
   );

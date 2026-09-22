@@ -110,6 +110,69 @@
   gap: 8px;
 }
 
+/* Banner de frenesí x3 */
+.frenzy-banner {
+  margin-top: 10px;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .6px;
+  color: #1a0e00;
+  background: linear-gradient(145deg, #fde047, #f59e0b);
+  border-radius: 10px;
+  padding: 7px 10px;
+  box-shadow: 0 0 18px rgba(253,224,71,.55);
+  animation: pulse-warn 1s infinite;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Botón dorado flotante (evento aleatorio) */
+.click-zone { position: relative; }
+.golden-btn {
+  position: absolute;
+  z-index: 5;
+  width: 54px;
+  height: 54px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #1a0e00;
+  background: radial-gradient(circle at 35% 30%, #fef08a, #f59e0b 70%);
+  border: 2px solid #fef9c3;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(253,224,71,.8), 0 4px 12px rgba(0,0,0,.5);
+  animation: golden-float 1.2s ease-in-out infinite;
+}
+.golden-btn:hover { filter: brightness(1.15); }
+@keyframes golden-float {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -10px; }
+}
+
+/* Texto del premio dorado */
+.golden-msg {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #fef08a;
+  text-shadow: 0 2px 8px rgba(0,0,0,.8), 0 0 18px rgba(253,224,71,.6);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: golden-msg 4s ease-out forwards;
+}
+@keyframes golden-msg {
+  0% { opacity: 0; margin-top: 14px; }
+  12% { opacity: 1; margin-top: 0; }
+  80% { opacity: 1; }
+  100% { opacity: 0; margin-top: -18px; }
+}
+
 .dev-tools { margin-top: 14px; }
 .dev-tools summary {
   font-size: .65rem;

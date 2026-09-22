@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Inicio } from "./components/pages/Inicio";
 import { MenuNav } from "./components/shared/MenuNav";
@@ -43,10 +43,16 @@ function App() {
   const [passiveRate, setPassiveRate] = useState(saved?.passiveRate ?? 0);
   // Potencia del autoclicker: ganancia = (multiplier + clickBonus) * autoPower
   const [autoPower, setAutoPower] = useState(saved?.autoPower ?? 4);
-  // Niveles comprados en el panel imperio { exo, fondo, overclock }
-  const [imperioLvl, setImperioLvl] = useState(
-    saved?.imperioLvl ?? { exo: 0, fondo: 0, overclock: 0 },
-  );
+  // Niveles comprados en el panel imperio.
+  // Merge con defaults para partidas viejas que no tienen crit/collector.
+  const [imperioLvl, setImperioLvl] = useState({
+    exo: 0,
+    fondo: 0,
+    overclock: 0,
+    crit: 0,
+    collector: 0,
+    ...saved?.imperioLvl,
+  });
   // Estadística total de clicks para el dashboard
   const [totalClicks, setTotalClicks] = useState(saved?.totalClicks ?? 0);
 
@@ -112,13 +118,109 @@ function App() {
     window.location.reload();
   };
 
+  // --- EVENTO DORADO (estilo Cookie Clicker) ---
+  // golden: botón dorado visible en la zona de click {id, x, y} | null
+  const [golden, setGolden] = useState(null);
+  // frenzyLeft: segundos restantes de frenesí x3 (0 = inactivo, no se persiste)
+  const [frenzyLeft, setFrenzyLeft] = useState(0);
+  // goldenMsg: texto del último premio, se muestra unos segundos
+  const [goldenMsg, setGoldenMsg] = useState("");
+
+  // Aparición: primera a los 25s, luego cada 60-150s. Dura 12s visible.
+  useEffect(() => {
+    let alive = true;
+    let tSpawn;
+    let tDespawn;
+    const schedule = (delay) => {
+      tSpawn = setTimeout(() => {
+        if (!alive) return;
+        setGolden({
+          id: Date.now(),
+          x: 8 + Math.random() * 76,
+          y: 2 + Math.random() * 60,
+        });
+        tDespawn = setTimeout(() => {
+          if (!alive) return;
+          setGolden(null);
+          schedule(60000 + Math.random() * 90000);
+        }, 12000);
+      }, delay);
+    };
+    schedule(25000);
+    return () => {
+      alive = false;
+      clearTimeout(tSpawn);
+      clearTimeout(tDespawn);
+    };
+  }, []);
+
+  // Descuento del frenesí, segundo a segundo.
+  useEffect(() => {
+    if (frenzyLeft <= 0) return;
+    const id = setTimeout(() => setFrenzyLeft((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  }, [frenzyLeft]);
+
+  // Limpia el mensaje del premio a los 4s.
+  useEffect(() => {
+    if (!goldenMsg) return;
+    const id = setTimeout(() => setGoldenMsg(""), 4000);
+    return () => clearTimeout(id);
+  }, [goldenMsg]);
+
+  const beep = () => {
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      const ctx = new Ctx();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.type = "sine";
+      o.frequency.value = 880;
+      g.gain.setValueAtTime(0.08, ctx.currentTime);
+      o.start();
+      o.stop(ctx.currentTime + 0.25);
+      setTimeout(() => ctx.close(), 400);
+    } catch {
+      // sin audio disponible: el juego sigue igual
+    }
+  };
+
   // Ganancias derivadas (para mostrar en UI sin recalcular en cada hijo)
-  const moneyPerClick = multiplier + clickBonus;
+  // Frenesí: x3 al click (y por ende al auto, que deriva del click).
+  const moneyPerClick = (multiplier + clickBonus) * (frenzyLeft > 0 ? 3 : 1);
   const moneyPerAuto = moneyPerClick * autoPower;
+
+  // Recoger el dorado: 50% frenesí x3 (20s) / 50% fortuna instantánea.
+  const collectGolden = () => {
+    if (!golden) return;
+    setGolden(null);
+    beep();
+    if (Math.random() < 0.5) {
+      setFrenzyLeft(20);
+      setGoldenMsg("FRENESÍ x3 por 20s");
+    } else {
+      const bonus = Math.floor(Math.max(moneyPerClick * 30, money * 0.15));
+      setMoney((m) => m + bonus);
+      setGoldenMsg(`+$${bonus.toLocaleString("es-AR")}`);
+    }
+  };
+
+  // --- Críticos: +3% chance por nivel (MAX 10 = 30%), golpe x5 ---
+  const CRIT_MULT = 5;
+  const critChance = (imperioLvl.crit || 0) * 3;
+
+  // --- Recolector: recauda la bóveda solo cada N segundos ---
+  const collectorLvl = imperioLvl.collector || 0;
+  const collectEverySec = collectorLvl > 0 ? Math.max(10, 35 - collectorLvl * 5) : 0;
 
   // Función para manejar el clic principal del juego.
   const handleClick = () => {
-    setMoney((prev) => prev + moneyPerClick);
+    const isCrit = critChance > 0 && Math.random() * 100 < critChance;
+    const gain = isCrit ? moneyPerClick * CRIT_MULT : moneyPerClick;
+    setMoney((prev) => prev + gain);
     setTotalClicks((prev) => prev + 1);
   };
   // Función para manejar el clic del autoclicker.
@@ -154,11 +256,30 @@ function App() {
     setVault(0);
   };
 
-  // Compra genérica del panel Imperio. key: 'exo' | 'fondo' | 'overclock'
+  // Espejo de la bóveda para el recolector (evita setters anidados).
+  const vaultRef = useRef(vault);
+  useEffect(() => {
+    vaultRef.current = vault;
+  }, [vault]);
+
+  // Recolector automático: si hay algo en la bóveda, la vacía cada N seg.
+  useEffect(() => {
+    if (collectorLvl <= 0) return;
+    const id = setInterval(() => {
+      const v = Math.floor(vaultRef.current);
+      if (v > 0) {
+        setVault(0);
+        setMoney((m) => m + v);
+      }
+    }, collectEverySec * 1000);
+    return () => clearInterval(id);
+  }, [collectorLvl, collectEverySec]);
+
+  // Compra genérica del panel Imperio.
   const buyImperio = (key, cost, apply) => {
     if (money < cost) return false;
     setMoney((prev) => prev - cost);
-    setImperioLvl((prev) => ({ ...prev, [key]: prev[key] + 1 }));
+    setImperioLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
     apply();
     return true;
   };
@@ -169,6 +290,9 @@ function App() {
     buyImperio("fondo", cost, () => setPassiveRate((p) => p + 5));
   const buyOverclock = (cost) =>
     buyImperio("overclock", cost, () => setAutoPower((p) => p + 1));
+  // Crítico y recolector se derivan del nivel: no hace falta efecto extra.
+  const buyCrit = (cost) => buyImperio("crit", cost, () => {});
+  const buyCollector = (cost) => buyImperio("collector", cost, () => {});
 
   const buyMiner = (up) => {
     if (!up || purchasedMinerIds.includes(up.id)) return false;
@@ -245,11 +369,20 @@ function App() {
           buyExo={buyExo}
           buyFondo={buyFondo}
           buyOverclock={buyOverclock}
+          critChance={critChance}
+          critMult={CRIT_MULT}
+          collectEverySec={collectEverySec}
+          buyCrit={buyCrit}
+          buyCollector={buyCollector}
           miningRate={miningRate}
           purchasedMinerIds={purchasedMinerIds}
           buyMiner={buyMiner}
           vault={vault}
           collectVault={collectVault}
+          golden={golden}
+          frenzyLeft={frenzyLeft}
+          goldenMsg={goldenMsg}
+          collectGolden={collectGolden}
         />
       </main>
     </>

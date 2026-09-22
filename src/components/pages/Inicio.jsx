@@ -44,11 +44,20 @@ export const Inicio = ({
   buyExo,
   buyFondo,
   buyOverclock,
+  critChance,
+  critMult,
+  collectEverySec,
+  buyCrit,
+  buyCollector,
   miningRate,
   purchasedMinerIds,
   buyMiner,
   vault,
   collectVault,
+  golden,
+  frenzyLeft,
+  goldenMsg,
+  collectGolden,
 }) => {
   return (
     <Container fluid className="inicio-container">
@@ -70,6 +79,11 @@ export const Inicio = ({
                 buyExo={buyExo}
                 buyFondo={buyFondo}
                 buyOverclock={buyOverclock}
+                critChance={critChance}
+                critMult={critMult}
+                collectEverySec={collectEverySec}
+                buyCrit={buyCrit}
+                buyCollector={buyCollector}
               />
             </div>
           </Col>
@@ -92,12 +106,15 @@ export const Inicio = ({
               addMoneyDev={addMoneyDev}
               removeMoney={removeMoney}
               resetSave={resetSave}
-              unlockedLvl={unlockedLvl}
               autoClick={autoClick}
               moneyPerClick={moneyPerClick}
               moneyPerAuto={moneyPerAuto}
               passiveRate={passiveRate}
               autoPower={autoPower}
+              golden={golden}
+              frenzyLeft={frenzyLeft}
+              goldenMsg={goldenMsg}
+              collectGolden={collectGolden}
             />
             <GuiaDesbloqueos rebirlvl={rebirlvl} />
           </Col>

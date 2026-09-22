@@ -36,18 +36,18 @@ export const MejorasProges = ({
       {/* --- Elementos recuperados --- */}
       <div className="shop-header">
         <div>
-          <h2 className="shop-title">Tienda de aumento x$</h2>
-          <p className="shop-hint">Cada renacimiento desbloquea un nivel. Los aumentos se ajustan al tope.</p>
+          <h2 className="shop-title">Shop Aumentos</h2>
+          <p className="shop-hint text-capitalize">Cada renacimiento desbloquea un nivel.</p>
         </div>
-        <span className="shop-lvl-badge" title={`${affordCount} mejoras comprables ahora`}>
-          Lvl {rebirlvl} • {affordCount} ok
+        <span className="shop-lvl-badge" title={`Nivel ${rebirlvl} • ${affordCount} comprables`}>
+          Nv: {rebirlvl}
         </span>
       </div>
 
       {/* 🔒 Aviso de límite recuperado */}
       {multiplier >= unlockedLvl && (
-        <p className="limit-warning">
-          ⚠️ Alcanzaste el límite, debes renacimiento
+        <p className="limit-warning text-capitalize">
+          ⚠️ Limite alcanzado, debes reiniciar. 
         </p>
       )}
 

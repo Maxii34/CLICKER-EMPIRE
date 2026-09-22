@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaCoins } from "react-icons/fa";
 import "./Clicker.css";
 
 export const ClikerGamer = ({
@@ -13,6 +14,10 @@ export const ClikerGamer = ({
   moneyPerAuto,
   passiveRate,
   autoPower,
+  golden,
+  frenzyLeft = 0,
+  goldenMsg = "",
+  collectGolden,
 }) => {
 
   const [isAutoClickActive, setIsAutoClickActive] = useState(false);
@@ -75,6 +80,12 @@ export const ClikerGamer = ({
           </div>
         )}
 
+        {frenzyLeft > 0 && (
+          <div className="frenzy-banner" title="Tus clicks valen el triple">
+            ⚡ FRENESÍ x3 — {frenzyLeft}s
+          </div>
+        )}
+
         {/* ACCIONES SECUNDARIAS */}
         <details className="dev-tools">
           <summary>Herramientas DEV • 💾 autoguardado activo</summary>
@@ -102,6 +113,18 @@ export const ClikerGamer = ({
 
       {/* EL GRAN BOTÓN DE CLICK */}
       <div className="click-zone">
+        {golden && (
+          <button
+            key={golden.id}
+            className="golden-btn"
+            style={{ left: `${golden.x}%`, top: `${golden.y}%` }}
+            onClick={collectGolden}
+            title="¡Click dorado! Fortuna o frenesí"
+          >
+            <FaCoins />
+          </button>
+        )}
+        {goldenMsg && <div className="golden-msg">{goldenMsg}</div>}
         <div className="click-circle-outer">
           <div 
             className={`click-circle-inner ${isAutoClickActive ? 'auto-clicking' : ''}`}
