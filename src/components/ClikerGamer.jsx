@@ -6,9 +6,14 @@ export const ClikerGamer = ({
   handleClick,
   addMoneyDev,
   removeMoney,
+  resetSave,
   multiplier,
   unlockedLvl,
   autoClick,
+  moneyPerClick,
+  moneyPerAuto,
+  passiveRate,
+  autoPower,
 }) => {
 
   const [isAutoClickActive, setIsAutoClickActive] = useState(false);
@@ -32,30 +37,68 @@ export const ClikerGamer = ({
     }
   };
 
+  const perClick = moneyPerClick ?? multiplier;
+  const perAuto = moneyPerAuto ?? multiplier * 4;
+
   return (
     <div className="game-center">
       {/* PANEL DE INFORMACIÓN CENTRAL */}
       <div className="main-display-box">
+        <div className="game-eyebrow">
+          <span className="live-dot"></span> TEMPORADA 1 • SERVIDOR LIVE
+        </div>
         <h1 className="game-title">💰 CLICKER EMPIRE</h1>
-        
+
         <div className="display-money">
           <span className="money-label">BALANCE ACTUAL</span>
           <h2 className="money-amount">${formatNumber(money)}</h2>
-          <div>
-            <span className="money-label">Generador AutoClikc x4:</span>
-            <span className="multiplier-value">${(money).toLocaleString("es-AR")}</span>
+          <span className="money-sub">x{multiplier} base + bonos del Imperio</span>
+        </div>
+
+        <div className="stat-strip">
+          <div className="sstat">
+            <span className="sstat-label">Por click</span>
+            <span className="sstat-value">+${formatNumber(perClick)}</span>
+          </div>
+          <div className="sstat">
+            <span className="sstat-label">Auto x{autoPower ?? 4}</span>
+            <span className="sstat-value auto">+${formatNumber(perAuto)}</span>
+          </div>
+          <div className="sstat">
+            <span className="sstat-label">Pasivo</span>
+            <span className="sstat-value passive">+${formatNumber(passiveRate ?? 0)}/s</span>
           </div>
         </div>
 
+        {autoClick && (
+          <div className="auto-banner">
+            <span className="pulsing-dot"></span> AUTO-CLICKER ACTIVO — click manual en pausa
+          </div>
+        )}
+
         {/* ACCIONES SECUNDARIAS */}
-        <div className="action-row">
-          <button className="btn-dev text-success" onClick={addMoneyDev}>
-            <b className=" fw-bold text-success">+$</b> DEV
-          </button>
-          <button className="btn-dev text-danger" onClick={removeMoney}>
-            <b className=" fw-bold text-danger">-$</b> DEV
-          </button>
-        </div>
+        <details className="dev-tools">
+          <summary>Herramientas DEV • 💾 autoguardado activo</summary>
+          <div className="action-row">
+            <button className="btn-dev text-success" onClick={addMoneyDev}>
+              <b className=" fw-bold text-success">+$</b> DEV
+            </button>
+            <button className="btn-dev text-danger" onClick={removeMoney}>
+              <b className=" fw-bold text-danger">-$</b> DEV
+            </button>
+            {resetSave && (
+              <button
+                className="btn-dev text-warning"
+                onClick={() => {
+                  if (window.confirm("¿Borrar partida guardada y empezar de cero?")) resetSave();
+                }}
+                title="Borra el localStorage y recarga"
+              >
+                🗑️ RESET
+              </button>
+            )}
+          </div>
+        </details>
       </div>
 
       {/* EL GRAN BOTÓN DE CLICK */}

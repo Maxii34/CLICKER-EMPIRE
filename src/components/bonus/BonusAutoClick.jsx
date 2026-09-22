@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import "./Bonus.css";
 
 export const BonusAutoClick = ({
@@ -8,6 +8,8 @@ export const BonusAutoClick = ({
   rebirlvl,
   autoClick,
   setAutoClick,
+  level = 0,
+  setLevel,
 }) => {
   const maxLevels = 5;
   const upgraderClicker = [
@@ -18,9 +20,14 @@ export const BonusAutoClick = ({
     { level: 5, cost: 500000, speed: 500, reqRebirth: 10 },
   ];
 
-  // Estado para el nivel actual del autoclicker
-  const [level, setLevel] = useState(0);
-  // Calcular la próxima mejora disponible
+  // Al cargar partida guardada, restaura la velocidad según el nivel.
+  useEffect(() => {
+    const current = upgraderClicker.find((u) => u.level === level);
+    if (current) setAutoClickSpeed(current.speed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Nivel persistido en App (sobrevive a recargas).
   const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
   // Validar si el jugador puede comprar la mejora actual
   const canUpgrade = nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
@@ -33,15 +40,15 @@ export const BonusAutoClick = ({
     setLevel((prev) => prev + 1);
   };
 
-  console.log("AutoClick Activo:", autoClick);
-
   return (
     <div className="upgrade-container">
       {/* HEADER: Nivel mejorado como badge */}
       <div className="upgrade-header">
         <div className="upgrade-title-group">
-          <h5 className="upgrade-name">Auto-Clicker</h5>
-          <span className="req-rebirth-tag">Rebirth Req: {nextUpgrade?.reqRebirth || "MAX"}</span>
+          <h5 className="upgrade-name">🤖 Auto-Clicker</h5>
+          <span className="req-rebirth-tag">
+            Clicks solos x{4} • Se desbloquea en RB 2 • Niveles en RB 2/4/6/8/10{nextUpgrade ? ` • Sig: RB ${nextUpgrade.reqRebirth}` : ""}
+          </span>
         </div>
         <div className="level-badge-compact">
           Lvl {level}/{maxLevels}

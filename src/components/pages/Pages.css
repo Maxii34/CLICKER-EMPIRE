@@ -4,42 +4,70 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background:
+    radial-gradient(900px 400px at 20% -10%, rgba(245,158,11,.12), transparent 60%),
+    radial-gradient(800px 400px at 90% 0%, rgba(56,189,248,.1), transparent 60%),
+    linear-gradient(135deg, #0b1120 0%, #111c33 50%, #0f172a 100%);
   color: #fff;
 }
 
 /* MAIN OCUPA TODO MENOS NAVBAR */
 .inicio-main {
   flex: 1;
-  min-height: 0; /* 🔥 clave para que funcione el scroll interno */
+  min-height: 0;
+  max-width: 1720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 20px 40px;
 }
 
-/* IZQUIERDA */
-.inicio-left {
+/* IZQUIERDA (sidebar imperio) */
+.inicio-sidebar {
+  padding-right: 12px;
+}
+.sidebar-content {
+  position: sticky;
+  top: 95px;
+}
+
+/* CENTRO */
+.inicio-center, .inicio-left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 6px 18px;
+}
+.center-bonus {
+  width: 100%;
+  max-width: 520px;
+  margin: 6px auto 18px;
 }
 
 /* DERECHA */
 .inicio-right {
-  border-left: 1px solid rgba(255,255,255,0.1);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  padding-left: 16px;
 }
 
 /* PANEL INTERNO */
 .inicio-panel {
-  padding: 16px;
+  padding: 4px 4px 40px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding-bottom: 40px;
+  gap: 14px;
 }
 
 /* SCROLL */
 .scroll-fix {
-  overflow-y: auto;
-  background: rgba(0, 0, 0, 0.15);
+  overflow-y: visible;
+  background: transparent;
+}
+
+@media (max-width: 991px) {
+  .inicio-sidebar { padding-right: 0; margin-bottom: 16px; }
+  .sidebar-content { position: static; }
+  .inicio-right { border-left: none; padding-left: 0; margin-top: 20px; }
 }
 
 /* SCROLLBAR */

@@ -5,6 +5,10 @@ import { MejorasProges } from "../upgrader/MejorasProges";
 import { ReiniciosLvl } from "../rebirs/ReiniciosLvl";
 import { BonusAutoClick } from "../bonus/BonusAutoClick";
 import { MinerProges } from "../upgrader/MinerProgres";
+import { ImperioMejoras } from "../imperio/ImperioMejoras";
+import { GuiaDesbloqueos } from "../shared/GuiaDesbloqueos";
+import "../imperio/Imperio.css";
+import "../shared/Guia.css";
 import "./Pages.css";
 
 
@@ -26,22 +30,50 @@ export const Inicio = ({
   setAutoClickSpeed,
   autoClick,
   setAutoClick,
+  autoClickLevel,
+  setAutoClickLevel,
+  resetSave,
+  clickBonus,
+  passiveRate,
+  autoPower,
+  imperioLvl,
+  totalClicks,
+  moneyPerClick,
+  moneyPerAuto,
+  buyExo,
+  buyFondo,
+  buyOverclock,
+  miningRate,
+  purchasedMinerIds,
+  buyMiner,
 }) => {
   return (
     <Container fluid className="inicio-container">
       <main className="inicio-main">
         <Row className="h-100 g-0">
-          {/* 1. NUEVA SECCIÓN IZQUIERDA (Panel Lateral / Stats Extras) */}
-          <Col lg={2} md={3} className="inicio-sidebar scroll-fix">
-            <div className="sidebar-content p-3">
-              {/* Aquí puedes poner inventario, logros o stats secundarios */}
-              <h6 className="text-muted text-center">PANEL LATERAL</h6>
+          {/* 1. PANEL IZQUIERDO: IMPERIO (mejoras comprables) */}
+          <Col lg={3} md={4} className="inicio-sidebar scroll-fix">
+            <div className="sidebar-content">
+              <ImperioMejoras
+                money={money}
+                rebirlvl={rebirlvl}
+                clickBonus={clickBonus}
+                passiveRate={passiveRate}
+                autoPower={autoPower}
+                imperioLvl={imperioLvl}
+                totalClicks={totalClicks}
+                moneyPerClick={moneyPerClick}
+                moneyPerAuto={moneyPerAuto}
+                buyExo={buyExo}
+                buyFondo={buyFondo}
+                buyOverclock={buyOverclock}
+              />
             </div>
           </Col>
 
           {/* 2. SECCIÓN CENTRAL (JUEGO) */}
-          <Col lg={6} md={5} className="inicio-left">
-            <div className="mb-4 mt-4">
+          <Col lg={5} md={8} className="inicio-center">
+            <div className="center-bonus">
               <BonusBienvenida
                 setMultiplier={setMultiplier}
                 bonusActivo={bonusActivo}
@@ -56,13 +88,19 @@ export const Inicio = ({
               handleClick={handleClick}
               addMoneyDev={addMoneyDev}
               removeMoney={removeMoney}
+              resetSave={resetSave}
               unlockedLvl={unlockedLvl}
               autoClick={autoClick}
+              moneyPerClick={moneyPerClick}
+              moneyPerAuto={moneyPerAuto}
+              passiveRate={(passiveRate || 0) + (miningRate || 0)}
+              autoPower={autoPower}
             />
+            <GuiaDesbloqueos rebirlvl={rebirlvl} />
           </Col>
 
           {/* 3. SECCIÓN DERECHA (TIENDA Y MEJORAS) */}
-          <Col lg={4} md={4} className="inicio-right scroll-fix">
+          <Col lg={4} md={12} className="inicio-right scroll-fix">
             <div className="inicio-panel">
               <div className="shop-section mb-3">
                 <MejorasProges
@@ -97,6 +135,8 @@ export const Inicio = ({
                       rebirlvl={rebirlvl}
                       autoClick={autoClick}
                       setAutoClick={setAutoClick}
+                      level={autoClickLevel}
+                      setLevel={setAutoClickLevel}
                     />
                   </div>
                 </Col>
@@ -104,10 +144,10 @@ export const Inicio = ({
               <div>
                 <MinerProges
                   money={money}
-                  multiplier={multiplier}
-                  buyUpgrade={buyUpgrade}
                   rebirlvl={rebirlvl}
-                  unlockedLvl={unlockedLvl}
+                  miningRate={miningRate}
+                  purchasedMinerIds={purchasedMinerIds}
+                  buyMiner={buyMiner}
                 />
               </div>
             </div>

@@ -1,123 +1,54 @@
+// Tienda de Minería: rigs de ingreso PASIVO ($/seg).
+// value = $/seg que suma al comprar. Compra única (id), permanente (sobrevive al rebirth).
+// reqRebirth = RB mínimo para desbloquear el rig.
 const MineriaX = [
-  // LEVEL 1 (6 → 60)
-  { id: "m1_1", level: 1, cost: 500000, value: 6, max: 60, reqRebirth: 2, speed: 1000, mineral: 1, unlock: 1 },
-  { id: "m1_2", level: 1, cost: 550000, value: 12, max: 60, reqRebirth: 2, speed: 950, mineral: 1, unlock: 1 },
-  { id: "m1_3", level: 1, cost: 600000, value: 18, max: 60, reqRebirth: 2, speed: 900, mineral: 1, unlock: 1 },
-  { id: "m1_4", level: 1, cost: 650000, value: 24, max: 60, reqRebirth: 2, speed: 850, mineral: 1, unlock: 1 },
-  { id: "m1_5", level: 1, cost: 700000, value: 30, max: 60, reqRebirth: 2, speed: 800, mineral: 1, unlock: 1 },
-  { id: "m1_6", level: 1, cost: 750000, value: 36, max: 60, reqRebirth: 2, speed: 750, mineral: 1, unlock: 1 },
-  { id: "m1_7", level: 1, cost: 800000, value: 42, max: 60, reqRebirth: 2, speed: 700, mineral: 1, unlock: 1 },
-  { id: "m1_8", level: 1, cost: 850000, value: 48, max: 60, reqRebirth: 2, speed: 650, mineral: 1, unlock: 1 },
-  { id: "m1_9", level: 1, cost: 900000, value: 54, max: 60, reqRebirth: 2, speed: 600, mineral: 1, unlock: 1 },
-  { id: "m1_10", level: 1, cost: 1000000, value: 60, max: 60, reqRebirth: 2, speed: 550, mineral: 1, unlock: 1 },
+  // TIER 0 — Disponible desde el inicio (RB 0). Para que la tienda nunca esté vacía.
+  { id: "m0_1", level: 0, name: "Pico de Cobre", cost: 800, value: 1, reqRebirth: 0 },
+  { id: "m0_2", level: 0, name: "Pico de Hierro", cost: 1500, value: 2, reqRebirth: 0 },
+  { id: "m0_3", level: 0, name: "Taladro Manual", cost: 2600, value: 3, reqRebirth: 0 },
+  { id: "m0_4", level: 0, name: "Carreta Minera", cost: 4200, value: 4, reqRebirth: 0 },
+  { id: "m0_5", level: 0, name: "Forja Pequeña", cost: 6500, value: 6, reqRebirth: 0 },
+  { id: "m0_6", level: 0, name: "Mina a Cielo", cost: 9500, value: 8, reqRebirth: 0 },
 
-  // LEVEL 2 (8 → 80)
-  { id: "m2_1", level: 2, cost: 1000000, value: 8, max: 80, reqRebirth: 4, speed: 900, mineral: 2, unlock: 2 },
-  { id: "m2_2", level: 2, cost: 1150000, value: 16, max: 80, reqRebirth: 4, speed: 850, mineral: 2, unlock: 2 },
-  { id: "m2_3", level: 2, cost: 1300000, value: 24, max: 80, reqRebirth: 4, speed: 800, mineral: 2, unlock: 2 },
-  { id: "m2_4", level: 2, cost: 1450000, value: 32, max: 80, reqRebirth: 4, speed: 750, mineral: 2, unlock: 2 },
-  { id: "m2_5", level: 2, cost: 1600000, value: 40, max: 80, reqRebirth: 4, speed: 700, mineral: 2, unlock: 2 },
-  { id: "m2_6", level: 2, cost: 1750000, value: 48, max: 80, reqRebirth: 4, speed: 650, mineral: 2, unlock: 2 },
-  { id: "m2_7", level: 2, cost: 1900000, value: 56, max: 80, reqRebirth: 4, speed: 600, mineral: 2, unlock: 2 },
-  { id: "m2_8", level: 2, cost: 2100000, value: 64, max: 80, reqRebirth: 4, speed: 550, mineral: 2, unlock: 2 },
-  { id: "m2_9", level: 2, cost: 2300000, value: 72, max: 80, reqRebirth: 4, speed: 520, mineral: 2, unlock: 2 },
-  { id: "m2_10", level: 2, cost: 2500000, value: 80, max: 80, reqRebirth: 4, speed: 500, mineral: 2, unlock: 2 },
+  // TIER 1 — RB 2 (junto al Auto-Clicker lvl 1 y Overclock)
+  { id: "m1_1", level: 1, name: "Excavadora I", cost: 20000, value: 10, reqRebirth: 2 },
+  { id: "m1_2", level: 1, name: "Excavadora II", cost: 28000, value: 13, reqRebirth: 2 },
+  { id: "m1_3", level: 1, name: "Túnel Profundo", cost: 38000, value: 16, reqRebirth: 2 },
+  { id: "m1_4", level: 1, name: "Dinamita", cost: 52000, value: 20, reqRebirth: 2 },
+  { id: "m1_5", level: 1, name: "Refinería I", cost: 70000, value: 25, reqRebirth: 2 },
+  { id: "m1_6", level: 1, name: "Veta de Oro", cost: 95000, value: 32, reqRebirth: 2 },
 
-  // LEVEL 3 (10 → 100)
-  { id: "m3_1", level: 3, cost: 2500000, value: 10, max: 100, reqRebirth: 6, speed: 800, mineral: 3, unlock: 3 },
-  { id: "m3_2", level: 3, cost: 2800000, value: 20, max: 100, reqRebirth: 6, speed: 770, mineral: 3, unlock: 3 },
-  { id: "m3_3", level: 3, cost: 3100000, value: 30, max: 100, reqRebirth: 6, speed: 740, mineral: 3, unlock: 3 },
-  { id: "m3_4", level: 3, cost: 3400000, value: 40, max: 100, reqRebirth: 6, speed: 710, mineral: 3, unlock: 3 },
-  { id: "m3_5", level: 3, cost: 3700000, value: 50, max: 100, reqRebirth: 6, speed: 680, mineral: 3, unlock: 3 },
-  { id: "m3_6", level: 3, cost: 4000000, value: 60, max: 100, reqRebirth: 6, speed: 650, mineral: 3, unlock: 3 },
-  { id: "m3_7", level: 3, cost: 4300000, value: 70, max: 100, reqRebirth: 6, speed: 620, mineral: 3, unlock: 3 },
-  { id: "m3_8", level: 3, cost: 4600000, value: 80, max: 100, reqRebirth: 6, speed: 590, mineral: 3, unlock: 3 },
-  { id: "m3_9", level: 3, cost: 4800000, value: 90, max: 100, reqRebirth: 6, speed: 560, mineral: 3, unlock: 3 },
-  { id: "m3_10", level: 3, cost: 5000000, value: 100, max: 100, reqRebirth: 6, speed: 520, mineral: 3, unlock: 3 },
+  // TIER 2 — RB 4
+  { id: "m2_1", level: 2, name: "Perforadora", cost: 130000, value: 38, reqRebirth: 4 },
+  { id: "m2_2", level: 2, name: "Galería II", cost: 170000, value: 45, reqRebirth: 4 },
+  { id: "m2_3", level: 2, name: "Cinta Minera", cost: 220000, value: 53, reqRebirth: 4 },
+  { id: "m2_4", level: 2, name: "Refinería II", cost: 280000, value: 62, reqRebirth: 4 },
+  { id: "m2_5", level: 2, name: "Veta Platino", cost: 360000, value: 73, reqRebirth: 4 },
+  { id: "m2_6", level: 2, name: "Pozo Diamante", cost: 460000, value: 86, reqRebirth: 4 },
 
-  // LEVEL 4 (12 → 120)
-  { id: "m4_1", level: 4, cost: 5000000, value: 12, max: 120, reqRebirth: 8, speed: 700, mineral: 4, unlock: 4 },
-  { id: "m4_2", level: 4, cost: 5500000, value: 24, max: 120, reqRebirth: 8, speed: 680, mineral: 4, unlock: 4 },
-  { id: "m4_3", level: 4, cost: 6000000, value: 36, max: 120, reqRebirth: 8, speed: 660, mineral: 4, unlock: 4 },
-  { id: "m4_4", level: 4, cost: 6500000, value: 48, max: 120, reqRebirth: 8, speed: 640, mineral: 4, unlock: 4 },
-  { id: "m4_5", level: 4, cost: 7000000, value: 60, max: 120, reqRebirth: 8, speed: 620, mineral: 4, unlock: 4 },
-  { id: "m4_6", level: 4, cost: 7500000, value: 72, max: 120, reqRebirth: 8, speed: 600, mineral: 4, unlock: 4 },
-  { id: "m4_7", level: 4, cost: 8000000, value: 84, max: 120, reqRebirth: 8, speed: 580, mineral: 4, unlock: 4 },
-  { id: "m4_8", level: 4, cost: 8500000, value: 96, max: 120, reqRebirth: 8, speed: 560, mineral: 4, unlock: 4 },
-  { id: "m4_9", level: 4, cost: 9000000, value: 108, max: 120, reqRebirth: 8, speed: 540, mineral: 4, unlock: 4 },
-  { id: "m4_10", level: 4, cost: 10000000, value: 120, max: 120, reqRebirth: 8, speed: 500, mineral: 4, unlock: 4 },
+  // TIER 3 — RB 6
+  { id: "m3_1", level: 3, name: "Taladro Láser", cost: 600000, value: 100, reqRebirth: 6 },
+  { id: "m3_2", level: 3, name: "Dron Minero", cost: 780000, value: 118, reqRebirth: 6 },
+  { id: "m3_3", level: 3, name: "Núcleo Térmico", cost: 1000000, value: 138, reqRebirth: 6 },
+  { id: "m3_4", level: 3, name: "Refinería III", cost: 1300000, value: 162, reqRebirth: 6 },
+  { id: "m3_5", level: 3, name: "Veta Titanio", cost: 1700000, value: 190, reqRebirth: 6 },
+  { id: "m3_6", level: 3, name: "Mina Orbital", cost: 2200000, value: 225, reqRebirth: 6 },
 
-  // LEVEL 5 (14 → 140)
-  { id: "m5_1", level: 5, cost: 10000000, value: 14, max: 140, reqRebirth: 10, speed: 600, mineral: 5, unlock: 5 },
-  { id: "m5_2", level: 5, cost: 12000000, value: 28, max: 140, reqRebirth: 10, speed: 580, mineral: 5, unlock: 5 },
-  { id: "m5_3", level: 5, cost: 14000000, value: 42, max: 140, reqRebirth: 10, speed: 560, mineral: 5, unlock: 5 },
-  { id: "m5_4", level: 5, cost: 16000000, value: 56, max: 140, reqRebirth: 10, speed: 540, mineral: 5, unlock: 5 },
-  { id: "m5_5", level: 5, cost: 18000000, value: 70, max: 140, reqRebirth: 10, speed: 520, mineral: 5, unlock: 5 },
-  { id: "m5_6", level: 5, cost: 20000000, value: 84, max: 140, reqRebirth: 10, speed: 500, mineral: 5, unlock: 5 },
-  { id: "m5_7", level: 5, cost: 21000000, value: 98, max: 140, reqRebirth: 10, speed: 500, mineral: 5, unlock: 5 },
-  { id: "m5_8", level: 5, cost: 22000000, value: 112, max: 140, reqRebirth: 10, speed: 500, mineral: 5, unlock: 5 },
-  { id: "m5_9", level: 5, cost: 23000000, value: 126, max: 140, reqRebirth: 10, speed: 500, mineral: 5, unlock: 5 },
-  { id: "m5_10", level: 5, cost: 25000000, value: 140, max: 140, reqRebirth: 10, speed: 500, mineral: 5, unlock: 5 },
+  // TIER 4 — RB 8
+  { id: "m4_1", level: 4, name: "Extractor Cuántico", cost: 3000000, value: 260, reqRebirth: 8 },
+  { id: "m4_2", level: 4, name: "Enjambre Drones", cost: 4000000, value: 305, reqRebirth: 8 },
+  { id: "m4_3", level: 4, name: "Reactor Minero", cost: 5300000, value: 360, reqRebirth: 8 },
+  { id: "m4_4", level: 4, name: "Forja Estelar", cost: 7000000, value: 425, reqRebirth: 8 },
+  { id: "m4_5", level: 4, name: "Veta Neutrón", cost: 9200000, value: 500, reqRebirth: 8 },
+  { id: "m4_6", level: 4, name: "Planeta Mina", cost: 12000000, value: 590, reqRebirth: 8 },
 
-  // LEVEL 6 (16 → 160)
-  { id: "m6_1", level: 6, cost: 25000000, value: 16, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_2", level: 6, cost: 28000000, value: 32, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_3", level: 6, cost: 31000000, value: 48, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_4", level: 6, cost: 34000000, value: 64, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_5", level: 6, cost: 37000000, value: 80, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_6", level: 6, cost: 40000000, value: 96, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_7", level: 6, cost: 43000000, value: 112, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_8", level: 6, cost: 46000000, value: 128, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_9", level: 6, cost: 48000000, value: 144, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-  { id: "m6_10", level: 6, cost: 50000000, value: 160, max: 160, reqRebirth: 12, speed: 500, mineral: 6, unlock: 6 },
-
-  // LEVEL 7 (18 → 180)
-  { id: "m7_1", level: 7, cost: 50000000, value: 18, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_2", level: 7, cost: 55000000, value: 36, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_3", level: 7, cost: 60000000, value: 54, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_4", level: 7, cost: 65000000, value: 72, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_5", level: 7, cost: 70000000, value: 90, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_6", level: 7, cost: 75000000, value: 108, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_7", level: 7, cost: 80000000, value: 126, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_8", level: 7, cost: 85000000, value: 144, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_9", level: 7, cost: 90000000, value: 162, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-  { id: "m7_10", level: 7, cost: 100000000, value: 180, max: 180, reqRebirth: 14, speed: 500, mineral: 7, unlock: 7 },
-
-  // LEVEL 8 (20 → 200)
-  { id: "m8_1", level: 8, cost: 100000000, value: 20, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_2", level: 8, cost: 110000000, value: 40, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_3", level: 8, cost: 120000000, value: 60, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_4", level: 8, cost: 130000000, value: 80, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_5", level: 8, cost: 140000000, value: 100, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_6", level: 8, cost: 150000000, value: 120, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_7", level: 8, cost: 160000000, value: 140, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_8", level: 8, cost: 170000000, value: 160, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_9", level: 8, cost: 180000000, value: 180, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-  { id: "m8_10", level: 8, cost: 200000000, value: 200, max: 200, reqRebirth: 16, speed: 500, mineral: 8, unlock: 8 },
-
-  // LEVEL 9 (22 → 220)
-  { id: "m9_1", level: 9, cost: 200000000, value: 22, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_2", level: 9, cost: 220000000, value: 44, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_3", level: 9, cost: 240000000, value: 66, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_4", level: 9, cost: 260000000, value: 88, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_5", level: 9, cost: 280000000, value: 110, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_6", level: 9, cost: 300000000, value: 132, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_7", level: 9, cost: 320000000, value: 154, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_8", level: 9, cost: 340000000, value: 176, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_9", level: 9, cost: 360000000, value: 198, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-  { id: "m9_10", level: 9, cost: 400000000, value: 220, max: 220, reqRebirth: 18, speed: 500, mineral: 9, unlock: 9 },
-
-  // LEVEL 10 (24 → 240)
-  { id: "m10_1", level: 10, cost: 400000000, value: 24, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_2", level: 10, cost: 440000000, value: 48, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_3", level: 10, cost: 480000000, value: 72, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_4", level: 10, cost: 520000000, value: 96, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_5", level: 10, cost: 560000000, value: 120, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_6", level: 10, cost: 600000000, value: 144, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_7", level: 10, cost: 640000000, value: 168, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_8", level: 10, cost: 680000000, value: 192, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_9", level: 10, cost: 720000000, value: 216, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
-  { id: "m10_10", level: 10, cost: 800000000, value: 240, max: 240, reqRebirth: 20, speed: 500, mineral: 10, unlock: 10 },
+  // TIER 5 — RB 10 (endgame temprano)
+  { id: "m5_1", level: 5, name: "Singularidad I", cost: 16000000, value: 700, reqRebirth: 10 },
+  { id: "m5_2", level: 5, name: "Singularidad II", cost: 21000000, value: 830, reqRebirth: 10 },
+  { id: "m5_3", level: 5, name: "Cosechadora Solar", cost: 28000000, value: 980, reqRebirth: 10 },
+  { id: "m5_4", level: 5, name: "Refinería Final", cost: 37000000, value: 1160, reqRebirth: 10 },
+  { id: "m5_5", level: 5, name: "Veta Antimateria", cost: 48000000, value: 1370, reqRebirth: 10 },
+  { id: "m5_6", level: 5, name: "Imperio Galáctico", cost: 62000000, value: 1620, reqRebirth: 10 },
 ];
 
 export default MineriaX;

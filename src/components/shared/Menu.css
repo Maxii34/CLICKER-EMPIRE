@@ -1,15 +1,18 @@
 /* ================= BARRA PRINCIPAL ================= */
 .navbar.custom-navbar {
-  background: rgba(15, 23, 42, 0.9) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(11,17,32,.96), rgba(15,23,42,.88)) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(245,158,11,.18);
+  box-shadow: 0 8px 30px rgba(0,0,0,.4);
   /* Forzamos altura fija */
-  height: 75px; 
+  height: 75px;
   padding: 0px 24px !important;
   display: flex;
   align-items: center;
   z-index: 1000;
+  position: sticky;
+  top: 0;
 }
 
 /* Contenedor que obliga a los hijos a estar centrados verticalmente */
@@ -20,7 +23,19 @@
   padding: 0px !important;
 }
 
+.topbar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 /* ================= LOGO ================= */
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
 .brand-logo {
   color: #f59e0b !important;
   font-weight: 800;
@@ -30,7 +45,33 @@
   padding: 0px !important;
   display: flex;
   align-items: center;
+  gap: 8px;
   height: 100%; /* Para que el flex lo centre respecto a los 75px */
+}
+.brand-icon {
+  font-size: 26px;
+  filter: drop-shadow(0 0 8px rgba(245,158,11,.5));
+}
+.brand-text em {
+  font-style: normal;
+  color: #f8fafc;
+  font-weight: 900;
+}
+.rb-chip {
+  font-size: .68rem;
+  font-weight: 900;
+  background: rgba(245,158,11,.12);
+  border: 1px solid rgba(245,158,11,.35);
+  color: #fbbf24;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.rb-chip.ready {
+  background: rgba(74,222,128,.15);
+  border-color: #4ade80;
+  color: #4ade80;
+  animation: pulse-warn 1.5s infinite;
 }
 
 /* ================= CONTENEDOR DE STATS ================= */
@@ -42,16 +83,17 @@
 }
 
 .status-card {
-  width: 130px;
+  min-width: 130px;
   height: 50px; /* Altura fija interna para las cajitas */
-  border-radius: 8px;
-  background: #1a1d21;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #161d2e, #101624);
   border: 1px solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: transform 0.2s ease;
+  padding: 0 14px;
 }
 
 .status-card:hover {
@@ -60,6 +102,58 @@
 
 .money-card { border-color: #198754; }
 .multiplier-card { border-color: #0dcaf0; }
+.click-card { border-color: #f59e0b; }
+.passive-card { border-color: #4ade80; }
+
+.text-warning { color: #fbbf24 !important; }
+.text-passive { color: #4ade80 !important; }
+
+.auto-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .7rem;
+  font-weight: 900;
+  color: #38bdf8;
+  background: rgba(56,189,248,.1);
+  border: 1px solid rgba(56,189,248,.4);
+  padding: 8px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Barra de progreso renacimiento */
+.rb-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(11,17,32,.95);
+  border-bottom: 1px solid rgba(245,158,11,.15);
+  padding: 6px 24px;
+}
+.rb-progress-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.rb-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+  border-radius: 4px;
+  transition: width .4s ease;
+}
+.rb-progress-fill.ready {
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  box-shadow: 0 0 12px rgba(74,222,128,.6);
+}
+.rb-progress-label {
+  font-size: .68rem;
+  font-weight: 800;
+  color: #94a3b8;
+  white-space: nowrap;
+}
 
 /* ================= TEXTOS ================= */
 .status-label {
@@ -91,12 +185,15 @@
   }
 
   .stats-wrapper {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
   }
 
   .status-card {
-    width: 100%;
+    flex: 1 1 140px;
     height: 60px;
   }
+  .rb-progress { flex-wrap: wrap; gap: 6px; }
+  .rb-progress-label { white-space: normal; }
 }

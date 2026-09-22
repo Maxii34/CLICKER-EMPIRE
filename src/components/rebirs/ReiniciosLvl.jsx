@@ -31,7 +31,10 @@ export const ReiniciosLvl = ({
   return (
     <div className="rebirth-container">
       <div className="rebirth-header">
-        <h2 className="rebirth-title">Renacimiento</h2>
+        <div>
+          <h2 className="rebirth-title">🔄 Renacimiento</h2>
+          <p className="shop-hint">Resetea dinero y multi. Desbloquea tienda, minería y autoclick.</p>
+        </div>
         <span className="req-lvl-tag">Lvl: {currentLevel.level}</span>
       </div>
 
@@ -51,11 +54,11 @@ export const ReiniciosLvl = ({
         <div className="bonus-content">
           <span>- Multiplicador X{currentLevel.bonus} Al iniciar</span>
           <span>- Tienda Lvl {currentLevel.level + 1} Desbloqueada</span>
-          {currentLevel.level + 1 === 2 && <span>- AutoClikc Desbloqueada lvl 1</span>}
-          {currentLevel.level + 1 === 4 && <span>- AutoClikc Desbloqueada lvl 2</span>}
-          {currentLevel.level + 1 === 6 && <span>- AutoClikc Desbloqueada lvl 3</span>}
-          {currentLevel.level + 1 === 10 && <span>- AutoClikc Desbloqueada lvl 4</span>}
-          {currentLevel.level + 1 === 12 && <span>- AutoClikc Desbloqueada lvl 5</span>}
+          {currentLevel.level + 1 === 2 && <span>- AutoClick lvl 1 + Minería tier 1 + Overclock</span>}
+          {currentLevel.level + 1 === 4 && <span>- AutoClick lvl 2 + Minería tier 2</span>}
+          {currentLevel.level + 1 === 6 && <span>- AutoClick lvl 3 + Minería tier 3</span>}
+          {currentLevel.level + 1 === 8 && <span>- AutoClick lvl 4 + Minería tier 4</span>}
+          {currentLevel.level + 1 === 10 && <span>- AutoClick lvl 5 MAX + Minería tier 5</span>}
 
 
         </div>

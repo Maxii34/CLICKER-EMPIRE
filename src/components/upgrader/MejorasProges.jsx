@@ -10,7 +10,7 @@ export const MejorasProges = ({
 }) => {
   // 🎯 Filtrar nivel actual y anterior
   const currentLevelUpgrades = upgrades.filter(
-    (up) => up.level === rebirlvl || up.level === rebirlvl - 1
+    (up) => up.level === rebirlvl || up.level === rebirlvl
   ).sort((a, b) => a.level - b.level);
 
   const formatNumber = (num) => {
@@ -25,8 +25,11 @@ export const MejorasProges = ({
     <div className="shop-box">
       {/* --- Elementos recuperados --- */}
       <div className="shop-header">
-        <h2 className="shop-title">Tienda de aumento x$</h2>
-        <span className="shop-lvl-badge">Tienda - lvl: {rebirlvl}</span>
+        <div>
+          <h2 className="shop-title">Tienda de aumento x$</h2>
+          <p className="shop-hint">Sube tu multiplicador. Cada renacimiento desbloquea un nivel nuevo.</p>
+        </div>
+        <span className="shop-lvl-badge">Tienda del - Lvl: {rebirlvl}</span>
       </div>
 
       {/* 🔒 Aviso de límite recuperado */}

@@ -7,20 +7,42 @@
 
 /* PANEL SUPERIOR */
 .main-display-box {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(10px);
-  padding: 20px 40px;
-  border-radius: 20px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: linear-gradient(180deg, rgba(30,41,59,.85), rgba(15,23,42,.9));
+  backdrop-filter: blur(12px);
+  padding: 22px 28px;
+  border-radius: 22px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255,255,255,.06);
+  width: 100%;
+  max-width: 520px;
+}
+
+.game-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  color: #7dd3fc;
+  background: rgba(56,189,248,.08);
+  border: 1px solid rgba(56,189,248,.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ade80; box-shadow: 0 0 10px #4ade80;
+  animation: pulse-green 1.6s infinite;
 }
 
 .game-title {
-  font-size: 1.2rem;
-  letter-spacing: 3px;
-  color: #94a3b8;
-  margin-bottom: 15px;
+  font-size: 1.35rem;
+  letter-spacing: 2px;
+  color: #f8fafc;
+  margin: 0 0 14px;
   font-weight: 900;
 }
 
@@ -32,12 +54,71 @@
 }
 
 .money-amount {
-  font-size: 2.5rem;
+  font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 900;
   color: #fff;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 24px rgba(245,158,11,.35);
   margin: 0;
+  font-variant-numeric: tabular-nums;
 }
+.money-sub {
+  font-size: .7rem;
+  color: #94a3b8;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Tira de stats profesional */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.sstat {
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 9px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.sstat-label {
+  font-size: .6rem;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.sstat-value { font-size: .88rem; font-weight: 900; color: #fbbf24; }
+.sstat-value.auto { color: #38bdf8; }
+.sstat-value.passive { color: #4ade80; }
+
+.auto-banner {
+  margin-top: 12px;
+  font-size: .68rem;
+  font-weight: 800;
+  color: #4ade80;
+  background: rgba(74,222,128,.08);
+  border: 1px solid rgba(74,222,128,.3);
+  border-radius: 10px;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dev-tools { margin-top: 14px; }
+.dev-tools summary {
+  font-size: .65rem;
+  color: #475569;
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.dev-tools summary:hover { color: #94a3b8; }
 
 /* BOTONES DE ACCIÓN */
 .action-row {

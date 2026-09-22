@@ -140,9 +140,83 @@
   }
 }
 
+/* Mini descripción bajo el título de cada tienda */
+.shop-hint {
+  margin: 2px 0 0;
+  font-size: .68rem;
+  color: #94a3b8;
+}
+
+/* ===== MINERÍA ===== */
+.miner-box { border-color: rgba(74,222,128,.3); }
+.miner-box:hover { border-color: #4ade80; }
+.miner-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.miner-progress-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.miner-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  border-radius: 3px;
+  transition: width .3s ease;
+}
+.miner-progress-label {
+  font-size: .65rem;
+  font-weight: 800;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+.miner-grid { grid-template-columns: repeat(3, 1fr); }
+.miner-btn { height: auto; min-height: 72px; padding: 8px 6px; gap: 3px; }
+.up-name {
+  font-size: .62rem;
+  font-weight: 800;
+  color: #cbd5e1;
+  line-height: 1.2;
+}
+.upgrade-btn.active .up-name, .upgrade-btn.bought .up-name { color: #052e16; }
+.upgrade-btn.bought {
+  background: linear-gradient(145deg, #4ade80, #16a34a);
+  box-shadow: 0 3px 0 #14532d;
+  opacity: 1;
+  cursor: default;
+}
+.upgrade-btn.bought .up-value { color: #052e16; }
+.miner-empty {
+  text-align: center;
+  font-size: .78rem;
+  color: #f87171;
+  background: rgba(248,113,113,.08);
+  border: 1px dashed rgba(248,113,113,.4);
+  border-radius: 10px;
+  padding: 12px;
+  margin: 0;
+}
+.miner-next {
+  margin: 10px 0 0;
+  font-size: .68rem;
+  color: #64748b;
+  background: rgba(251,191,36,.06);
+  border: 1px dashed rgba(251,191,36,.3);
+  border-radius: 8px;
+  padding: 7px 10px;
+  line-height: 1.4;
+}
+.miner-next b { color: #fbbf24; }
+
 /* RESPONSIVE */
 @media (max-width: 500px) {
   .shop-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+  .miner-grid { grid-template-columns: repeat(2, 1fr); }
 }
