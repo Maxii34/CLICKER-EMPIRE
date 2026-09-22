@@ -6,6 +6,8 @@ export const MinerProges = ({
   miningRate = 0,
   purchasedMinerIds = [],
   buyMiner,
+  vault = 0,
+  collectVault,
 }) => {
   const formatNumber = (num) => {
     if (num < 10000) return num.toLocaleString("es-AR");
@@ -29,9 +31,26 @@ export const MinerProges = ({
       <div className="shop-header">
         <div>
           <h2 className="shop-title">⛏️ Minería Pasiva</h2>
-          <p className="shop-hint">Rigs de $/seg. Compra única y permanente.</p>
+          <p className="shop-hint">Rigs de $/seg a la bóveda. Recauda para sumarlo a tu dinero.</p>
         </div>
         <span className="shop-lvl-badge">+${formatNumber(miningRate)}/s</span>
+      </div>
+
+      {/* Bóveda: lo minado se acumula aquí hasta recaudar */}
+      <div className={`vault-box ${vault > 0 ? "full" : ""}`}>
+        <div className="vault-info">
+          <span className="vault-label">🏦 Bóveda minera</span>
+          <span className="vault-amount">${formatNumber(Math.floor(vault))}</span>
+          <span className="vault-rate">generando +${formatNumber(miningRate)}/s</span>
+        </div>
+        <button
+          className={`vault-btn ${vault > 0 ? "ready" : ""}`}
+          disabled={vault <= 0}
+          onClick={() => collectVault && collectVault()}
+          title="Suma lo minado a tu dinero total"
+        >
+          {vault > 0 ? "RECAUDAR" : "VACÍA"}
+        </button>
       </div>
 
       <div className="miner-progress">
@@ -62,13 +81,13 @@ export const MinerProges = ({
                 onClick={() => !isBought && buyMiner && buyMiner(up)}
                 disabled={isBought || !hasMoney}
               >
-                <span className="up-name">{isBought ? "✅" : up.name}</span>
-                <span className="up-value">
-                  {isBought ? `+${formatNumber(up.value)}/s` : `+${formatNumber(up.value)}/s`}
+                <span className="miner-name">{isBought ? `✓ ${up.name}` : up.name}</span>
+                <span className="miner-data">
+                  <span className="miner-rate">+{formatNumber(up.value)}/s</span>
+                  {!isBought && (
+                    <span className="miner-cost">${formatNumber(up.cost)}</span>
+                  )}
                 </span>
-                {!isBought && (
-                  <span className="up-cost">${formatNumber(up.cost)}</span>
-                )}
               </button>
             );
           })}

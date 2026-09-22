@@ -28,6 +28,7 @@ export const Inicio = ({
   bonusActivo,
   setBonusActivo,
   setAutoClickSpeed,
+  autoClickSpeed,
   autoClick,
   setAutoClick,
   autoClickLevel,
@@ -46,6 +47,8 @@ export const Inicio = ({
   miningRate,
   purchasedMinerIds,
   buyMiner,
+  vault,
+  collectVault,
 }) => {
   return (
     <Container fluid className="inicio-container">
@@ -93,7 +96,7 @@ export const Inicio = ({
               autoClick={autoClick}
               moneyPerClick={moneyPerClick}
               moneyPerAuto={moneyPerAuto}
-              passiveRate={(passiveRate || 0) + (miningRate || 0)}
+              passiveRate={passiveRate}
               autoPower={autoPower}
             />
             <GuiaDesbloqueos rebirlvl={rebirlvl} />
@@ -137,6 +140,8 @@ export const Inicio = ({
                       setAutoClick={setAutoClick}
                       level={autoClickLevel}
                       setLevel={setAutoClickLevel}
+                      hitGain={moneyPerAuto}
+                      intervalMs={autoClickSpeed}
                     />
                   </div>
                 </Col>
@@ -148,6 +153,8 @@ export const Inicio = ({
                   miningRate={miningRate}
                   purchasedMinerIds={purchasedMinerIds}
                   buyMiner={buyMiner}
+                  vault={vault}
+                  collectVault={collectVault}
                 />
               </div>
             </div>

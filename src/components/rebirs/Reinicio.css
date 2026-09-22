@@ -1,131 +1,156 @@
-/* CONTENEDOR SIMILAR AL UPGRADER */
-.rebirth-container {
-  background: rgba(25, 15, 5, 0.85); /* Tinte naranja muy oscuro */
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  border-radius: 15px;
-  padding: 12px;
+/* ===== RENACIMIENTO (rediseño) ===== */
+.rb-box {
+  background: linear-gradient(180deg, rgba(35,22,8,.92), rgba(17,12,6,.94));
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease;
+  height: 100%;
+  box-shadow: 0 12px 32px rgba(0,0,0,.45);
+  transition: border-color .2s ease, transform .2s ease;
 }
-.rebirth-container:hover {
-  border-color: #f59e0b;
-  transform: translateY(-2px);
-}
+.rb-box:hover { border-color: #f59e0b; }
 
-/* HEADER COMPACTO */
-.rebirth-header {
+.rb-head {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
-
-.rebirth-title {
-  font-size: 0.9rem;
+.rb-icon {
+  font-size: 1.4rem;
+  background: rgba(0,0,0,.35);
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(245,158,11,.3);
+}
+.rb-head-text { flex: 1; min-width: 0; }
+.rb-title {
   margin: 0;
+  font-size: .85rem;
+  font-weight: 900;
   color: #fbbf24;
-  font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: .5px;
 }
-
-.req-lvl-tag {
+.rb-sub {
+  margin: 2px 0 0;
+  font-size: .68rem;
+  color: #94a3b8;
+}
+.rb-lvl {
+  font-size: .65rem;
+  font-weight: 900;
   background: #f59e0b;
   color: #000;
-  font-size: 10px;
-  font-weight: 900;
-  padding: 2px ;
+  padding: 3px 9px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Requisitos con barra de progreso */
+.rb-req { display: flex; flex-direction: column; gap: 5px; }
+.rb-req-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: .7rem;
+  font-weight: 800;
+  color: #cbd5e1;
+  font-variant-numeric: tabular-nums;
+}
+.rb-req-top .ok { color: #4ade80; }
+.rb-bar {
+  height: 6px;
+  background: rgba(255,255,255,.08);
   border-radius: 4px;
-  text-transform: uppercase;
+  overflow: hidden;
 }
-
-/* GRID DE REQUISITOS */
-.rebirth-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+.rb-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .3s ease;
 }
+.rb-fill.money { background: linear-gradient(90deg, #16a34a, #4ade80); }
+.rb-fill.mult { background: linear-gradient(90deg, #0284c7, #38bdf8); }
 
-.mini-req {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 6px;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
-  color: #94a3b8;
-}
-
-.mini-req.ok {
-  border-color: #4ade80;
-  color: #4ade80;
-  background: rgba(74, 222, 128, 0.1);
-}
-
-/* CAJA DE BONUS COMPACTA */
-.mini-bonus-box {
-  background: rgba(255, 255, 255, 0.05);
+/* Recompensas */
+.rb-rewards {
+  background: rgba(255,255,255,.03);
+  border: 1px dashed rgba(255,255,255,.18);
   border-radius: 10px;
-  padding: 8px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 9px 11px;
 }
-
-.mini-bonus-box.unlocked {
-  background: rgba(245, 158, 11, 0.1);
+.rb-rewards.ready {
+  background: rgba(245,158,11,.08);
   border-style: solid;
-  border-color: rgba(245, 158, 11, 0.4);
+  border-color: rgba(245,158,11,.4);
 }
-
-.bonus-label {
-  font-size: 9px;
+.rb-rewards-title {
+  margin: 0 0 5px;
+  font-size: .65rem;
   font-weight: 900;
-  margin: 0 0 4px 0;
-  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: #fbbf24;
 }
-
-.bonus-content {
+.rb-rewards ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  font-size: 11px;
+  gap: 3px;
+}
+.rb-rewards li {
+  font-size: .7rem;
   font-weight: 600;
-  color: #fff;
-  line-height: 1.2;
+  color: #e2e8f0;
 }
 
-/* BOTÓN DE ACCIÓN */
-.main-rebirth-btn {
+.rb-warn {
+  margin: 0;
+  font-size: .65rem;
+  color: #f87171;
+  text-align: center;
+}
+
+.rb-btn {
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
+  height: 38px;
   border: none;
+  border-radius: 10px;
   font-weight: 900;
-  font-size: 12px;
-  letter-spacing: 1px;
-  transition: all 0.2s;
-}
-
-.main-rebirth-btn.ready {
-  background: linear-gradient(135deg, #f59e0b, #ea580c);
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 4px 0 #9a3412;
-}
-
-.main-rebirth-btn.ready:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
-}
-
-.main-rebirth-btn.ready:active {
-  transform: translateY(2px);
-  box-shadow: none;
-}
-
-.main-rebirth-btn.locked {
-  background: #334155;
+  font-size: .74rem;
+  letter-spacing: .5px;
+  background: #1e293b;
   color: #64748b;
   cursor: not-allowed;
-  opacity: 0.6;
+  transition: all .15s ease;
+  font-variant-numeric: tabular-nums;
+}
+.rb-btn.ready {
+  background: linear-gradient(145deg, #f59e0b, #ea580c);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #9a3412, 0 0 18px rgba(245,158,11,.35);
+}
+.rb-btn.ready:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.rb-btn.ready:active { transform: translateY(2px); box-shadow: none; }
+
+.rb-max {
+  margin: 0;
+  font-size: .75rem;
+  color: #fbbf24;
+  background: rgba(245,158,11,.08);
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  line-height: 1.4;
 }

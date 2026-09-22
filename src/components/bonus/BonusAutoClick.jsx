@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import "./Bonus.css";
 
+const SPEEDS = [1000, 900, 800, 700, 600, 500];
+
 export const BonusAutoClick = ({
   setAutoClickSpeed,
   money,
@@ -10,6 +12,8 @@ export const BonusAutoClick = ({
   setAutoClick,
   level = 0,
   setLevel,
+  hitGain = 0,
+  intervalMs = 1000,
 }) => {
   const maxLevels = 5;
   const upgraderClicker = [
@@ -27,12 +31,17 @@ export const BonusAutoClick = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Nivel persistido en App (sobrevive a recargas).
-  const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
-  // Validar si el jugador puede comprar la mejora actual
-  const canUpgrade = nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
+  const fmt = (n) => {
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + "M";
+    if (n >= 1_000) return (n / 1_000).toFixed(1) + "K";
+    return `${Math.floor(n)}`;
+  };
 
-  // Función para manejar la compra de la mejora
+  const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
+  const canUpgrade =
+    nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
+  const lockedByRb = nextUpgrade && rebirlvl < nextUpgrade.reqRebirth;
+
   const handleUpgrade = () => {
     if (!canUpgrade) return;
     setMoney((prev) => prev - nextUpgrade.cost);
@@ -41,58 +50,86 @@ export const BonusAutoClick = ({
   };
 
   return (
-    <div className="upgrade-container">
-      {/* HEADER: Nivel mejorado como badge */}
-      <div className="upgrade-header">
-        <div className="upgrade-title-group">
-          <h5 className="upgrade-name">🤖 Auto-Clicker</h5>
-          <span className="req-rebirth-tag">
-            Clicks solos x{4} • Se desbloquea en RB 2 • Niveles en RB 2/4/6/8/10{nextUpgrade ? ` • Sig: RB ${nextUpgrade.reqRebirth}` : ""}
-          </span>
+    <div className="ac-box">
+      <div className="ac-head">
+        <span className="ac-icon">🤖</span>
+        <div className="ac-head-text">
+          <h5 className="ac-title">Auto-Clicker</h5>
+          <p className="ac-sub">Clicks solos mientras juegas</p>
         </div>
-        <div className="level-badge-compact">
-          Lvl {level}/{maxLevels}
-        </div>
+        <span className="ac-lvl">Nv {level}/{maxLevels}</span>
       </div>
 
-      <div className="upgrade-progress-bar">
+      {/* Estado + rendimiento */}
+      <div className="ac-status-row">
+        <span className={`ac-state ${autoClick && level > 0 ? "on" : "off"}`}>
+          <span className={`status-led ${autoClick && level > 0 ? "led-green" : ""}`} />
+          {level === 0 ? "SIN COMPRAR" : autoClick ? "ENCENDIDO" : "APAGADO"}
+        </span>
+        {level > 0 && (
+          <span className="ac-perf" title="Ganancia de cada golpe automático">
+            💥 +${fmt(hitGain)} <em>cada {intervalMs}ms</em>
+          </span>
+        )}
+      </div>
+
+      <div className="ac-dots">
         {[...Array(maxLevels)].map((_, i) => (
-          <div key={i} className={`progress-step ${i < level ? "step-filled" : ""}`} />
+          <span key={i} className={`ac-dot ${i < level ? "on" : ""}`} />
         ))}
       </div>
 
-      <div className="upgrade-grid">
-        <div className={`mini-req ${nextUpgrade && money >= nextUpgrade.cost ? "ok" : "locked"}`}>
-          💰 ${nextUpgrade ? nextUpgrade.cost.toLocaleString() : "---"}
+      {/* Próxima mejora */}
+      {nextUpgrade ? (
+        <div className="ac-next">
+          <div className="ac-next-top">
+            <span>⬆️ Nivel {nextUpgrade.level}</span>
+            <span className={lockedByRb ? "locked" : money >= nextUpgrade.cost ? "ok" : ""}>
+              {lockedByRb ? `🔒 RB ${nextUpgrade.reqRebirth}` : `💰 $${fmt(nextUpgrade.cost)}`}
+            </span>
+          </div>
+          <p className="ac-next-sub">
+            Velocidad: {SPEEDS[level]}ms → {nextUpgrade.speed}ms por golpe
+          </p>
         </div>
-        <div className={`mini-req ${nextUpgrade && rebirlvl >= nextUpgrade.reqRebirth ? "ok" : "locked"}`}>
-           Rebirth Lvl {nextUpgrade ? nextUpgrade.reqRebirth : "---"}
-        </div>
-      </div>
-        <div className="req-rebirth-tag text-center text-capitalize py-1 fw-bold">
-        <span>Mejoras en Rebir: 02, 04, 06, 08, 10</span>
-        </div>
+      ) : (
+        <div className="ac-max">✅ Velocidad máxima alcanzada</div>
+      )}
 
-      {/* FOOTER: Botones juntos sin división */}
-      <div className="upgrade-actions-group">
-        <button
-          className={`main-upgrade-btn ${canUpgrade ? "ready" : "disabled"}`}
-          onClick={handleUpgrade}
-          disabled={!canUpgrade || level >= maxLevels}
-        >
-          {level >= maxLevels ? "MÁXIMO ✅" : canUpgrade ? "MEJORAR" : "BLOQUEADO"}
-        </button>
+      <div className="ac-actions">
+        {nextUpgrade && (
+          <button
+            className={`ac-buy ${canUpgrade ? "ready" : ""}`}
+            onClick={handleUpgrade}
+            disabled={!canUpgrade}
+            title={
+              lockedByRb
+                ? `Se desbloquea en RB ${nextUpgrade.reqRebirth}`
+                : `Cuesta $${fmt(nextUpgrade.cost)}`
+            }
+          >
+            {lockedByRb
+              ? `🔒 RB ${nextUpgrade.reqRebirth}`
+              : canUpgrade
+                ? `MEJORAR $${fmt(nextUpgrade.cost)}`
+                : `$${fmt(nextUpgrade.cost)}`}
+          </button>
+        )}
 
         {level > 0 && (
-          <button 
-            className={`toggle-action-btn ${autoClick ? "active-on" : "active-off"}`}
+          <button
+            className={`ac-toggle ${autoClick ? "on" : ""}`}
             onClick={() => setAutoClick(!autoClick)}
+            title={autoClick ? "Apagar auto-clicker (vuelves a clickear manual)" : "Encender auto-clicker (pausa tu click manual)"}
           >
-            <div className={`status-led ${autoClick ? "led-green" : ""}`}></div>
-            {autoClick ? "OFF" : "ON"}
+            ⏻ {autoClick ? "APAGAR" : "ENCENDER"}
           </button>
         )}
       </div>
+
+      {level === 0 && (
+        <p className="ac-tip">💡 Se desbloquea en <b>RB 2</b>. Niveles en RB 2 / 4 / 6 / 8 / 10.</p>
+      )}
     </div>
   );
 };

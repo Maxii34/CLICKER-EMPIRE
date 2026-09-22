@@ -56,6 +56,8 @@ function App() {
   const [purchasedMinerIds, setPurchasedMinerIds] = useState(
     saved?.purchasedMinerIds ?? [],
   );
+  // Bóveda minera: lo minado se acumula aquí hasta RECAUDAR.
+  const [vault, setVault] = useState(saved?.vault ?? 0);
 
   // Autoguardado en cada cambio relevante.
   useEffect(() => {
@@ -77,6 +79,7 @@ function App() {
           totalClicks,
           miningRate,
           purchasedMinerIds,
+          vault,
         }),
       );
     } catch {
@@ -97,6 +100,7 @@ function App() {
     totalClicks,
     miningRate,
     purchasedMinerIds,
+    vault,
   ]);
 
   const resetSave = () => {
@@ -131,15 +135,24 @@ function App() {
     return () => clearInterval(interval);
   }, [autoClick, autoClickSpeed, moneyPerAuto]);
 
-  // Efecto para el ingreso pasivo (Fondo de Inversión + Minería).
+  // Efecto para el ingreso pasivo.
+  // Fondo de Inversión → directo al dinero. Minería → a la bóveda.
   const passiveTotal = passiveRate + miningRate;
   useEffect(() => {
     if (passiveTotal <= 0) return;
     const interval = setInterval(() => {
-      setMoney((prev) => prev + passiveTotal);
+      if (passiveRate > 0) setMoney((prev) => prev + passiveRate);
+      if (miningRate > 0) setVault((prev) => prev + miningRate);
     }, 1000);
     return () => clearInterval(interval);
-  }, [passiveTotal]);
+  }, [passiveRate, miningRate, passiveTotal]);
+
+  // Recaudar bóveda: mueve lo minado al dinero total.
+  const collectVault = () => {
+    if (vault <= 0) return;
+    setMoney((prev) => prev + vault);
+    setVault(0);
+  };
 
   // Compra genérica del panel Imperio. key: 'exo' | 'fondo' | 'overclock'
   const buyImperio = (key, cost, apply) => {
@@ -197,7 +210,7 @@ function App() {
         bonusActivo={bonusActivo}
         rebirlvl={rebirlvl}
         moneyPerClick={moneyPerClick}
-        passiveTotal={passiveRate + miningRate}
+        passiveTotal={passiveRate}
         autoClick={autoClick}
       />
       <main>
@@ -217,6 +230,7 @@ function App() {
           bonusActivo={bonusActivo}
           setBonusActivo={setBonusActivo}
           setAutoClickSpeed={setAutoClickSpeed}
+          autoClickSpeed={autoClickSpeed}
           autoClick={autoClick}
           setAutoClick={setAutoClick}
           autoClickLevel={autoClickLevel}
@@ -235,6 +249,8 @@ function App() {
           miningRate={miningRate}
           purchasedMinerIds={purchasedMinerIds}
           buyMiner={buyMiner}
+          vault={vault}
+          collectVault={collectVault}
         />
       </main>
     </>

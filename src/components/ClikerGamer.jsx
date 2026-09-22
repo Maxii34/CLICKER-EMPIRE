@@ -8,7 +8,6 @@ export const ClikerGamer = ({
   removeMoney,
   resetSave,
   multiplier,
-  unlockedLvl,
   autoClick,
   moneyPerClick,
   moneyPerAuto,

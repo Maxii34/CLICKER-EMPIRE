@@ -175,22 +175,121 @@
   color: #94a3b8;
   white-space: nowrap;
 }
-.miner-grid { grid-template-columns: repeat(3, 1fr); }
-.miner-btn { height: auto; min-height: 72px; padding: 8px 6px; gap: 3px; }
-.up-name {
+
+/* Bóveda minera recaudable */
+.vault-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.vault-box.full {
+  border-color: rgba(245,158,11,.5);
+  background: rgba(245,158,11,.07);
+  box-shadow: 0 0 16px rgba(245,158,11,.15);
+}
+.vault-info { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.vault-label {
   font-size: .62rem;
   font-weight: 800;
-  color: #cbd5e1;
-  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #94a3b8;
 }
-.upgrade-btn.active .up-name, .upgrade-btn.bought .up-name { color: #052e16; }
+.vault-amount {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #fbbf24;
+  font-variant-numeric: tabular-nums;
+}
+.vault-rate { font-size: .65rem; color: #4ade80; font-weight: 700; }
+.vault-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 9px;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .5px;
+  background: #1e293b;
+  color: #64748b;
+  cursor: not-allowed;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.vault-btn.ready {
+  background: linear-gradient(145deg, #f59e0b, #d97706);
+  color: #1a0e00;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #92400e;
+}
+.vault-btn.ready:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.vault-btn.ready:active { transform: translateY(2px); box-shadow: none; }
+/* Grid compacto 2 col + scroll cuando hay muchos rigs */
+.miner-grid {
+  grid-template-columns: repeat(2, 1fr);
+  max-height: 210px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.miner-grid::-webkit-scrollbar { width: 6px; }
+.miner-grid::-webkit-scrollbar-track { background: rgba(0,0,0,.2); border-radius: 3px; }
+.miner-grid::-webkit-scrollbar-thumb { background: #16a34a; border-radius: 3px; }
+
+/* Chip horizontal compacto: nombre + datos en una fila */
+.miner-btn {
+  height: auto;
+  min-height: 0;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 6px 9px;
+  gap: 8px;
+}
+.miner-name {
+  flex: 1;
+  min-width: 0;
+  font-size: .66rem;
+  font-weight: 800;
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.miner-data {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.25;
+}
+.miner-rate {
+  font-size: .68rem;
+  font-weight: 900;
+  color: #4ade80;
+}
+.miner-cost {
+  font-size: .64rem;
+  font-weight: 800;
+  color: #fbbf24;
+}
+/* Estados sobre el chip */
+.upgrade-btn.active .miner-name { color: #1a0e00; }
+.upgrade-btn.active .miner-rate { color: #052e16; }
+.upgrade-btn.active .miner-cost { color: #4b2300; }
 .upgrade-btn.bought {
   background: linear-gradient(145deg, #4ade80, #16a34a);
-  box-shadow: 0 3px 0 #14532d;
+  box-shadow: 0 2px 0 #14532d;
   opacity: 1;
   cursor: default;
 }
-.upgrade-btn.bought .up-value { color: #052e16; }
+.upgrade-btn.bought .miner-name,
+.upgrade-btn.bought .miner-rate { color: #052e16; }
 .miner-empty {
   text-align: center;
   font-size: .78rem;
@@ -218,5 +317,4 @@
   .shop-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  .miner-grid { grid-template-columns: repeat(2, 1fr); }
 }

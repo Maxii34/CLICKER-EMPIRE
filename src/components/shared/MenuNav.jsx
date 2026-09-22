@@ -46,46 +46,33 @@ export const MenuNav = ({
 
           <Navbar.Toggle aria-controls="navbar-content" />
 
-          {/* STATS */}
+          {/* STATS: pills minimalistas */}
           <Navbar.Collapse id="navbar-content" className="justify-content-end">
-            <div className="stats-wrapper">
-              <div className="status-card money-card" title="Dinero actual">
-                <small className="status-label text-success">💰 Dinero</small>
-                <span className="status-value text-success">
-                  ${formatMoney(money)}
-                </span>
-              </div>
-
-              <div className="status-card multiplier-card" title="Multiplicador base (tienda x$)">
-                <small className="status-label text-info">⚡ Multiplicador</small>
-                <span className="status-value text-info">x{multiplier}</span>
-              </div>
-
-              <div className="status-card click-card" title="Ganancia real por click (multiplicador + Imperio)">
-                <small className="status-label text-warning">👆 Por click</small>
-                <span className="status-value text-warning">
-                  +${formatMoney(moneyPerClick)}
-                </span>
-              </div>
-
-              <div className="status-card passive-card" title="Ingreso pasivo por segundo (Fondo + Minería)">
-                <small className="status-label text-passive">🌱 Pasivo</small>
-                <span className="status-value text-passive">
-                  +${formatMoney(passiveTotal)}/s
-                </span>
-              </div>
+            <div className="hud-pills">
+              <span className="hud-pill hud-money" title="Dinero actual">
+                💰 ${formatMoney(money)}
+              </span>
+              <span className="hud-pill" title="Multiplicador base (tienda x$)">
+                ⚡ x{multiplier}
+              </span>
+              <span className="hud-pill" title="Ganancia real por click (multiplicador + Imperio)">
+                👆 +${formatMoney(moneyPerClick)}
+              </span>
+              <span className="hud-pill" title="Ingreso pasivo directo por segundo (Fondo de Inversión)">
+                🌱 +${formatMoney(passiveTotal)}/s
+              </span>
 
               {autoClick && (
-                <div className="auto-pill" title="Auto-clicker encendido">
+                <span className="auto-pill" title="Auto-clicker encendido">
                   <span className="pulsing-dot"></span> AUTO ON
-                </div>
+                </span>
               )}
 
               {bonusActivo && (
-                <div className="bonus-status-pill" title="Bonus de bienvenida permanente">
+                <span className="bonus-status-pill" title="Bonus de bienvenida permanente">
                   <span className="pulsing-dot"></span>
-                  🎁 x2 Activo
-                </div>
+                  🎁 x2
+                </span>
               )}
             </div>
           </Navbar.Collapse>

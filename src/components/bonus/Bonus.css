@@ -129,6 +129,197 @@
   }
 }
 
+/* ===== AUTO-CLICKER (rediseño) ===== */
+.ac-box {
+  background: linear-gradient(180deg, rgba(12,24,38,.94), rgba(8,15,26,.95));
+  border: 1px solid rgba(56,189,248,.28);
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.45);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  transition: border-color .2s ease;
+}
+.ac-box:hover { border-color: #38bdf8; }
+
+.ac-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ac-icon {
+  font-size: 1.4rem;
+  background: rgba(0,0,0,.35);
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(56,189,248,.3);
+}
+.ac-head-text { flex: 1; min-width: 0; }
+.ac-title {
+  margin: 0;
+  font-size: .85rem;
+  font-weight: 900;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.ac-sub {
+  margin: 2px 0 0;
+  font-size: .68rem;
+  color: #94a3b8;
+}
+.ac-lvl {
+  font-size: .65rem;
+  font-weight: 900;
+  background: #38bdf8;
+  color: #000;
+  padding: 3px 9px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.ac-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ac-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .65rem;
+  font-weight: 900;
+  letter-spacing: .5px;
+  padding: 5px 10px;
+  border-radius: 14px;
+  border: 1px solid;
+}
+.ac-state.on {
+  color: #4ade80;
+  background: rgba(74,222,128,.1);
+  border-color: rgba(74,222,128,.4);
+}
+.ac-state.off {
+  color: #94a3b8;
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.12);
+}
+.ac-perf {
+  font-size: .7rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+.ac-perf em {
+  font-style: normal;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.ac-dots { display: flex; gap: 5px; }
+.ac-dot {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.1);
+}
+.ac-dot.on {
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56,189,248,.5);
+}
+
+.ac-next {
+  background: rgba(255,255,255,.03);
+  border: 1px dashed rgba(56,189,248,.35);
+  border-radius: 10px;
+  padding: 9px 11px;
+}
+.ac-next-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  font-weight: 900;
+  color: #e2e8f0;
+}
+.ac-next-top .ok { color: #4ade80; }
+.ac-next-top .locked { color: #f87171; }
+.ac-next-sub {
+  margin: 4px 0 0;
+  font-size: .66rem;
+  color: #94a3b8;
+}
+.ac-max {
+  font-size: .72rem;
+  font-weight: 800;
+  color: #4ade80;
+  background: rgba(74,222,128,.08);
+  border: 1px solid rgba(74,222,128,.3);
+  border-radius: 10px;
+  padding: 9px;
+  text-align: center;
+}
+
+.ac-actions { display: flex; gap: 8px; }
+.ac-buy {
+  flex: 2;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .4px;
+  background: #1e293b;
+  color: #64748b;
+  cursor: not-allowed;
+  transition: all .15s ease;
+  font-variant-numeric: tabular-nums;
+}
+.ac-buy.ready {
+  background: linear-gradient(145deg, #38bdf8, #0284c7);
+  color: #00131c;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #075985;
+}
+.ac-buy.ready:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.ac-buy.ready:active { transform: translateY(2px); box-shadow: none; }
+
+.ac-toggle {
+  flex: 1;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(74,222,128,.4);
+  background: rgba(74,222,128,.08);
+  color: #4ade80;
+  font-size: .7rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.ac-toggle:hover { background: rgba(74,222,128,.15); }
+.ac-toggle.on {
+  border-color: rgba(248,113,113,.5);
+  background: rgba(248,113,113,.08);
+  color: #f87171;
+}
+.ac-toggle.on:hover { background: rgba(248,113,113,.15); }
+
+.ac-tip {
+  margin: 0;
+  font-size: .66rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+.ac-tip b { color: #7dd3fc; }
+
 .upgrade-container {
   background: rgba(15, 23, 42, 0.95);
   border: 1px solid rgba(245, 158, 11, 0.3);

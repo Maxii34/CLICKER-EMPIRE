@@ -74,39 +74,36 @@
   animation: pulse-warn 1.5s infinite;
 }
 
-/* ================= CONTENEDOR DE STATS ================= */
-.stats-wrapper {
+/* ================= PILLS MINIMALISTAS ================= */
+.hud-pills {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   align-items: center;
   height: 100%;
+  flex-wrap: wrap;
 }
 
-.status-card {
-  min-width: 130px;
-  height: 50px; /* Altura fija interna para las cajitas */
-  border-radius: 10px;
-  background: linear-gradient(180deg, #161d2e, #101624);
-  border: 1px solid;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.2s ease;
-  padding: 0 14px;
+.hud-pill {
+  font-size: .78rem;
+  font-weight: 800;
+  color: #cbd5e1;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  transition: border-color .15s ease;
 }
+.hud-pill:hover { border-color: rgba(255,255,255,.25); }
 
-.status-card:hover {
-  transform: translateY(-2px);
+.hud-money {
+  font-size: .9rem;
+  font-weight: 900;
+  color: #4ade80;
+  background: rgba(74,222,128,.08);
+  border-color: rgba(74,222,128,.3);
 }
-
-.money-card { border-color: #198754; }
-.multiplier-card { border-color: #0dcaf0; }
-.click-card { border-color: #f59e0b; }
-.passive-card { border-color: #4ade80; }
-
-.text-warning { color: #fbbf24 !important; }
-.text-passive { color: #4ade80 !important; }
 
 .auto-pill {
   display: flex;
@@ -155,28 +152,13 @@
   white-space: nowrap;
 }
 
-/* ================= TEXTOS ================= */
-.status-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  font-weight: 700;
-  line-height: 12px;
-  margin-bottom: 2px;
-}
-
-.status-value {
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 20px;
-}
-
 /* ================= AJUSTE PARA MÓVILES ================= */
 @media (max-width: 991px) {
   .navbar.custom-navbar {
-    height: auto; 
+    height: auto;
     padding: 15px 20px !important;
   }
-  
+
   .navbar-collapse {
     background: #0f172a;
     padding: 20px;
@@ -184,15 +166,8 @@
     margin-top: 15px;
   }
 
-  .stats-wrapper {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .status-card {
-    flex: 1 1 140px;
-    height: 60px;
+  .hud-pills {
+    gap: 8px;
   }
   .rb-progress { flex-wrap: wrap; gap: 6px; }
   .rb-progress-label { white-space: normal; }
