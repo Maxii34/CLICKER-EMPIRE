@@ -1,4 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  FaRobot,
+  FaBolt,
+  FaCoins,
+  FaLock,
+  FaCheck,
+  FaLightbulb,
+  FaPowerOff,
+  FaArrowUp,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
 import "./Bonus.css";
 
 const SPEEDS = [1000, 900, 800, 700, 600, 500];
@@ -37,10 +49,15 @@ export const BonusAutoClick = ({
     return `${Math.floor(n)}`;
   };
 
+  // Colapsado por defecto: solo resumen visible, clic para expandir
+  const [open, setOpen] = useState(false);
+
   const nextUpgrade = upgraderClicker.find((u) => u.level === level + 1) || null;
   const canUpgrade =
     nextUpgrade && money >= nextUpgrade.cost && rebirlvl >= nextUpgrade.reqRebirth;
   const lockedByRb = nextUpgrade && rebirlvl < nextUpgrade.reqRebirth;
+  const stateLabel =
+    level === 0 ? "Sin comprar" : autoClick ? "Encendido" : "Apagado";
 
   const handleUpgrade = () => {
     if (!canUpgrade) return;
@@ -51,15 +68,24 @@ export const BonusAutoClick = ({
 
   return (
     <div className="ac-box">
-      <div className="ac-head">
-        <span className="ac-icon">🤖</span>
-        <div className="ac-head-text">
-          <h5 className="ac-title">Auto-Clicker</h5>
-          <p className="ac-sub">Clicks solos mientras juegas</p>
-        </div>
-        <span className="ac-lvl">Nv {level}/{maxLevels}</span>
-      </div>
+      <button className="ac-collapse-head" onClick={() => setOpen((o) => !o)} title={open ? "Contraer" : "Expandir"} aria-expanded={open}>
+        <span className="ac-icon">
+          <FaRobot />
+        </span>
+        <span className="ac-head-text">
+          <span className="ac-title">Auto-Clicker</span>
+          <span className={`ac-sub ${autoClick && level > 0 ? "on" : ""}`}>{stateLabel}</span>
+        </span>
+        <span className="ac-head-right">
+          <span className="ac-lvl">
+            Nv {level}/{maxLevels}
+          </span>
+          <span className="collapse-chevron">{open ? <FaChevronUp /> : <FaChevronDown />}</span>
+        </span>
+      </button>
 
+      <div className={`collapse-body ${open ? "open" : ""}`}>
+      <div className="collapse-inner ac-detail">
       {/* Estado + rendimiento */}
       <div className="ac-status-row">
         <span className={`ac-state ${autoClick && level > 0 ? "on" : "off"}`}>
@@ -68,7 +94,7 @@ export const BonusAutoClick = ({
         </span>
         {level > 0 && (
           <span className="ac-perf" title="Ganancia de cada golpe automático">
-            💥 +${fmt(hitGain)} <em>cada {intervalMs}ms</em>
+            <FaBolt /> +${fmt(hitGain)} <em>cada {intervalMs}ms</em>
           </span>
         )}
       </div>
@@ -83,9 +109,19 @@ export const BonusAutoClick = ({
       {nextUpgrade ? (
         <div className="ac-next">
           <div className="ac-next-top">
-            <span>⬆️ Nivel {nextUpgrade.level}</span>
+            <span>
+              <FaArrowUp /> Nivel {nextUpgrade.level}
+            </span>
             <span className={lockedByRb ? "locked" : money >= nextUpgrade.cost ? "ok" : ""}>
-              {lockedByRb ? `🔒 RB ${nextUpgrade.reqRebirth}` : `💰 $${fmt(nextUpgrade.cost)}`}
+              {lockedByRb ? (
+                <>
+                  <FaLock /> RB {nextUpgrade.reqRebirth}
+                </>
+              ) : (
+                <>
+                  <FaCoins /> ${fmt(nextUpgrade.cost)}
+                </>
+              )}
             </span>
           </div>
           <p className="ac-next-sub">
@@ -93,7 +129,9 @@ export const BonusAutoClick = ({
           </p>
         </div>
       ) : (
-        <div className="ac-max">✅ Velocidad máxima alcanzada</div>
+        <div className="ac-max">
+          <FaCheck /> Velocidad máxima alcanzada
+        </div>
       )}
 
       <div className="ac-actions">
@@ -108,11 +146,13 @@ export const BonusAutoClick = ({
                 : `Cuesta $${fmt(nextUpgrade.cost)}`
             }
           >
-            {lockedByRb
-              ? `🔒 RB ${nextUpgrade.reqRebirth}`
-              : canUpgrade
-                ? `MEJORAR $${fmt(nextUpgrade.cost)}`
-                : `$${fmt(nextUpgrade.cost)}`}
+            {lockedByRb ? (
+            <>
+              <FaLock /> RB {nextUpgrade.reqRebirth}
+            </>
+          ) : (
+            <>MEJORAR ${fmt(nextUpgrade.cost)}</>
+          )}
           </button>
         )}
 
@@ -122,14 +162,18 @@ export const BonusAutoClick = ({
             onClick={() => setAutoClick(!autoClick)}
             title={autoClick ? "Apagar auto-clicker (vuelves a clickear manual)" : "Encender auto-clicker (pausa tu click manual)"}
           >
-            ⏻ {autoClick ? "APAGAR" : "ENCENDER"}
+            <FaPowerOff /> {autoClick ? "APAGAR" : "ENCENDER"}
           </button>
         )}
       </div>
 
       {level === 0 && (
-        <p className="ac-tip">💡 Se desbloquea en <b>RB 2</b>. Niveles en RB 2 / 4 / 6 / 8 / 10.</p>
+        <p className="ac-tip">
+          <FaLightbulb /> Se desbloquea en <b>RB 2</b>. Niveles en RB 2 / 4 / 6 / 8 / 10.
+        </p>
       )}
+      </div>
+      </div>
     </div>
   );
 };

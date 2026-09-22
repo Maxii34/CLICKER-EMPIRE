@@ -189,18 +189,17 @@ function App() {
 
 
   // Función para comprar mejoras.
+  // REDONDEO AL TOPE: si el aumento supera el máximo del nivel o el tope
+  // desbloqueado, se completa justo hasta el tope en vez de bloquearse.
+  // Así nunca quedas trabado a pocos puntos del renacimiento (ej: 102/105).
   const buyUpgrade = (cost, increment, max) => {
     if (money < cost) return;
-    // CALCULAR: Nuevo valor del multiplicador después de la compra
-    const newValue = multiplier + increment;
-    // VALIDAR: No permitir comprar si se supera el máximo o el nivel desbloqueado
-    if (newValue > max || newValue > unlockedLvl) return;
-    // ACTUALIZAR: Restar el costo y aumentar el multiplicador
+    const cap = Math.min(max, unlockedLvl);
+    if (multiplier >= cap) return;
+    const newValue = Math.min(multiplier + increment, cap);
+    if (newValue <= multiplier) return;
     setMoney((prev) => prev - cost);
-    // Asegurar que el nuevo multiplicador no supere el máximo ni el nivel desbloqueado
-    setMultiplier((prev) =>
-      Number(Math.min(prev + increment, max, unlockedLvl).toFixed(2)),
-    );
+    setMultiplier(Number(newValue.toFixed(2)));
   };
   return (
     <>

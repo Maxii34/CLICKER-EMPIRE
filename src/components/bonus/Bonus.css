@@ -136,10 +136,6 @@
   padding: 14px;
   border-radius: 16px;
   box-shadow: 0 12px 32px rgba(0,0,0,.45);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 100%;
   transition: border-color .2s ease;
 }
 .ac-box:hover { border-color: #38bdf8; }
@@ -149,38 +145,133 @@
   align-items: center;
   gap: 10px;
 }
+
+/* Cabecera clicable para colapsar/expandir (misma altura que renacimiento) */
+.ac-collapse-head {
+  appearance: none;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: 100%;
+  min-height: 50px;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  border-radius: 10px;
+}
+.ac-collapse-head:hover { background: rgba(255,255,255,.04); }
+.ac-collapse-head:focus-visible {
+  outline: 2px solid #38bdf8;
+  border-radius: 10px;
+}
+.ac-head-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+}
+/* Grupo derecho fijo: nunca se envuelve encima del texto */
+.ac-head-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
 .ac-icon {
-  font-size: 1.4rem;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+}
+.ac-title { font-size: .78rem; }
+.ac-sub { font-size: .62rem; }
+/* Resumen a una sola línea con ellipsis */
+.ac-sub {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ac-sub.on {
+  color: #4ade80;
+  font-weight: 800;
+}
+/* Iconos react-icons */
+.ac-icon svg {
+  font-size: 1.15rem;
+  color: #7dd3fc;
+  vertical-align: middle;
+}
+.ac-box svg { flex-shrink: 0; }
+.ac-perf svg,
+.ac-next-top svg,
+.ac-max svg,
+.ac-tip svg {
+  vertical-align: -0.12em;
+  margin-right: 4px;
+}
+.ac-buy,
+.ac-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+/* Expandible animado (comparte técnica con renacimiento) */
+.collapse-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .28s ease;
+}
+.collapse-body.open { grid-template-rows: 1fr; }
+.collapse-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.ac-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+}
+.collapse-chevron {
+  display: inline-flex;
+  font-size: .6rem;
+  color: #94a3b8;
+  font-weight: 900;
+}
+.ac-icon {
   background: rgba(0,0,0,.35);
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 9px;
   border: 1px solid rgba(56,189,248,.3);
 }
-.ac-head-text { flex: 1; min-width: 0; }
 .ac-title {
   margin: 0;
-  font-size: .85rem;
   font-weight: 900;
   color: #7dd3fc;
   text-transform: uppercase;
   letter-spacing: .5px;
 }
 .ac-sub {
-  margin: 2px 0 0;
-  font-size: .68rem;
+  margin: 1px 0 0;
   color: #94a3b8;
 }
 .ac-lvl {
-  font-size: .65rem;
+  font-size: .58rem;
   font-weight: 900;
   background: #38bdf8;
   color: #000;
-  padding: 3px 9px;
+  padding: 2px 7px;
   border-radius: 12px;
   white-space: nowrap;
 }

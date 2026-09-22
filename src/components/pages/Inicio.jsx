@@ -115,9 +115,10 @@ export const Inicio = ({
                 />
               </div>
 
-              <Row className="g-2">
+              {/* align-items-start: al expandir una tarjeta, la otra no se estira */}
+              <Row className="g-2 align-items-start">
                 <Col xs={12} xl={6}>
-                  <div className="rebirth-section h-100">
+                  <div className="rebirth-section">
                     <ReiniciosLvl
                       money={money}
                       setMoney={setMoney}
@@ -130,7 +131,7 @@ export const Inicio = ({
                   </div>
                 </Col>
                 <Col xs={12} xl={6}>
-                  <div className="autoclick-section h-100">
+                  <div className="autoclick-section">
                     <BonusAutoClick
                       setAutoClickSpeed={setAutoClickSpeed}
                       money={money}

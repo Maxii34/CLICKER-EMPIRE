@@ -8,10 +8,20 @@ export const MejorasProges = ({
   rebirlvl,
   unlockedLvl,
 }) => {
-  // 🎯 Filtrar nivel actual y anterior
-  const currentLevelUpgrades = upgrades.filter(
-    (up) => up.level === rebirlvl || up.level === rebirlvl
-  ).sort((a, b) => a.level - b.level);
+  // 🎯 Solo mejoras del nivel de tienda actual
+  const currentLevelUpgrades = upgrades
+    .filter((up) => up.level === rebirlvl)
+    .sort((a, b) => a.cost - b.cost);
+
+  // Comprable si aún no llegaste al tope (el aumento se redondea al tope)
+  const capOf = (up) => Math.min(up.max, unlockedLvl);
+  const isBuyable = (up) => money >= up.cost && multiplier < capOf(up);
+
+  const affordCount = currentLevelUpgrades.filter(isBuyable).length;
+  // La más barata comprable = mejor compra (resaltada)
+  const bestCost = currentLevelUpgrades
+    .filter(isBuyable)
+    .reduce((min, up) => Math.min(min, up.cost), Infinity);
 
   const formatNumber = (num) => {
     if (num < 10000) return num.toLocaleString("es-AR");
@@ -27,9 +37,11 @@ export const MejorasProges = ({
       <div className="shop-header">
         <div>
           <h2 className="shop-title">Tienda de aumento x$</h2>
-          <p className="shop-hint">Sube tu multiplicador. Cada renacimiento desbloquea un nivel nuevo.</p>
+          <p className="shop-hint">Cada renacimiento desbloquea un nivel. Los aumentos se ajustan al tope.</p>
         </div>
-        <span className="shop-lvl-badge">Tienda del - Lvl: {rebirlvl}</span>
+        <span className="shop-lvl-badge" title={`${affordCount} mejoras comprables ahora`}>
+          Lvl {rebirlvl} • {affordCount} ok
+        </span>
       </div>
 
       {/* 🔒 Aviso de límite recuperado */}
@@ -42,25 +54,33 @@ export const MejorasProges = ({
       {/* Grid de botones compactos */}
       <div className="shop-grid">
         {currentLevelUpgrades.map((up, i) => {
-          const canBuy =
-            money >= up.cost &&
-            multiplier < up.max &&
-            (multiplier + up.value) <= unlockedLvl;
-
-          const willExceed = multiplier + up.value > unlockedLvl;
+          const canBuy = isBuyable(up);
+          const isBest = canBuy && up.cost === bestCost && affordCount > 1;
+          const cap = capOf(up);
+          // Si el aumento supera el tope, se redondea y completa hasta el tope
+          const fillsToCap = multiplier + up.value > cap;
+          const landsOn = Math.min(multiplier + up.value, cap);
+          const noMoney = money < up.cost;
 
           return (
             <button
               key={i}
-              className={`upgrade-btn ${canBuy ? "active" : "disabled"}`}
+              className={`upgrade-btn ${canBuy ? "active" : "disabled"} ${isBest ? "best" : ""}`}
               onClick={() => buyUpgrade(up.cost, up.value, up.max, up.level)}
               disabled={!canBuy}
+              title={
+                canBuy
+                  ? `x${multiplier} → x${Number(landsOn.toFixed(2))} por $${formatNumber(up.cost)}${fillsToCap ? " (completa al tope)" : ""}${isBest ? " — mejor compra" : ""}`
+                  : noMoney
+                    ? `Te faltan $${formatNumber(up.cost - money)}`
+                    : `Tope x${cap} alcanzado: debes renacer`
+              }
             >
               <span className="up-value">+{up.value}</span>
               <span className="up-cost">${formatNumber(up.cost)}</span>
 
-              {/* Punto de límite */}
-              {willExceed && multiplier < unlockedLvl && (
+              {/* Punto: este aumento completa justo al tope */}
+              {fillsToCap && multiplier < cap && (
                 <div className="limit-dot"></div>
               )}
             </button>
