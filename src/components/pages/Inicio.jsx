@@ -6,6 +6,7 @@ import { ReiniciosLvl } from "../rebirs/ReiniciosLvl";
 import { BonusAutoClick } from "../bonus/BonusAutoClick";
 import { MinerProges } from "../upgrader/MinerProgres";
 import { ImperioMejoras } from "../imperio/ImperioMejoras";
+import { PanelIzquierdo } from "../panel/PanelIzquierdo";
 import { GuiaDesbloqueos } from "../shared/GuiaDesbloqueos";
 import { LogrosPanel } from "../logros/LogrosPanel";
 import "../imperio/Imperio.css";
@@ -48,6 +49,32 @@ export const Inicio = ({
   collectEverySec,
   buyCrit,
   buyCollector,
+  cityLvl,
+  cityRate,
+  cityClickBonus,
+  buyCasa,
+  buyMercado,
+  buyMuralla,
+  buyAyunta,
+  armyLvl,
+  armyPower,
+  raidLoot,
+  raidCooldown,
+  raidEvery,
+  totalRaids,
+  buySoldado,
+  buyArquero,
+  buyCaballero,
+  buyGeneral,
+  doRaid,
+  trainLvl,
+  trainClickBonus,
+  trainRate,
+  trainAutoBonus,
+  buyFuerza,
+  buyDisciplina,
+  buyReflejos,
+  passiveTotal,
   miningRate,
   purchasedMinerIds,
   buyMiner,
@@ -66,7 +93,7 @@ export const Inicio = ({
           {/* 1. PANEL IZQUIERDO: IMPERIO (mejoras comprables) */}
           <Col lg={3} md={4} className="inicio-sidebar scroll-fix">
             <div className="sidebar-content">
-              <ImperioMejoras
+              <PanelIzquierdo
                 money={money}
                 rebirlvl={rebirlvl}
                 clickBonus={clickBonus}
@@ -84,6 +111,31 @@ export const Inicio = ({
                 collectEverySec={collectEverySec}
                 buyCrit={buyCrit}
                 buyCollector={buyCollector}
+                cityLvl={cityLvl}
+                cityRate={cityRate}
+                cityClickBonus={cityClickBonus}
+                buyCasa={buyCasa}
+                buyMercado={buyMercado}
+                buyMuralla={buyMuralla}
+                buyAyunta={buyAyunta}
+                armyLvl={armyLvl}
+                armyPower={armyPower}
+                raidLoot={raidLoot}
+                raidCooldown={raidCooldown}
+                raidEvery={raidEvery}
+                totalRaids={totalRaids}
+                buySoldado={buySoldado}
+                buyArquero={buyArquero}
+                buyCaballero={buyCaballero}
+                buyGeneral={buyGeneral}
+                doRaid={doRaid}
+                trainLvl={trainLvl}
+                trainClickBonus={trainClickBonus}
+                trainRate={trainRate}
+                trainAutoBonus={trainAutoBonus}
+                buyFuerza={buyFuerza}
+                buyDisciplina={buyDisciplina}
+                buyReflejos={buyReflejos}
               />
               <LogrosPanel unlockedIds={unlockedIds} />
             </div>
@@ -107,7 +159,7 @@ export const Inicio = ({
               autoClick={autoClick}
               moneyPerClick={moneyPerClick}
               moneyPerAuto={moneyPerAuto}
-              passiveRate={passiveRate}
+              passiveRate={passiveTotal ?? passiveRate}
               autoPower={autoPower}
               golden={golden}
               frenzyLeft={frenzyLeft}

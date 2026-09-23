@@ -15,6 +15,8 @@ import {
   FaExclamationTriangle,
   FaChevronDown,
   FaChevronUp,
+  FaShieldAlt,
+  FaDumbbell,
 } from "react-icons/fa";
 import rebirthReq from "./rebirthReq.js";
 import "./Reinicio.css";
@@ -32,14 +34,22 @@ const EXTRA = {
     { icon: FaRobot, label: "Auto-Clicker lvl 1" },
     { icon: FaHardHat, label: "Minería tier 1" },
     { icon: FaCogs, label: "Overclock del Imperio" },
+    { icon: FaDumbbell, label: "Entrenamiento: Fuerza y Disciplina" },
+  ],
+  3: [
+    { icon: FaShieldAlt, label: "Ejército: Soldado + saqueos" },
+    { icon: FaBolt, label: "Entrenamiento: Reflejos" },
   ],
   4: [
     { icon: FaRobot, label: "Auto-Clicker lvl 2" },
     { icon: FaHardHat, label: "Minería tier 2" },
+    { icon: FaShieldAlt, label: "Ejército: Arquero" },
   ],
+  5: [{ icon: FaShieldAlt, label: "Ejército: Caballero" }],
   6: [
     { icon: FaRobot, label: "Auto-Clicker lvl 3" },
     { icon: FaHardHat, label: "Minería tier 3" },
+    { icon: FaShieldAlt, label: "Ejército: General" },
   ],
   8: [
     { icon: FaRobot, label: "Auto-Clicker lvl 4" },

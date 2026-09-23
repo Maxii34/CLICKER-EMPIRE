@@ -1,0 +1,201 @@
+/* ===== PANEL IZQUIERDO: un solo panel con mini-pestañas integradas ===== */
+.panelv-box {
+  background: linear-gradient(180deg, rgba(21,28,45,.92), rgba(13,18,32,.94));
+  border: 1px solid rgba(245,158,11,.22);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.45);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Mini barra de pestañas pegada al panel: solo icono + micro texto */
+.panelv-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  background: rgba(0,0,0,.32);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.panelv-item {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 2px 4px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.panelv-item:hover {
+  background: rgba(255,255,255,.05);
+}
+
+.panelv-item.active {
+  background: rgba(245,158,11,.14);
+  border-color: rgba(245,158,11,.5);
+  box-shadow: inset 0 0 14px rgba(245,158,11,.1);
+}
+
+.panelv-item-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .75rem;
+  color: #94a3b8;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 7px;
+}
+
+.panelv-item.active .panelv-item-icon {
+  color: #1a0e00;
+  background: linear-gradient(145deg, #fbbf24, #d97706);
+  border-color: rgba(255,255,255,.25);
+}
+
+.panelv-item-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  min-width: 0;
+}
+
+.panelv-item-label {
+  font-size: .5rem;
+  font-weight: 900;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  white-space: nowrap;
+}
+
+.panelv-item.active .panelv-item-label {
+  color: #fbbf24;
+}
+
+/* Descripción oculta: solo tooltip (title) */
+.panelv-item-desc {
+  display: none;
+}
+
+.panelv-rb {
+  font-size: .48rem;
+  font-weight: 900;
+  background: rgba(245,158,11,.15);
+  border: 1px solid rgba(245,158,11,.4);
+  color: #fbbf24;
+  padding: 0 5px;
+  border-radius: 20px;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+
+/* Contenido fundido con el panel (sin caja doble) */
+.panelv-content {
+  min-height: 0;
+}
+
+/* El Imperio y la Ciudad pierden su caja propia para integrarse al panel único */
+.panelv-content .imperio-box,
+.panelv-content .ciudad-box,
+.panelv-content .ejercito-box,
+.panelv-content .entreno-box {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 2px;
+  gap: 10px;
+}
+
+/* Placeholder compacto, integrado */
+.panelv-coming {
+  background: rgba(0,0,0,.25);
+  border: 1px dashed rgba(251,191,36,.3);
+  border-radius: 12px;
+  padding: 22px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.panelv-coming-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fbbf24;
+  background: rgba(245,158,11,.12);
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: 12px;
+}
+
+.panelv-coming-title {
+  margin: 0;
+  font-size: .9rem;
+  font-weight: 900;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.panelv-coming-text {
+  margin: 0;
+  font-size: .74rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  max-width: 28ch;
+}
+
+.panelv-coming-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .65rem;
+  font-weight: 900;
+  padding: 5px 11px;
+  border-radius: 20px;
+  margin-top: 2px;
+}
+
+.panelv-coming-badge.work {
+  color: #7dd3fc;
+  background: rgba(56,189,248,.08);
+  border: 1px solid rgba(56,189,248,.3);
+}
+
+.panelv-coming-badge.locked {
+  color: #f87171;
+  background: rgba(248,113,113,.08);
+  border: 1px solid rgba(248,113,113,.3);
+}
+
+/* En pantallas muy chicas: solo iconos, sin micro texto */
+@media (max-width: 480px) {
+  .panelv-item-label,
+  .panelv-rb {
+    display: none;
+  }
+  .panelv-item {
+    padding: 6px 2px;
+  }
+}

@@ -13,6 +13,10 @@ import {
   FaTruck,
   FaBoxOpen,
   FaStar,
+  FaCity,
+  FaHome,
+  FaShieldAlt,
+  FaDumbbell,
 } from "react-icons/fa";
 import MineriaX from "../upgrader/MineriaX.js";
 
@@ -39,4 +43,10 @@ export const ACHIEVEMENTS = [
   { id: "coll1", icon: FaTruck, name: "Logística", desc: "Comprar el Recolector.", test: (s) => s.collector >= 1 },
   { id: "vault1", icon: FaBoxOpen, name: "Cosecha", desc: "Recaudar la bóveda alguna vez.", test: (s) => s.totalCollected > 0 },
   { id: "gold1", icon: FaStar, name: "Cazadorado", desc: "Atrapar un evento dorado.", test: (s) => s.goldenCount >= 1 },
+  { id: "city1", icon: FaHome, name: "Fundador", desc: "Construir tu primer edificio de la Ciudad.", test: (s) => (s.cityBuildings || 0) >= 1 },
+  { id: "city10", icon: FaCity, name: "Alcalde", desc: "Tener 10 edificios de la Ciudad.", test: (s) => (s.cityBuildings || 0) >= 10 },
+  { id: "army1", icon: FaShieldAlt, name: "Recluta", desc: "Reclutar tu primera tropa.", test: (s) => (s.armyTroops || 0) >= 1 },
+  { id: "raid1", icon: FaShieldAlt, name: "Saqueador", desc: "Completar tu primer saqueo.", test: (s) => (s.totalRaids || 0) >= 1 },
+  { id: "train1", icon: FaDumbbell, name: "Guerrero", desc: "Entrenar tu primer stat.", test: (s) => (s.trainStats || 0) >= 1 },
+  { id: "train10", icon: FaDumbbell, name: "Atleta", desc: "Tener 10 stats entrenados.", test: (s) => (s.trainStats || 0) >= 10 },
 ];

@@ -1,0 +1,294 @@
+/* ===== PANEL EJÉRCITO (hermano de Imperio/Ciudad, mismos patrones) ===== */
+.ejercito-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ejercito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.ejercito-title {
+  font-size: 1rem;
+  margin: 0;
+  color: #f87171;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.ejercito-sub {
+  margin: 2px 0 0;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.ejercito-badge {
+  font-size: 0.68rem;
+  font-weight: 900;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #fca5a5;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.ejercito-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.estat {
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.estat-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #64748b;
+  font-weight: 800;
+}
+
+.estat-value {
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+.estat-value.gold { color: #fbbf24; }
+.estat-value.red { color: #f87171; }
+
+/* Caja de saqueo */
+.raid-box {
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.raid-box.ready {
+  border-color: rgba(248, 113, 113, 0.5);
+  box-shadow: 0 0 16px rgba(248, 113, 113, 0.12);
+}
+
+.raid-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.raid-label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #fca5a5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.raid-timer {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #94a3b8;
+}
+
+.raid-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.raid-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #ef4444, #f59e0b);
+  transition: width 0.5s linear;
+}
+
+.raid-btn {
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  background: #1e293b;
+  color: #64748b;
+  cursor: not-allowed;
+  transition: all 0.15s ease;
+}
+
+.raid-btn.ready {
+  background: linear-gradient(145deg, #ef4444, #b91c1c);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #7f1d1d;
+}
+
+.raid-btn.ready:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.raid-btn.ready:active { transform: translateY(2px); box-shadow: none; }
+
+.ejercito-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.ejercito-list::-webkit-scrollbar { width: 6px; }
+.ejercito-list::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
+.ejercito-list::-webkit-scrollbar-thumb { background: #b91c1c; border-radius: 3px; }
+
+.ejercito-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #475569;
+  border-radius: 12px;
+  padding: 12px;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ejercito-card.soldado { border-left-color: #4ade80; }
+.ejercito-card.arquero { border-left-color: #38bdf8; }
+.ejercito-card.caballero { border-left-color: #f59e0b; }
+.ejercito-card.general { border-left-color: #ef4444; }
+
+.ejercito-card:hover { transform: translateY(-1px); border-color: rgba(248, 113, 113, 0.4); }
+
+.ecard-top {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.ecard-icon {
+  font-size: 1.5rem;
+  background: rgba(0, 0, 0, 0.35);
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ecard-icon svg {
+  font-size: 1.1rem;
+  color: #e2e8f0;
+}
+
+.ecard-head { flex: 1; min-width: 0; }
+
+.ecard-name {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.elvl {
+  font-size: 0.62rem;
+  background: #b91c1c;
+  color: #fff;
+  border-radius: 5px;
+  padding: 1px 6px;
+  font-weight: 900;
+}
+
+.ecard-desc {
+  margin: 3px 0 0;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+.eeffect {
+  font-size: 0.68rem;
+  font-weight: 900;
+  color: #fca5a5;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.ecard-foot {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.ereq {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 5px 8px;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+.ereq.ok { color: #4ade80; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.25); }
+.ereq.locked { color: #f87171; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.25); }
+
+.ebuy {
+  flex: 1;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  background: #1e293b;
+  color: #64748b;
+  cursor: not-allowed;
+  transition: all 0.15s ease;
+}
+
+.ebuy.ready {
+  background: linear-gradient(145deg, #ef4444, #b91c1c);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #7f1d1d;
+}
+
+.ebuy.ready:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.ebuy.ready:active { transform: translateY(2px); box-shadow: none; }
+
+.epips { display: flex; gap: 4px; margin-top: 10px; align-items: center; }
+.epip { flex: 1; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+.epip.on { background: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.5); }
+.emore { font-size: 0.62rem; color: #94a3b8; font-weight: 800; }
+
+.ejercito-tip {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #64748b;
+  background: rgba(248, 113, 113, 0.06);
+  border: 1px dashed rgba(248, 113, 113, 0.3);
+  border-radius: 10px;
+  padding: 8px 10px;
+  line-height: 1.4;
+}
+.ejercito-tip b { color: #fca5a5; }

@@ -57,6 +57,50 @@ function App() {
   // Estadística total de clicks para el dashboard
   const [totalClicks, setTotalClicks] = useState(saved?.totalClicks ?? 0);
 
+  // --- SISTEMA CIUDAD (panel izquierdo, pestaña Ciudad) ---
+  // Renta pasiva de edificios: Casa + Mercado + Ayuntamiento → directo al dinero.
+  const [cityRate, setCityRate] = useState(saved?.cityRate ?? 0);
+  // Bonus plano al click por Murallas: ganancia = multiplier + clickBonus + cityClickBonus
+  const [cityClickBonus, setCityClickBonus] = useState(saved?.cityClickBonus ?? 0);
+  // Niveles de edificios. Merge con defaults para partidas viejas.
+  const [cityLvl, setCityLvl] = useState({
+    casa: 0,
+    mercado: 0,
+    muralla: 0,
+    ayunta: 0,
+    ...saved?.cityLvl,
+  });
+
+  // --- SISTEMA EJÉRCITO (panel izquierdo, pestaña Ejército) ---
+  // Poder de saqueo: cada tropa suma poder. El botín = poder * RAID_MULT
+  // y cae solo cada RAID_EVERY segundos o con el botón SAQUEAR.
+  const [armyPower, setArmyPower] = useState(saved?.armyPower ?? 0);
+  const [armyLvl, setArmyLvl] = useState({
+    soldado: 0,
+    arquero: 0,
+    caballero: 0,
+    general: 0,
+    ...saved?.armyLvl,
+  });
+  // Cooldown del saqueo en segundos (no se persiste: arranca listo).
+  const [raidCooldown, setRaidCooldown] = useState(0);
+
+  // --- SISTEMA ENTRENAMIENTO (panel izquierdo, pestaña Entrenamiento) ---
+  // Stats base permanentes: fuerza → click, disciplina → pasivo, reflejos → auto.
+  const [trainClickBonus, setTrainClickBonus] = useState(
+    saved?.trainClickBonus ?? 0,
+  );
+  const [trainRate, setTrainRate] = useState(saved?.trainRate ?? 0);
+  const [trainAutoBonus, setTrainAutoBonus] = useState(
+    saved?.trainAutoBonus ?? 0,
+  );
+  const [trainLvl, setTrainLvl] = useState({
+    fuerza: 0,
+    disciplina: 0,
+    reflejos: 0,
+    ...saved?.trainLvl,
+  });
+
   // --- SISTEMA MINERÍA (panel derecho, ingreso pasivo permanente) ---
   // Declarado arriba: el autoguardado y passiveTotal lo usan.
   const [miningRate, setMiningRate] = useState(saved?.miningRate ?? 0);
@@ -70,6 +114,7 @@ function App() {
   const [maxMoney, setMaxMoney] = useState(saved?.maxMoney ?? 0);
   const [totalCollected, setTotalCollected] = useState(saved?.totalCollected ?? 0);
   const [goldenCount, setGoldenCount] = useState(saved?.goldenCount ?? 0);
+  const [totalRaids, setTotalRaids] = useState(saved?.totalRaids ?? 0);
 
   // Récord de dinero (solo sube, las compras no lo bajan).
   useEffect(() => {
@@ -94,12 +139,22 @@ function App() {
           autoPower,
           imperioLvl,
           totalClicks,
+          cityRate,
+          cityClickBonus,
+          cityLvl,
+          armyPower,
+          armyLvl,
+          trainClickBonus,
+          trainRate,
+          trainAutoBonus,
+          trainLvl,
           miningRate,
           purchasedMinerIds,
           vault,
           maxMoney,
           totalCollected,
           goldenCount,
+          totalRaids,
         }),
       );
     } catch {
@@ -118,12 +173,22 @@ function App() {
     autoPower,
     imperioLvl,
     totalClicks,
+    cityRate,
+    cityClickBonus,
+    cityLvl,
+    armyPower,
+    armyLvl,
+    trainClickBonus,
+    trainRate,
+    trainAutoBonus,
+    trainLvl,
     miningRate,
     purchasedMinerIds,
     vault,
     maxMoney,
     totalCollected,
     goldenCount,
+    totalRaids,
   ]);
 
   // --- LOGROS: desbloqueo derivado + toast solo para los nuevos ---
@@ -138,6 +203,21 @@ function App() {
     collector: imperioLvl.collector || 0,
     totalCollected,
     goldenCount,
+    cityBuildings:
+      (cityLvl.casa || 0) +
+      (cityLvl.mercado || 0) +
+      (cityLvl.muralla || 0) +
+      (cityLvl.ayunta || 0),
+    armyTroops:
+      (armyLvl.soldado || 0) +
+      (armyLvl.arquero || 0) +
+      (armyLvl.caballero || 0) +
+      (armyLvl.general || 0),
+    trainStats:
+      (trainLvl.fuerza || 0) +
+      (trainLvl.disciplina || 0) +
+      (trainLvl.reflejos || 0),
+    totalRaids,
   };
   const unlockedIds = useMemo(
     () => ACHIEVEMENTS.filter((a) => a.test(achStats)).map((a) => a.id),
@@ -153,6 +233,18 @@ function App() {
       imperioLvl.collector,
       totalCollected,
       goldenCount,
+      cityLvl.casa,
+      cityLvl.mercado,
+      cityLvl.muralla,
+      cityLvl.ayunta,
+      armyLvl.soldado,
+      armyLvl.arquero,
+      armyLvl.caballero,
+      armyLvl.general,
+      trainLvl.fuerza,
+      trainLvl.disciplina,
+      trainLvl.reflejos,
+      totalRaids,
     ],
   );
   const seenAchRef = useRef(null);
@@ -259,8 +351,43 @@ function App() {
 
   // Ganancias derivadas (para mostrar en UI sin recalcular en cada hijo)
   // Frenesí: x3 al click (y por ende al auto, que deriva del click).
-  const moneyPerClick = (multiplier + clickBonus) * (frenzyLeft > 0 ? 3 : 1);
-  const moneyPerAuto = moneyPerClick * autoPower;
+  // Entrenamiento suma base: fuerza al click, reflejos al auto.
+  const moneyPerClick =
+    (multiplier + clickBonus + cityClickBonus + trainClickBonus) *
+    (frenzyLeft > 0 ? 3 : 1);
+  const moneyPerAuto = moneyPerClick * autoPower + trainAutoBonus;
+
+  // --- SAQUEO DEL EJÉRCITO: botín = poder x multiplicador ---
+  const RAID_EVERY = 45;
+  const RAID_MULT = 8;
+  const raidLoot = armyPower * RAID_MULT;
+
+  const doRaid = () => {
+    if (armyPower <= 0 || raidCooldown > 0) return false;
+    setMoney((m) => m + raidLoot);
+    setTotalRaids((c) => c + 1);
+    setRaidCooldown(RAID_EVERY);
+    return true;
+  };
+
+  // Descuento del cooldown + saqueo automático al llegar a 0.
+  const raidLootRef = useRef(raidLoot);
+  useEffect(() => {
+    raidLootRef.current = raidLoot;
+  }, [raidLoot]);
+
+  useEffect(() => {
+    if (armyPower <= 0) return;
+    if (raidCooldown > 0) {
+      const id = setTimeout(() => setRaidCooldown((s) => s - 1), 1000);
+      return () => clearTimeout(id);
+    }
+    // Cooldown en 0 con tropas → saqueo automático.
+    const loot = Math.floor(raidLootRef.current);
+    if (loot > 0) setMoney((m) => m + loot);
+    setTotalRaids((c) => c + 1);
+    setRaidCooldown(RAID_EVERY);
+  }, [armyPower, raidCooldown]);
 
   // Recoger el dorado: 50% frenesí x3 (20s) / 50% fortuna instantánea.
   const collectGolden = () => {
@@ -308,16 +435,17 @@ function App() {
   }, [autoClick, autoClickSpeed, moneyPerAuto]);
 
   // Efecto para el ingreso pasivo.
-  // Fondo de Inversión → directo al dinero. Minería → a la bóveda.
-  const passiveTotal = passiveRate + miningRate;
+  // Fondo + Ciudad + Disciplina → directo al dinero. Minería → a la bóveda.
+  const passiveTotal = passiveRate + miningRate + cityRate + trainRate;
+  const directPassive = passiveRate + cityRate + trainRate;
   useEffect(() => {
     if (passiveTotal <= 0) return;
     const interval = setInterval(() => {
-      if (passiveRate > 0) setMoney((prev) => prev + passiveRate);
+      if (directPassive > 0) setMoney((prev) => prev + directPassive);
       if (miningRate > 0) setVault((prev) => prev + miningRate);
     }, 1000);
     return () => clearInterval(interval);
-  }, [passiveRate, miningRate, passiveTotal]);
+  }, [directPassive, miningRate, passiveTotal]);
 
   // Recaudar bóveda: mueve lo minado al dinero total.
   const collectVault = () => {
@@ -366,6 +494,53 @@ function App() {
   const buyCrit = (cost) => buyImperio("crit", cost, () => {});
   const buyCollector = (cost) => buyImperio("collector", cost, () => {});
 
+  // Compra genérica del panel Ciudad (misma idea que Imperio).
+  const buyCiudad = (key, cost, apply) => {
+    if (money < cost) return false;
+    setMoney((prev) => prev - cost);
+    setCityLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
+    apply();
+    return true;
+  };
+
+  const buyCasa = (cost) => buyCiudad("casa", cost, () => setCityRate((p) => p + 2));
+  const buyMercado = (cost) =>
+    buyCiudad("mercado", cost, () => setCityRate((p) => p + 7));
+  const buyMuralla = (cost) =>
+    buyCiudad("muralla", cost, () => setCityClickBonus((p) => p + 2));
+  const buyAyunta = (cost) =>
+    buyCiudad("ayunta", cost, () => setCityRate((p) => p + 25));
+
+  // Compra genérica del panel Ejército.
+  const buyEjercito = (key, cost, power) => {
+    if (money < cost) return false;
+    setMoney((prev) => prev - cost);
+    setArmyLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
+    setArmyPower((p) => p + power);
+    return true;
+  };
+
+  const buySoldado = (cost) => buyEjercito("soldado", cost, 12);
+  const buyArquero = (cost) => buyEjercito("arquero", cost, 35);
+  const buyCaballero = (cost) => buyEjercito("caballero", cost, 100);
+  const buyGeneral = (cost) => buyEjercito("general", cost, 300);
+
+  // Compra genérica del panel Entrenamiento.
+  const buyEntreno = (key, cost, apply) => {
+    if (money < cost) return false;
+    setMoney((prev) => prev - cost);
+    setTrainLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
+    apply();
+    return true;
+  };
+
+  const buyFuerza = (cost) =>
+    buyEntreno("fuerza", cost, () => setTrainClickBonus((p) => p + 3));
+  const buyDisciplina = (cost) =>
+    buyEntreno("disciplina", cost, () => setTrainRate((p) => p + 4));
+  const buyReflejos = (cost) =>
+    buyEntreno("reflejos", cost, () => setTrainAutoBonus((p) => p + 12));
+
   const buyMiner = (up) => {
     if (!up || purchasedMinerIds.includes(up.id)) return false;
     if (money < up.cost) return false;
@@ -405,7 +580,7 @@ function App() {
         bonusActivo={bonusActivo}
         rebirlvl={rebirlvl}
         moneyPerClick={moneyPerClick}
-        passiveTotal={passiveRate}
+        passiveTotal={passiveRate + cityRate + trainRate}
         autoClick={autoClick}
         addMoneyDev={addMoneyDev}
         removeMoney={removeMoney}
@@ -446,6 +621,32 @@ function App() {
           collectEverySec={collectEverySec}
           buyCrit={buyCrit}
           buyCollector={buyCollector}
+          cityLvl={cityLvl}
+          cityRate={cityRate}
+          cityClickBonus={cityClickBonus}
+          buyCasa={buyCasa}
+          buyMercado={buyMercado}
+          buyMuralla={buyMuralla}
+          buyAyunta={buyAyunta}
+          armyLvl={armyLvl}
+          armyPower={armyPower}
+          raidLoot={raidLoot}
+          raidCooldown={raidCooldown}
+          raidEvery={RAID_EVERY}
+          totalRaids={totalRaids}
+          buySoldado={buySoldado}
+          buyArquero={buyArquero}
+          buyCaballero={buyCaballero}
+          buyGeneral={buyGeneral}
+          doRaid={doRaid}
+          trainLvl={trainLvl}
+          trainClickBonus={trainClickBonus}
+          trainRate={trainRate}
+          trainAutoBonus={trainAutoBonus}
+          buyFuerza={buyFuerza}
+          buyDisciplina={buyDisciplina}
+          buyReflejos={buyReflejos}
+          passiveTotal={passiveRate + cityRate + trainRate}
           miningRate={miningRate}
           purchasedMinerIds={purchasedMinerIds}
           buyMiner={buyMiner}
