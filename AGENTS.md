@@ -29,15 +29,16 @@ Toda la interfaz está en español y debe seguir así.
 
 Datos importantes: `upgrades.js` (tienda), `rebirthReq.js` (20 rebirths), `unlocks.js` (33 filas de desbloqueos), `MineriaX.js` (36 rigs), `achievements.js` (26 logros).
 
-## Fórmulas madre (App.jsx, ~líneas 355-364)
+## Fórmulas madre (src/game/economy.js, puras)
 
 ```
-moneyPerClick = (multiplier + clickBonus + cityClickBonus + trainClickBonus) * (frenzy ? 3 : 1)
-moneyPerAuto  = moneyPerClick * autoPower + trainAutoBonus
-pasivoDirecto = passiveRate + cityRate + trainRate      // +$/s directo al dinero
-miningRate    -> vault                                  // +$/s a la bóveda, no directo
-raidLoot      = armyPower * 8                           // cada 45s (RAID_EVERY)
-crítico       : chance = critLvl * 3%, golpe = moneyPerClick * 5
+moneyPerClick = (multiplier * welcomeFactor + clickBonus + cityClickBonus + trainClickBonus) * (frenzy ? 3 : 1)
+moneyPerAuto  = moneyPerClick * autoPower + trainAutoBonus   // SUMA al manual (P3, ya no lo pausa)
+pasivoDirecto = passiveRate + cityRate + trainRate            // +$/s directo al dinero
+mineríaEfectiva = miningRate * (1 + 0.1 * collectorLvl)       // +$/s a la bóveda, no directo (P5)
+raidLoot      = floor(armyPower * 8)                          // cada 45s (RAID_EVERY)
+crítico       : chance = critLvl * 3%, golpe = moneyPerClick * 5 (solo click manual)
+shopPrice     = round(base * 1.3^vecesComprado)               // tienda modelo C (P2)
 ```
 
 Todo lo que se compra suma a una de esas variables. Por eso todo escala entre sí: cualquier cambio en una fórmula afecta a varios sistemas.
@@ -52,18 +53,19 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 
 ### Tienda de aumentos (derecha)
 - Solo muestra el nivel actual (`upgrades.filter(level == rebirlvl)`). 20 niveles (0-19).
-- `buyUpgrade(cost, increment, max)`: tope = `min(max, unlockedLvl)`. Redondea al tope para no trabarse.
+- Modelo C (P2): cada recompra del mismo ítem cuesta `shopPrice = round(base * 1.3^vecesComprado)`. Contador por ítem (`shopCounts`), se resetea al renacer, saves viejos arrancan en 0.
+- `buyUpgrade(idx)`: tope = `min(max, unlockedLvl)`. Redondea al tope para no trabarse.
 - Es la única mejora que se resetea con el rebirth.
 
 ### Rebirth
-- Requisito doble: dinero y multiplicador (ver `rebirthReq.js`).
+- Requisito doble: dinero y multiplicador (ver `rebirthReq.js`). Dinero RB12-19 con x1.8/RB (P1a); RB0-11 intactos.
 - Bonus de inicio por RB: x5, x7, x10, x14, x20, x28, x39, x55, x77, x108, x151... hasta x3108 en RB19.
 - Barra global en topbar: `(pMoney + pMult) / 2`.
 
 ### Panel izquierdo (persistente)
-- **Imperio (5 mejoras)**: Exoesqueleto (+2 click), Fondo Inversión (+5/s), Overclock (autoPower +1, base 4), Golpe Crítico (3% por nivel, máx 10), Recolector (vacía la bóveda cada `max(10, 35 - lvl*5)` s, máx 5).
+- **Imperio (5 mejoras)**: Exoesqueleto (+2 click), Fondo Inversión (+5/s), Overclock (autoPower +1, base 4), Golpe Crítico (3% por nivel, máx 10), Recolector (+10% minería por nivel y vacía la bóveda cada `max(10, 35 - lvl*5)` s, máx 5).
 - **Ciudad (4 edificios)**: Casa (+2/s), Mercado (+7/s), Muralla (+2 click), Ayuntamiento (+25/s).
-- **Ejército (4 tropas)**: Soldado +12, Arquero +35, Caballero +100, General +300 (máx 5). Sistema independiente: saqueo cada 45s, manual o automático.
+- **Ejército (4 tropas, costos P4a)**: Soldado 15k +12, Arquero 42k +35, Caballero 120k +100, General 360k +300 (máx 5). Sistema independiente: saqueo cada 45s, manual o automático.
 - **Entrenamiento (3 stats)**: Fuerza (+3 click), Disciplina (+4/s), Reflejos (+12 por auto, se suma después de multiplicar por autoPower).
 - **Logros**: 26, con toast de 4s al desbloquear.
 
@@ -73,7 +75,7 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 - **Combo**: crítico x5 bajo frenesí x3 = x15 por click.
 
 ### Derecha
-- **BonusAutoClick (5 niveles)**: solo acelera la frecuencia (900ms a 500ms). El daño lo dan Imperio/Entrenamiento. Cuando está encendido pausa el click manual.
+- **BonusAutoClick (5 niveles)**: solo acelera la frecuencia (900ms a 500ms). El daño lo dan Imperio/Entrenamiento. Cuando está encendido SUMA al click manual (P3, ya no lo pausa).
 - **Minería (36 rigs, 6 tiers)**: compra única y permanente. El flujo es `miningRate -> vault (cada 1s) -> RECAUDAR -> money`. El Recolector del Imperio lo automatiza.
 
 ## Conexiones clave

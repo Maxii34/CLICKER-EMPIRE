@@ -98,8 +98,10 @@ export const canPay = (money, cost) =>
   isValidCost(cost) && Number.isFinite(money) && money >= cost;
 
 // Precio de tienda modelo C: base * (1+growth)^vecesComprado (redondeado).
+// Con tope en MAX_SAFE_INTEGER para no propagar Infinity (canPay lo rechaza igual).
 export const shopPrice = (baseCost, timesBought, growth = SHOP_GROWTH) => {
   const n = Number.isFinite(timesBought) && timesBought > 0 ? Math.floor(timesBought) : 0;
   if (!isValidCost(baseCost)) return NaN;
-  return Math.round(baseCost * Math.pow(1 + growth, n));
+  const p = Math.round(baseCost * Math.pow(1 + growth, n));
+  return Number.isFinite(p) ? p : Number.MAX_SAFE_INTEGER;
 };

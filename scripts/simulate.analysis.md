@@ -6,10 +6,10 @@ _Derivado del simulador greedy. Ningún valor del juego fue modificado._
 
 | Tropa | Desbloqueo | 1ª compra (cps3) | RB compra | Costo 1ª compra | Req dinero de ese RB |
 |---|---|---|---|---|---|
-| Soldado | RB3 | 9m 9s | RB4 | $25.000 | $52.810 (RB4) |
-| Arquero | RB4 | 15m 16s | RB5 | $70.000 | $137.310 (RB5) |
-| Caballero | RB5 | 25m 28s | RB6 | $200.000 | $356.940 (RB6) |
-| General | RB6 | 47m 33s | RB7 | $600.000 | $928.030 (RB7) |
+| Soldado | RB3 | 7m 1s | RB4 | $15.000 | $52.810 (RB4) |
+| Arquero | RB4 | 9m 33s | RB4 | $42.000 | $52.810 (RB4) |
+| Caballero | RB5 | 15m 29s | RB5 | $120.000 | $137.310 (RB5) |
+| General | RB6 | 30m 50s | RB7 | $360.000 | $928.030 (RB7) |
 
 ## 2. Minería T0: amortización (costo / $/s) y compra real
 
@@ -29,26 +29,30 @@ _Derivado del simulador greedy. Ningún valor del juego fue modificado._
 | 0 | 100.0 | 0.0 | 0.0 | 0.0 | 0.0 | x100 vs +0 planos | 0/0/0 (de 1/s) |
 | 1 | 99.2 | 0.0 | 0.6 | 0.2 | 0.0 | x200 vs +4 planos | 0/4/0 (de 4/s) |
 | 2 | 96.8 | 0.0 | 2.4 | 0.8 | 0.0 | x210 vs +6 planos | 5/13/0 (de 18/s) |
-| 3 | 93.3 | 0.0 | 4.2 | 2.5 | 0.0 | x230 vs +13 planos | 15/22/4 (de 41/s) |
-| 4 | 0.0 | 92.3 | 4.4 | 3.2 | 0.1 | x240 vs +27 planos | 20/85/8 (de 113/s) |
-| 5 | 0.0 | 90.8 | 4.2 | 4.7 | 0.3 | x300 vs +36 planos | 25/119/12 (de 156/s) |
-| 6 | 0.0 | 88.6 | 4.0 | 6.7 | 0.7 | x340 vs +43 planos | 30/153/16 (de 199/s) |
-| 7 | 0.0 | 84.8 | 3.2 | 10.3 | 1.7 | x400 vs +50 planos | 40/162/20 (de 222/s) |
-| 8 | 0.0 | 82.2 | 2.5 | 13.5 | 1.8 | x460 vs +57 planos | 45/198/24 (de 267/s) |
-| 9 | 0.0 | 72.9 | 2.4 | 22.7 | 1.9 | x500 vs +66 planos | 50/266/32 (de 348/s) |
-| 10 | 0.0 | 70.9 | 1.7 | 25.7 | 1.7 | x540 vs +73 planos | 55/275/36 (de 366/s) |
-| 11 | 0.0 | 61.5 | 1.4 | 35.7 | 1.5 | x610 vs +80 planos | 60/309/40 (de 409/s) |
-| 12 | 0.0 | 65.6 | 1.4 | 31.7 | 1.3 | x680 vs +89 planos | 65/343/44 (de 452/s) |
-| 13 | 0.0 | 69.0 | 1.3 | 28.4 | 1.2 | x750 vs +96 planos | 70/379/48 (de 497/s) |
-| 14 | 0.0 | 72.2 | 1.2 | 25.4 | 1.2 | x826 vs +103 planos | 75/388/52 (de 515/s) |
+| 3 | 38.9 | 58.2 | 1.8 | 1.1 | 0.0 | x230 vs +13 planos | 15/22/4 (de 41/s) |
+| 4 | 29.8 | 64.8 | 3.0 | 2.1 | 0.3 | x240 vs +27 planos | 20/83/8 (de 111/s) |
+| 5 | 30.4 | 60.9 | 3.2 | 4.7 | 0.7 | x300 vs +36 planos | 25/119/12 (de 156/s) |
+| 6 | 26.3 | 63.6 | 2.8 | 6.8 | 0.5 | x340 vs +43 planos | 30/153/16 (de 199/s) |
+| 7 | 24.2 | 61.1 | 2.3 | 11.2 | 1.2 | x400 vs +50 planos | 40/162/20 (de 222/s) |
+| 8 | 20.1 | 61.5 | 1.9 | 15.1 | 1.4 | x460 vs +57 planos | 45/198/24 (de 267/s) |
+| 9 | 17.2 | 54.2 | 1.8 | 25.4 | 1.4 | x500 vs +66 planos | 50/266/32 (de 348/s) |
+| 10 | 13.9 | 54.1 | 1.3 | 29.4 | 1.3 | x540 vs +73 planos | 55/275/36 (de 366/s) |
+| 11 | 11.6 | 46.1 | 1.0 | 40.1 | 1.1 | x610 vs +80 planos | 60/309/40 (de 409/s) |
+| 12 | 11.6 | 49.9 | 1.0 | 36.4 | 1.1 | x680 vs +85 planos | 65/343/40 (de 448/s) |
+| 13 | 12.0 | 51.6 | 1.0 | 34.4 | 1.0 | x750 vs +89 planos | 65/345/44 (de 454/s) |
+| 14 | 12.0 | 55.0 | 1.0 | 31.1 | 1.0 | x826 vs +96 planos | 70/377/48 (de 495/s) |
+| 15 | 13.2 | 60.2 | 0.8 | 25.1 | 0.8 | x1156 vs +99 planos | 75/379/48 (de 502/s) |
+| 16 | 13.6 | 66.3 | 0.6 | 18.9 | 0.6 | x1618 vs +103 planos | 75/388/52 (de 515/s) |
+| 17 | 14.4 | 70.1 | 0.5 | 14.5 | 0.5 | x2266 vs +108 planos | 80/397/52 (de 529/s) |
+| 18 | 14.4 | 74.4 | 0.4 | 10.5 | 0.4 | x3172 vs +115 planos | 85/399/56 (de 540/s) |
 
 ## 4. Mejoras nunca compradas por el greedy (candidatas a 'muertas')
 
 - Exoesqueleto: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Fondo: cps1/cps3/cps6/larga = sí/sí/sí/sí
-- Overclock: cps1/cps3/cps6/larga = sí/sí/no/sí
+- Overclock: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Crítico: cps1/cps3/cps6/larga = sí/sí/sí/sí
-- Recolector: cps1/cps3/cps6/larga = no/no/no/no
+- Recolector: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Casa: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Mercado: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Muralla: cps1/cps3/cps6/larga = sí/sí/sí/sí
@@ -59,12 +63,12 @@ _Derivado del simulador greedy. Ningún valor del juego fue modificado._
 - General: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Fuerza: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Disciplina: cps1/cps3/cps6/larga = sí/sí/sí/sí
-- Reflejos: cps1/cps3/cps6/larga = sí/sí/no/sí
-- Auto-Clicker nv 1: cps1/cps3/cps6/larga = sí/sí/no/sí
-- Auto-Clicker nv 2: cps1/cps3/cps6/larga = sí/sí/no/sí
-- Auto-Clicker nv 3: cps1/cps3/cps6/larga = sí/sí/no/sí
-- Auto-Clicker nv 4: cps1/cps3/cps6/larga = sí/sí/no/sí
-- Auto-Clicker nv 5: cps1/cps3/cps6/larga = sí/sí/no/sí
+- Reflejos: cps1/cps3/cps6/larga = sí/sí/sí/sí
+- Auto-Clicker nv 1: cps1/cps3/cps6/larga = sí/sí/sí/sí
+- Auto-Clicker nv 2: cps1/cps3/cps6/larga = sí/sí/sí/sí
+- Auto-Clicker nv 3: cps1/cps3/cps6/larga = sí/sí/sí/sí
+- Auto-Clicker nv 4: cps1/cps3/cps6/larga = sí/sí/sí/sí
+- Auto-Clicker nv 5: cps1/cps3/cps6/larga = sí/sí/sí/sí
 - Rigs mineros comprados (alguna corrida): 36/36
 
 ## 5. Primeras 15 compras (cps3, tienda A)

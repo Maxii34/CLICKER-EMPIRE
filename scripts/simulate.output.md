@@ -10,16 +10,17 @@ Resultado: NO terminó (corte 48h 0m)
 | 0 | 9m 2s | 9m 2s | 102 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +0.5 ($80) (+36.0/s)<br>Tienda +1 ($100) (+27.6/s)<br>Tienda +0.2 ($70) (+26.4/s) | lento vs sig |
 | 1 | 10m 28s | 1m 26s | 204 | 0.0 | 4.0 | 1.0 | 0.0 | Tienda +6 ($210) (+168/s)<br>Tienda +5 ($180) (+22.0/s)<br>Casa (+4.0/s) | rápido vs ant |
 | 2 | 13m 16s | 2m 48s | 242 | 0.0 | 23.0 | 6.0 | 0.0 | Tienda +10 ($470) (+196/s)<br>Crítico (+25.9/s)<br>Fondo (+10.0/s) |  |
-| 3 | 19m 5s | 5m 49s | 0.0 | 1.350 | 41.0 | 24.0 | 0.0 | Auto-Clicker nv 1 (+779/s)<br>Overclock (+270/s)<br>Tienda +15 ($1220) (+235/s) |  |
-| 4 | 25m 0s | 5m 55s | 0.0 | 2.366 | 111 | 63.0 | 2.1 | Tienda +20 ($3170) (+1178/s)<br>Overclock (+582/s)<br>Auto-Clicker nv 2 (+263/s) |  |
-| 5 | 34m 13s | 9m 13s | 0.0 | 3.405 | 156 | 178 | 10.5 | Tienda +30 ($8240) (+2275/s)<br>Overclock (+420/s)<br>Mina Perforadora (+38.0/s) |  |
-| 6 | 49m 27s | 15m 14s | 0.0 | 4.446 | 206 | 338 | 36.6 | Tienda +40 ($21420) (+2840/s)<br>Auto-Clicker nv 3 (+544/s)<br>Mina Refinería II (+62.0/s) |  |
-| 7 | 1h 16m | 27m 0s | 0.0 | 5.854 | 222 | 715 | 116 | Tienda +50 ($55690) (+3680/s)<br>Overclock (+633/s)<br>Mina Dron Minero (+118/s) |  |
-| 8 | 2h 12m | 55m 34s | 0.0 | 8.717 | 267 | 1.430 | 196 | Tienda +60 ($144790) (+4500/s)<br>Auto-Clicker nv 4 (+1104/s)<br>Overclock (+850/s) | rápido vs sig |
-| 9 | 5h 16m | 3h 4m | 0.0 | 10.517 | 348 | 3.280 | 275 | Tienda +70 ($376450) (+5767/s)<br>Overclock (+932/s)<br>Mina Veta Neutrón (+500/s) | lento vs ant |
-| 10 | 9h 20m | 4h 4m | 0.0 | 14.904 | 366 | 5.400 | 354 | Tienda +85 ($978770) (+7128/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
-| 11 | 18h 14m | 8h 54m | 0.0 | 18.156 | 409 | 10.530 | 434 | Tienda +100 ($2544800) (+7392/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
-| 12 | 32h 8m | 13h 53m | 0.0 | 21.772 | 452 | 10.530 | 442 | Tienda +115 ($6616480) (+6708/s)<br>Overclock (+1530/s)<br>Exoesqueleto (+108/s) |  |
+| 3 | 19m 26s | 6m 10s | 301 | 1.350 | 41.0 | 26.4 | 0.0 | Auto-Clicker nv 1 (+1080/s)<br>Overclock (+270/s)<br>Tienda +15 ($1220) (+235/s) |  |
+| 4 | 25m 19s | 5m 53s | 363 | 2.366 | 111 | 75.6 | 10.5 | Tienda +20 ($3170) (+1441/s)<br>Overclock (+582/s)<br>Auto-Clicker nv 2 (+263/s) |  |
+| 5 | 34m 53s | 9m 34s | 497 | 3.405 | 156 | 231 | 36.6 | Tienda +30 ($8240) (+2629/s)<br>Overclock (+420/s)<br>Exoesqueleto (+40.7/s) |  |
+| 6 | 46m 30s | 11m 37s | 613 | 4.446 | 199 | 473 | 36.6 | Tienda +40 ($21420) (+3260/s)<br>Auto-Clicker nv 3 (+544/s)<br>Mina Refinería II (+62.0/s) |  |
+| 7 | 1h 13m | 27m 7s | 774 | 5.871 | 222 | 1.073 | 116 | Tienda +50 ($55690) (+4195/s)<br>Overclock (+633/s)<br>Mina Dron Minero (+118/s) |  |
+| 8 | 2h 0m | 46m 25s | 951 | 8.717 | 267 | 2.145 | 196 | Tienda +60 ($144790) (+5102/s)<br>Auto-Clicker nv 4 (+1107/s)<br>Overclock (+850/s) | rápido vs sig |
+| 9 | 4h 45m | 2h 45m | 1.109 | 10.517 | 348 | 4.920 | 277 | Tienda +70 ($376450) (+6403/s)<br>Overclock (+932/s)<br>Mina Veta Neutrón (+500/s) | lento vs ant |
+| 10 | 8h 3m | 3h 18m | 1.275 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+7763/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
+| 11 | 15h 24m | 7h 20m | 1.518 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+8033/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
+| 12 | 22h 40m | 7h 16m | 1.683 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+7276/s)<br>Overclock (+1530/s)<br>Fuerza (+84.6/s) |  |
+| 13 | 28h 59m | 6h 18m | 1.846 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+4832/s)<br>Muralla (+60.4/s)<br>Exoesqueleto (+60.4/s) |  |
 
 ## cps=1 auto=sí bonus=x2 bóveda=60s dorados=none tienda=B
 Resultado: NO terminó (corte 2m 16s)
@@ -28,24 +29,25 @@ Resultado: NO terminó (corte 2m 16s)
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0 | — | — | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | falta x40.3 | imposible |
 
-## cps=1 auto=sí bonus=x2 bóveda=60s dorados=none tienda=C (+8%/compra)
+## cps=1 auto=sí bonus=x2 bóveda=60s dorados=none tienda=C (+30%/compra)
 Resultado: NO terminó (corte 48h 0m)
 
 | RB | T total | Tramo | Click/s | Auto/s | Pasivo/s | Minería/s | Saqueo/s | Top-3 compras | Alerta |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 0 | 5m 36s | 5m 36s | 102 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+50.0/s)<br>Tienda +2 ($120) (+24.0/s)<br>Tienda +1 ($100) (+13.4/s) | lento vs sig |
-| 1 | 7m 7s | 1m 31s | 204 | 0.0 | 4.0 | 1.0 | 0.0 | Tienda +5 ($180) (+62.0/s)<br>Tienda +6 ($210) (+48.0/s)<br>Tienda +8 ($300) (+32.0/s) | rápido vs ant |
-| 2 | 10m 4s | 2m 57s | 242 | 0.0 | 23.0 | 6.0 | 0.0 | Tienda +10 ($470) (+106/s)<br>Tienda +11 ($560) (+66.0/s)<br>Crítico (+25.9/s) |  |
-| 3 | 14m 16s | 4m 12s | 0.0 | 1.350 | 32.0 | 16.0 | 0.0 | Auto-Clicker nv 1 (+808/s)<br>Overclock (+270/s)<br>Tienda +15 ($1220) (+164/s) |  |
-| 4 | 21m 32s | 7m 16s | 0.0 | 2.366 | 120 | 83.0 | 2.1 | Overclock (+582/s)<br>Tienda +20 ($3170) (+444/s)<br>Auto-Clicker nv 2 (+263/s) |  |
-| 5 | 29m 56s | 8m 24s | 0.0 | 3.405 | 156 | 178 | 10.5 | Tienda +30 ($8240) (+1173/s)<br>Tienda +32 ($9610) (+560/s)<br>Tienda +31 ($8900) (+543/s) |  |
-| 6 | 44m 0s | 14m 4s | 0.0 | 4.446 | 199 | 338 | 36.6 | Tienda +40 ($21420) (+1600/s)<br>Tienda +41 ($23130) (+1240/s)<br>Auto-Clicker nv 3 (+544/s) |  |
-| 7 | 1h 14m | 30m 21s | 0.0 | 5.871 | 222 | 715 | 116 | Tienda +50 ($55690) (+2514/s)<br>Tienda +51 ($60150) (+1166/s)<br>Overclock (+633/s) |  |
-| 8 | 2h 11m | 57m 36s | 0.0 | 8.717 | 274 | 1.430 | 196 | Tienda +60 ($144790) (+2931/s)<br>Tienda +61 ($156380) (+1569/s)<br>Auto-Clicker nv 4 (+1107/s) | rápido vs sig |
-| 9 | 5h 12m | 3h 0m | 0.0 | 10.517 | 348 | 3.280 | 275 | Tienda +70 ($376450) (+3400/s)<br>Tienda +71 ($395560) (+2367/s)<br>Overclock (+932/s) | lento vs ant |
-| 10 | 9h 16m | 4h 4m | 0.0 | 14.904 | 366 | 5.400 | 354 | Tienda +85 ($978770) (+3740/s)<br>Tienda +86 ($1028450) (+3388/s)<br>Overclock (+1212/s) |  |
-| 11 | 18h 10m | 8h 54m | 0.0 | 18.156 | 409 | 10.530 | 434 | Tienda +100 ($2544800) (+4800/s)<br>Tienda +101 ($2673970) (+2592/s)<br>Mina Imperio Galáctico (+1620/s) |  |
-| 12 | 32h 4m | 13h 54m | 0.0 | 21.772 | 452 | 10.530 | 442 | Tienda +115 ($6616480) (+5980/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+728/s) |  |
+| 0 | 5m 10s | 5m 10s | 102 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+52.2/s)<br>Tienda +2 ($120) (+24.0/s)<br>Tienda +1 ($100) (+12.0/s) | lento vs sig |
+| 1 | 6m 45s | 1m 35s | 204 | 0.0 | 4.0 | 1.0 | 0.0 | Tienda +7 ($250) (+42.0/s)<br>Tienda +5 ($180) (+40.0/s)<br>Tienda +10 ($360) (+40.0/s) | rápido vs ant |
+| 2 | 9m 32s | 2m 47s | 242 | 0.0 | 18.0 | 6.0 | 0.0 | Tienda +10 ($470) (+60.0/s)<br>Tienda +12 ($660) (+48.0/s)<br>Tienda +11 ($560) (+44.0/s) |  |
+| 3 | 16m 16s | 6m 44s | 301 | 1.350 | 41.0 | 26.4 | 0.0 | Auto-Clicker nv 1 (+1080/s)<br>Overclock (+270/s)<br>Tienda +15 ($1220) (+85.1/s) |  |
+| 4 | 22m 9s | 5m 53s | 363 | 2.366 | 111 | 75.6 | 10.5 | Overclock (+582/s)<br>Tienda +20 ($3170) (+544/s)<br>Tienda +23 ($3990) (+313/s) |  |
+| 5 | 31m 46s | 9m 37s | 497 | 3.405 | 156 | 231 | 36.6 | Tienda +30 ($8240) (+687/s)<br>Tienda +33 ($10380) (+667/s)<br>Tienda +32 ($9610) (+647/s) |  |
+| 6 | 43m 26s | 11m 40s | 613 | 4.446 | 199 | 473 | 36.6 | Tienda +42 ($24990) (+964/s)<br>Tienda +41 ($23130) (+941/s)<br>Tienda +40 ($21420) (+918/s) |  |
+| 7 | 1h 8m | 25m 17s | 774 | 5.854 | 222 | 1.073 | 116 | Tienda +52 ($64960) (+1355/s)<br>Tienda +51 ($60150) (+1329/s)<br>Tienda +50 ($55690) (+1303/s) |  |
+| 8 | 1h 56m | 48m 3s | 951 | 8.717 | 267 | 2.145 | 196 | Tienda +61 ($156380) (+1778/s)<br>Tienda +60 ($144790) (+1749/s)<br>Tienda +62 ($168900) (+1574/s) | rápido vs sig |
+| 9 | 4h 42m | 2h 45m | 1.109 | 10.517 | 348 | 4.920 | 277 | Tienda +71 ($395560) (+2628/s)<br>Tienda +70 ($376450) (+2591/s)<br>Tienda +72 ($415630) (+1184/s) | lento vs ant |
+| 10 | 8h 0m | 3h 18m | 1.275 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+4073/s)<br>Tienda +86 ($1028450) (+3690/s)<br>Overclock (+1212/s) |  |
+| 11 | 15h 21m | 7h 20m | 1.518 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+5216/s)<br>Tienda +101 ($2673970) (+2817/s)<br>Mina Imperio Galáctico (+1620/s) |  |
+| 12 | 22h 37m | 7h 16m | 1.683 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+6486/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+790/s) |  |
+| 13 | 28h 56m | 6h 18m | 1.846 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+4832/s)<br>Muralla (+60.4/s)<br>Exoesqueleto (+60.4/s) |  |
 
 ## cps=3 auto=sí bonus=x2 bóveda=60s dorados=none tienda=A
 Resultado: NO terminó (corte 48h 0m)
@@ -55,16 +57,18 @@ Resultado: NO terminó (corte 48h 0m)
 | 0 | 2m 4s | 2m 4s | 300 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+150/s)<br>Tienda +0.5 ($80) (+48.0/s)<br>Tienda +1 ($100) (+42.0/s) | lento vs sig |
 | 1 | 2m 36s | 32s | 612 | 0.0 | 4.0 | 1.0 | 0.0 | Tienda +6 ($210) (+396/s)<br>Tienda +5 ($180) (+174/s)<br>Exoesqueleto (+12.0/s) | rápido vs ant |
 | 2 | 3m 31s | 55s | 726 | 0.0 | 18.0 | 6.0 | 0.0 | Tienda +10 ($470) (+588/s)<br>Crítico (+77.8/s)<br>Mercado (+7.0/s) |  |
-| 3 | 5m 44s | 2m 13s | 904 | 0.0 | 41.0 | 24.0 | 0.0 | Tienda +15 ($1220) (+706/s)<br>Crítico (+87.5/s)<br>Fuerza (+10.1/s) | rápido vs sig |
-| 4 | 12m 47s | 7m 3s | 0.0 | 2.366 | 113 | 83.0 | 2.1 | Overclock (+863/s)<br>Tienda +20 ($3170) (+789/s)<br>Auto-Clicker nv 2 (+263/s) | lento vs ant |
-| 5 | 21m 28s | 8m 41s | 0.0 | 3.405 | 156 | 178 | 10.5 | Tienda +30 ($8240) (+2275/s)<br>Overclock (+420/s)<br>Mina Perforadora (+38.0/s) |  |
-| 6 | 35m 29s | 14m 1s | 0.0 | 4.446 | 199 | 338 | 36.6 | Tienda +40 ($21420) (+2840/s)<br>Auto-Clicker nv 3 (+544/s)<br>Mina Refinería II (+62.0/s) |  |
-| 7 | 1h 5m | 30m 17s | 0.0 | 5.871 | 222 | 715 | 116 | Tienda +50 ($55690) (+3680/s)<br>Overclock (+633/s)<br>Mina Dron Minero (+118/s) |  |
-| 8 | 1h 59m | 53m 48s | 0.0 | 8.717 | 267 | 1.430 | 196 | Tienda +60 ($144790) (+4500/s)<br>Auto-Clicker nv 4 (+1107/s)<br>Overclock (+850/s) | rápido vs sig |
-| 9 | 5h 3m | 3h 4m | 0.0 | 10.517 | 348 | 3.280 | 275 | Tienda +70 ($376450) (+5767/s)<br>Overclock (+932/s)<br>Mina Veta Neutrón (+500/s) | lento vs ant |
-| 10 | 9h 8m | 4h 4m | 0.0 | 14.904 | 366 | 5.400 | 354 | Tienda +85 ($978770) (+7128/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
-| 11 | 18h 2m | 8h 54m | 0.0 | 18.156 | 409 | 10.530 | 434 | Tienda +100 ($2544800) (+7392/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
-| 12 | 31h 55m | 13h 53m | 0.0 | 21.772 | 452 | 10.530 | 442 | Tienda +115 ($6616480) (+6708/s)<br>Overclock (+1530/s)<br>Exoesqueleto (+108/s) |  |
+| 3 | 6m 0s | 2m 29s | 904 | 1.350 | 41.0 | 26.4 | 0.0 | Auto-Clicker nv 1 (+1080/s)<br>Tienda +15 ($1220) (+706/s)<br>Overclock (+270/s) |  |
+| 4 | 10m 29s | 4m 29s | 1.089 | 2.366 | 111 | 75.6 | 10.5 | Tienda +20 ($3170) (+1966/s)<br>Overclock (+582/s)<br>Auto-Clicker nv 2 (+263/s) |  |
+| 5 | 17m 42s | 7m 13s | 1.492 | 2.985 | 156 | 231 | 36.6 | Tienda +30 ($8240) (+3336/s)<br>Crítico (+118/s)<br>Exoesqueleto (+52.0/s) |  |
+| 6 | 27m 44s | 10m 2s | 1.838 | 4.446 | 199 | 473 | 36.6 | Tienda +40 ($21420) (+3746/s)<br>Overclock (+537/s)<br>Auto-Clicker nv 3 (+476/s) |  |
+| 7 | 50m 25s | 22m 41s | 2.322 | 5.871 | 222 | 1.073 | 116 | Tienda +50 ($55690) (+5226/s)<br>Overclock (+633/s)<br>Crítico (+162/s) |  |
+| 8 | 1h 30m | 39m 59s | 2.854 | 8.717 | 267 | 2.145 | 196 | Tienda +60 ($144790) (+6306/s)<br>Auto-Clicker nv 4 (+1107/s)<br>Overclock (+850/s) | rápido vs sig |
+| 9 | 3h 55m | 2h 25m | 3.328 | 10.517 | 348 | 4.920 | 277 | Tienda +70 ($376450) (+7677/s)<br>Overclock (+932/s)<br>Mina Veta Neutrón (+500/s) | lento vs ant |
+| 10 | 6h 54m | 2h 59m | 3.825 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+9033/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
+| 11 | 13h 37m | 6h 42m | 4.554 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+9314/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
+| 12 | 20h 19m | 6h 41m | 5.049 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+8411/s)<br>Overclock (+1530/s)<br>Fuerza (+97.8/s) |  |
+| 13 | 26h 7m | 5h 48m | 5.537 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+5536/s)<br>Muralla (+69.2/s)<br>Exoesqueleto (+69.2/s) | rápido vs sig |
+| 14 | 45h 25m | 19h 17m | 6.085 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+104/s)<br>Exoesqueleto (+73.2/s) | lento vs ant |
 
 ## cps=3 auto=sí bonus=x2 bóveda=60s dorados=none tienda=B
 Resultado: NO terminó (corte 46s)
@@ -73,24 +77,26 @@ Resultado: NO terminó (corte 46s)
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0 | — | — | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | falta x40.3 | imposible |
 
-## cps=3 auto=sí bonus=x2 bóveda=60s dorados=none tienda=C (+8%/compra)
+## cps=3 auto=sí bonus=x2 bóveda=60s dorados=none tienda=C (+30%/compra)
 Resultado: NO terminó (corte 48h 0m)
 
 | RB | T total | Tramo | Click/s | Auto/s | Pasivo/s | Minería/s | Saqueo/s | Top-3 compras | Alerta |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 0 | 1m 39s | 1m 39s | 300 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+210/s)<br>Tienda +1 ($100) (+29.4/s)<br>Tienda +2 ($120) (+24.0/s) |  |
-| 1 | 2m 12s | 33s | 612 | 0.0 | 4.0 | 1.0 | 0.0 | Tienda +7 ($250) (+126/s)<br>Tienda +5 ($180) (+120/s)<br>Tienda +10 ($360) (+120/s) |  |
-| 2 | 3m 10s | 58s | 726 | 0.0 | 18.0 | 6.0 | 0.0 | Tienda +10 ($470) (+246/s)<br>Tienda +11 ($560) (+198/s)<br>Tienda +12 ($660) (+144/s) |  |
-| 3 | 5m 27s | 2m 17s | 904 | 0.0 | 41.0 | 24.0 | 0.0 | Tienda +15 ($1220) (+376/s)<br>Tienda +16 ($1450) (+215/s)<br>Tienda +17 ($1730) (+114/s) |  |
-| 4 | 11m 49s | 6m 22s | 0.0 | 2.366 | 111 | 63.0 | 2.1 | Overclock (+863/s)<br>Tienda +20 ($3170) (+298/s)<br>Auto-Clicker nv 2 (+263/s) |  |
-| 5 | 21m 4s | 9m 15s | 0.0 | 3.405 | 156 | 178 | 10.5 | Tienda +30 ($8240) (+1173/s)<br>Tienda +32 ($9610) (+560/s)<br>Tienda +31 ($8900) (+543/s) |  |
-| 6 | 35m 9s | 14m 5s | 0.0 | 4.446 | 199 | 338 | 36.6 | Tienda +40 ($21420) (+1600/s)<br>Tienda +41 ($23130) (+1240/s)<br>Auto-Clicker nv 3 (+544/s) |  |
-| 7 | 1h 5m | 30m 21s | 0.0 | 5.871 | 222 | 715 | 116 | Tienda +50 ($55690) (+2514/s)<br>Tienda +51 ($60150) (+1166/s)<br>Overclock (+633/s) |  |
-| 8 | 2h 3m | 57m 36s | 0.0 | 8.717 | 274 | 1.430 | 196 | Tienda +60 ($144790) (+2931/s)<br>Tienda +61 ($156380) (+1569/s)<br>Auto-Clicker nv 4 (+1107/s) | rápido vs sig |
-| 9 | 5h 3m | 3h 0m | 0.0 | 10.517 | 348 | 3.280 | 275 | Tienda +70 ($376450) (+3400/s)<br>Tienda +71 ($395560) (+2367/s)<br>Overclock (+932/s) | lento vs ant |
-| 10 | 9h 8m | 4h 4m | 0.0 | 14.904 | 366 | 5.400 | 354 | Tienda +85 ($978770) (+3740/s)<br>Tienda +86 ($1028450) (+3388/s)<br>Overclock (+1212/s) |  |
-| 11 | 18h 2m | 8h 54m | 0.0 | 18.156 | 409 | 10.530 | 434 | Tienda +100 ($2544800) (+4800/s)<br>Tienda +101 ($2673970) (+2592/s)<br>Mina Imperio Galáctico (+1620/s) |  |
-| 12 | 31h 56m | 13h 54m | 0.0 | 21.772 | 452 | 10.530 | 442 | Tienda +115 ($6616480) (+5980/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+728/s) |  |
+| 0 | 1m 36s | 1m 36s | 306 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+180/s)<br>Tienda +2 ($120) (+58.8/s)<br>Tienda +1 ($100) (+30.0/s) |  |
+| 1 | 2m 9s | 33s | 612 | 0.0 | 4.0 | 1.0 | 0.0 | Tienda +7 ($250) (+126/s)<br>Tienda +5 ($180) (+120/s)<br>Tienda +10 ($360) (+120/s) |  |
+| 2 | 3m 9s | 1m 0s | 726 | 0.0 | 18.0 | 6.0 | 0.0 | Tienda +10 ($470) (+144/s)<br>Tienda +12 ($660) (+144/s)<br>Tienda +11 ($560) (+132/s) |  |
+| 3 | 5m 38s | 2m 29s | 904 | 0.0 | 41.0 | 26.4 | 0.0 | Tienda +15 ($1220) (+255/s)<br>Tienda +16 ($1450) (+215/s)<br>Tienda +18 ($2050) (+121/s) |  |
+| 4 | 10m 44s | 5m 6s | 1.089 | 2.366 | 111 | 75.6 | 10.5 | Auto-Clicker nv 1 (+1124/s)<br>Overclock (+863/s)<br>Tienda +20 ($3170) (+298/s) |  |
+| 5 | 18m 24s | 7m 40s | 1.492 | 3.405 | 156 | 231 | 36.6 | Tienda +30 ($8240) (+872/s)<br>Tienda +33 ($10380) (+847/s)<br>Tienda +32 ($9610) (+821/s) |  |
+| 6 | 28m 4s | 9m 40s | 1.838 | 4.446 | 199 | 473 | 36.6 | Tienda +42 ($24990) (+1213/s)<br>Tienda +41 ($23130) (+1184/s)<br>Tienda +40 ($21420) (+1155/s) |  |
+| 7 | 50m 49s | 22m 45s | 2.322 | 5.871 | 222 | 1.073 | 116 | Tienda +52 ($64960) (+1688/s)<br>Tienda +51 ($60150) (+1655/s)<br>Tienda +50 ($55690) (+1623/s) |  |
+| 8 | 1h 30m | 40m 4s | 2.854 | 8.717 | 267 | 2.145 | 196 | Tienda +61 ($156380) (+2198/s)<br>Tienda +60 ($144790) (+2162/s)<br>Tienda +62 ($168900) (+1946/s) | rápido vs sig |
+| 9 | 3h 55m | 2h 25m | 3.328 | 10.517 | 348 | 4.920 | 277 | Tienda +71 ($395560) (+3151/s)<br>Tienda +70 ($376450) (+3106/s)<br>Tienda +72 ($415630) (+1420/s) | lento vs ant |
+| 10 | 6h 55m | 2h 59m | 3.825 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+4740/s)<br>Tienda +86 ($1028450) (+4294/s)<br>Overclock (+1212/s) |  |
+| 11 | 13h 38m | 6h 42m | 4.554 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+6048/s)<br>Tienda +101 ($2673970) (+3266/s)<br>Mina Imperio Galáctico (+1620/s) |  |
+| 12 | 20h 19m | 6h 41m | 5.049 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+7498/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+913/s) |  |
+| 13 | 26h 8m | 5h 48m | 5.537 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+5536/s)<br>Muralla (+69.2/s)<br>Exoesqueleto (+69.2/s) | rápido vs sig |
+| 14 | 45h 26m | 19h 17m | 6.085 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+104/s)<br>Exoesqueleto (+73.2/s) | lento vs ant |
 
 ## cps=6 auto=sí bonus=x2 bóveda=60s dorados=none tienda=A
 Resultado: NO terminó (corte 48h 0m)
@@ -100,16 +106,18 @@ Resultado: NO terminó (corte 48h 0m)
 | 0 | 47s | 47s | 600 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+469/s)<br>Tienda +1 ($100) (+60.0/s)<br>Tienda +2 ($120) (+24.0/s) | lento vs sig |
 | 1 | 1m 1s | 14s | 1.224 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +6 ($210) (+1008/s)<br>Tienda +5 ($180) (+132/s)<br>Exoesqueleto (+24.0/s) | rápido vs ant |
 | 2 | 1m 32s | 31s | 1.452 | 0.0 | 18.0 | 6.0 | 0.0 | Tienda +10 ($470) (+1176/s)<br>Crítico (+156/s)<br>Exoesqueleto (+12.0/s) |  |
-| 3 | 2m 26s | 54s | 1.808 | 0.0 | 32.0 | 16.0 | 0.0 | Tienda +15 ($1220) (+1411/s)<br>Crítico (+175/s)<br>Fuerza (+20.2/s) | rápido vs sig |
-| 4 | 7m 9s | 4m 43s | 2.179 | 0.0 | 113 | 63.0 | 2.1 | Tienda +20 ($3170) (+1577/s)<br>Crítico (+189/s)<br>Ayuntamiento (+50.0/s) | lento vs ant |
-| 5 | 15m 35s | 8m 26s | 2.984 | 0.0 | 156 | 178 | 10.5 | Tienda +30 ($8240) (+2122/s)<br>Crítico (+237/s)<br>Mina Perforadora (+38.0/s) |  |
-| 6 | 31m 57s | 16m 22s | 3.677 | 0.0 | 199 | 338 | 36.6 | Tienda +40 ($21420) (+2522/s)<br>Crítico (+271/s)<br>Mina Refinería II (+62.0/s) |  |
-| 7 | 1h 8m | 36m 4s | 4.644 | 0.0 | 222 | 715 | 116 | Tienda +50 ($55690) (+3091/s)<br>Crítico (+324/s)<br>Mina Dron Minero (+118/s) |  |
-| 8 | 2h 26m | 1h 18m | 5.708 | 0.0 | 267 | 1.430 | 196 | Tienda +60 ($144790) (+3612/s)<br>Crítico (+372/s)<br>Mina Mina Orbital (+225/s) | rápido vs sig |
-| 9 | 6h 36m | 4h 9m | 6.656 | 0.0 | 348 | 3.280 | 275 | Tienda +70 ($376450) (+3820/s)<br>Mina Veta Neutrón (+500/s)<br>Mina Forja Estelar (+425/s) | lento vs ant |
-| 10 | 12h 52m | 6h 16m | 7.650 | 0.0 | 366 | 5.400 | 354 | Tienda +85 ($978770) (+3810/s)<br>Mina Singularidad II (+830/s)<br>Mina Singularidad I (+700/s) |  |
-| 11 | 25h 55m | 13h 2m | 9.108 | 0.0 | 409 | 10.530 | 434 | Tienda +100 ($2544800) (+3844/s)<br>Mina Imperio Galáctico (+1620/s)<br>Mina Veta Antimateria (+1370/s) |  |
-| 12 | 43h 37m | 17h 42m | 10.151 | 0.0 | 452 | 10.530 | 442 | Tienda +115 ($6616480) (+3406/s)<br>Exoesqueleto (+52.8/s)<br>Fuerza (+39.6/s) |  |
+| 3 | 2m 35s | 1m 3s | 1.808 | 1.350 | 32.0 | 17.6 | 0.0 | Tienda +15 ($1220) (+1411/s)<br>Auto-Clicker nv 1 (+1080/s)<br>Overclock (+270/s) | rápido vs sig |
+| 4 | 6m 3s | 3m 28s | 2.179 | 2.366 | 111 | 75.6 | 10.5 | Tienda +20 ($3170) (+2755/s)<br>Overclock (+582/s)<br>Auto-Clicker nv 2 (+263/s) | lento vs ant |
+| 5 | 11m 54s | 5m 51s | 2.984 | 3.405 | 156 | 231 | 36.6 | Tienda +30 ($8240) (+4397/s)<br>Overclock (+420/s)<br>Crítico (+237/s) |  |
+| 6 | 19m 32s | 7m 38s | 3.677 | 4.446 | 199 | 473 | 36.6 | Tienda +40 ($21420) (+5362/s)<br>Auto-Clicker nv 3 (+544/s)<br>Crítico (+271/s) |  |
+| 7 | 36m 27s | 16m 55s | 4.644 | 5.871 | 217 | 1.073 | 116 | Tienda +50 ($55690) (+6771/s)<br>Overclock (+633/s)<br>Crítico (+324/s) |  |
+| 8 | 1h 13m | 36m 34s | 5.708 | 8.717 | 274 | 2.145 | 196 | Tienda +60 ($144790) (+8112/s)<br>Auto-Clicker nv 4 (+1107/s)<br>Overclock (+850/s) | rápido vs sig |
+| 9 | 3h 13m | 2h 0m | 6.656 | 10.517 | 348 | 4.920 | 277 | Tienda +70 ($376450) (+9587/s)<br>Overclock (+932/s)<br>Mina Veta Neutrón (+500/s) | lento vs ant |
+| 10 | 5h 50m | 2h 36m | 7.650 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+10938/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
+| 11 | 11h 47m | 5h 57m | 9.108 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+11236/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
+| 12 | 17h 46m | 5h 58m | 10.098 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+10114/s)<br>Overclock (+1530/s)<br>Fuerza (+118/s) |  |
+| 13 | 22h 57m | 5h 11m | 11.075 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+6592/s)<br>Muralla (+82.4/s)<br>Exoesqueleto (+82.4/s) | rápido vs sig |
+| 14 | 40h 9m | 17h 11m | 12.170 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+124/s)<br>Exoesqueleto (+86.4/s) | lento vs ant |
 
 ## cps=6 auto=sí bonus=x2 bóveda=60s dorados=none tienda=B
 Resultado: NO terminó (corte 23s)
@@ -118,43 +126,45 @@ Resultado: NO terminó (corte 23s)
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0 | — | — | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | falta x40.3 | imposible |
 
-## cps=6 auto=sí bonus=x2 bóveda=60s dorados=none tienda=C (+8%/compra)
+## cps=6 auto=sí bonus=x2 bóveda=60s dorados=none tienda=C (+30%/compra)
 Resultado: NO terminó (corte 48h 0m)
 
 | RB | T total | Tramo | Click/s | Auto/s | Pasivo/s | Minería/s | Saqueo/s | Top-3 compras | Alerta |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 0 | 41s | 41s | 600 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+480/s)<br>Tienda +2 ($120) (+48.0/s)<br>Tienda +1 ($100) (+32.4/s) |  |
-| 1 | 55s | 14s | 1.212 | 0.0 | 2.0 | 0.0 | 0.0 | Tienda +7 ($250) (+252/s)<br>Tienda +5 ($180) (+240/s)<br>Tienda +10 ($360) (+240/s) |  |
-| 2 | 1m 26s | 31s | 1.452 | 0.0 | 16.0 | 6.0 | 0.0 | Tienda +10 ($470) (+492/s)<br>Tienda +11 ($560) (+396/s)<br>Tienda +12 ($660) (+288/s) |  |
-| 3 | 2m 24s | 58s | 1.808 | 0.0 | 32.0 | 16.0 | 0.0 | Tienda +15 ($1220) (+753/s)<br>Tienda +16 ($1450) (+430/s)<br>Tienda +17 ($1730) (+228/s) | rápido vs sig |
-| 4 | 7m 8s | 4m 44s | 2.179 | 0.0 | 111 | 83.0 | 2.1 | Tienda +20 ($3170) (+595/s)<br>Tienda +23 ($3990) (+342/s)<br>Tienda +22 ($3700) (+327/s) | lento vs ant |
-| 5 | 15m 36s | 8m 28s | 2.984 | 0.0 | 156 | 178 | 10.5 | Tienda +30 ($8240) (+1093/s)<br>Tienda +32 ($9610) (+522/s)<br>Tienda +31 ($8900) (+506/s) |  |
-| 6 | 32m 1s | 16m 25s | 3.677 | 0.0 | 199 | 338 | 36.6 | Tienda +40 ($21420) (+1421/s)<br>Tienda +41 ($23130) (+1101/s)<br>Crítico (+271/s) |  |
-| 7 | 1h 8m | 36m 9s | 4.644 | 0.0 | 222 | 715 | 116 | Tienda +50 ($55690) (+2112/s)<br>Tienda +51 ($60150) (+979/s)<br>Crítico (+324/s) |  |
-| 8 | 2h 32m | 1h 24m | 5.708 | 0.0 | 274 | 1.430 | 196 | Tienda +60 ($144790) (+2353/s)<br>Tienda +61 ($156380) (+1259/s)<br>Crítico (+372/s) |  |
-| 9 | 6h 37m | 4h 5m | 6.656 | 0.0 | 348 | 3.280 | 275 | Tienda +70 ($376450) (+2252/s)<br>Tienda +71 ($395560) (+1568/s)<br>Mina Veta Neutrón (+500/s) |  |
-| 10 | 12h 53m | 6h 16m | 7.650 | 0.0 | 366 | 5.400 | 354 | Tienda +85 ($978770) (+1999/s)<br>Tienda +86 ($1028450) (+1811/s)<br>Mina Singularidad II (+830/s) |  |
-| 11 | 25h 56m | 13h 2m | 9.108 | 0.0 | 409 | 10.530 | 434 | Tienda +100 ($2544800) (+2496/s)<br>Mina Imperio Galáctico (+1620/s)<br>Mina Veta Antimateria (+1370/s) |  |
-| 12 | 43h 38m | 17h 42m | 10.151 | 0.0 | 452 | 10.530 | 442 | Tienda +115 ($6616480) (+3036/s)<br>Tienda +116 ($6952310) (+370/s)<br>Exoesqueleto (+52.8/s) |  |
+| 0 | 42s | 42s | 612 | 0.0 | 0.0 | 0.0 | 0.0 | Tienda +5 ($140) (+360/s)<br>Tienda +2 ($120) (+144/s)<br>Tienda +1 ($100) (+48.0/s) |  |
+| 1 | 57s | 15s | 1.224 | 0.0 | 2.0 | 0.0 | 0.0 | Tienda +7 ($250) (+252/s)<br>Tienda +5 ($180) (+240/s)<br>Tienda +10 ($360) (+240/s) |  |
+| 2 | 1m 27s | 30s | 1.452 | 0.0 | 16.0 | 6.0 | 0.0 | Tienda +10 ($470) (+288/s)<br>Tienda +12 ($660) (+288/s)<br>Tienda +11 ($560) (+264/s) |  |
+| 3 | 2m 47s | 1m 20s | 1.808 | 0.0 | 41.0 | 26.4 | 0.0 | Tienda +15 ($1220) (+511/s)<br>Tienda +16 ($1450) (+430/s)<br>Tienda +18 ($2050) (+242/s) |  |
+| 4 | 6m 21s | 3m 34s | 2.179 | 2.366 | 111 | 75.6 | 10.5 | Auto-Clicker nv 1 (+1124/s)<br>Overclock (+863/s)<br>Tienda +20 ($3170) (+595/s) |  |
+| 5 | 11m 54s | 5m 33s | 2.984 | 2.985 | 156 | 231 | 36.6 | Tienda +30 ($8240) (+1150/s)<br>Tienda +33 ($10380) (+1116/s)<br>Tienda +32 ($9610) (+1082/s) |  |
+| 6 | 19m 53s | 7m 59s | 3.677 | 4.446 | 199 | 473 | 36.6 | Tienda +42 ($24990) (+1481/s)<br>Tienda +41 ($23130) (+1446/s)<br>Tienda +40 ($21420) (+1410/s) |  |
+| 7 | 39m 27s | 19m 34s | 4.644 | 5.871 | 229 | 1.073 | 116 | Tienda +52 ($64960) (+2187/s)<br>Tienda +51 ($60150) (+2145/s)<br>Tienda +50 ($55690) (+2103/s) |  |
+| 8 | 1h 11m | 32m 7s | 5.708 | 8.717 | 267 | 2.145 | 196 | Tienda +61 ($156380) (+2828/s)<br>Tienda +60 ($144790) (+2781/s)<br>Tienda +62 ($168900) (+2503/s) | rápido vs sig |
+| 9 | 3h 14m | 2h 2m | 6.656 | 10.517 | 348 | 4.920 | 277 | Tienda +71 ($395560) (+3934/s)<br>Tienda +70 ($376450) (+3879/s)<br>Tienda +72 ($415630) (+1773/s) | lento vs ant |
+| 10 | 5h 51m | 2h 36m | 7.650 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+5739/s)<br>Tienda +86 ($1028450) (+5199/s)<br>Overclock (+1212/s) |  |
+| 11 | 11h 48m | 5h 57m | 9.108 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+7296/s)<br>Tienda +101 ($2673970) (+3940/s)<br>Mina Imperio Galáctico (+1620/s) |  |
+| 12 | 17h 47m | 5h 58m | 10.098 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+9016/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+1098/s) |  |
+| 13 | 22h 58m | 5h 11m | 11.075 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+6592/s)<br>Muralla (+82.4/s)<br>Exoesqueleto (+82.4/s) | rápido vs sig |
+| 14 | 40h 10m | 17h 11m | 12.170 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+124/s)<br>Exoesqueleto (+86.4/s) | lento vs ant |
 
 ## Comparativa de tiempos por RB (tramo, minutos)
 | RB | cps1-A | cps3-A | cps6-A | cps1-B | cps3-B | cps6-B | cps1-C | cps3-C | cps6-C |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | 9.0 | 2.1 | 0.8 | X | X | X | 5.6 | 1.6 | 0.7 |
-| 1 | 1.4 | 0.5 | 0.2 | X | X | X | 1.5 | 0.6 | 0.2 |
-| 2 | 2.8 | 0.9 | 0.5 | X | X | X | 3.0 | 1.0 | 0.5 |
-| 3 | 5.8 | 2.2 | 0.9 | X | X | X | 4.2 | 2.3 | 1.0 |
-| 4 | 5.9 | 7.0 | 4.7 | X | X | X | 7.3 | 6.4 | 4.7 |
-| 5 | 9.2 | 8.7 | 8.4 | X | X | X | 8.4 | 9.3 | 8.5 |
-| 6 | 15.2 | 14.0 | 16.4 | X | X | X | 14.1 | 14.1 | 16.4 |
-| 7 | 27.0 | 30.3 | 36.1 | X | X | X | 30.4 | 30.4 | 36.1 |
-| 8 | 55.6 | 53.8 | 78.8 | X | X | X | 57.6 | 57.6 | 84.0 |
-| 9 | 184.0 | 184.0 | 249.4 | X | X | X | 180.6 | 180.6 | 245.0 |
-| 10 | 244.6 | 244.6 | 376.2 | X | X | X | 244.3 | 244.3 | 376.7 |
-| 11 | 534.0 | 534.0 | 782.9 | X | X | X | 534.0 | 534.0 | 782.8 |
-| 12 | 833.9 | 833.9 | 1062.0 | X | X | X | 834.0 | 834.0 | 1062.0 |
-| 13 | X | X | X | X | X | X | X | X | X |
-| 14 | X | X | X | X | X | X | X | X | X |
+| 0 | 9.0 | 2.1 | 0.8 | X | X | X | 5.2 | 1.6 | 0.7 |
+| 1 | 1.4 | 0.5 | 0.2 | X | X | X | 1.6 | 0.6 | 0.3 |
+| 2 | 2.8 | 0.9 | 0.5 | X | X | X | 2.8 | 1.0 | 0.5 |
+| 3 | 6.2 | 2.5 | 1.1 | X | X | X | 6.7 | 2.5 | 1.3 |
+| 4 | 5.9 | 4.5 | 3.5 | X | X | X | 5.9 | 5.1 | 3.6 |
+| 5 | 9.6 | 7.2 | 5.8 | X | X | X | 9.6 | 7.7 | 5.5 |
+| 6 | 11.6 | 10.0 | 7.6 | X | X | X | 11.7 | 9.7 | 8.0 |
+| 7 | 27.1 | 22.7 | 16.9 | X | X | X | 25.3 | 22.8 | 19.6 |
+| 8 | 46.4 | 40.0 | 36.6 | X | X | X | 48.0 | 40.1 | 32.1 |
+| 9 | 165.3 | 145.0 | 120.3 | X | X | X | 165.3 | 145.1 | 122.6 |
+| 10 | 198.4 | 179.4 | 156.8 | X | X | X | 198.5 | 179.4 | 156.8 |
+| 11 | 440.3 | 402.8 | 357.3 | X | X | X | 440.5 | 402.9 | 357.3 |
+| 12 | 436.2 | 401.6 | 358.8 | X | X | X | 436.3 | 401.7 | 359.0 |
+| 13 | 379.0 | 348.6 | 311.2 | X | X | X | 379.0 | 348.6 | 311.2 |
+| 14 | X | 1157.7 | 1031.8 | X | X | X | X | 1157.7 | 1031.8 |
 | 15 | X | X | X | X | X | X | X | X | X |
 | 16 | X | X | X | X | X | X | X | X | X |
 | 17 | X | X | X | X | X | X | X | X | X |
