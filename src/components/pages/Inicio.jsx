@@ -155,6 +155,7 @@ export const Inicio = ({
               money={money}
               setMoney={setMoney}
               multiplier={multiplier}
+              bonusActivo={bonusActivo}
               handleClick={handleClick}
               autoClick={autoClick}
               moneyPerClick={moneyPerClick}

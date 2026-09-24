@@ -33,7 +33,7 @@ export const ACHIEVEMENTS = [
   { id: "r1", icon: FaRedo, name: "Renacido", desc: "Hacer tu primer renacimiento.", test: (s) => s.rebirlvl >= 1 },
   { id: "r5", icon: FaMedal, name: "Fénix", desc: "Llegar a RB 5.", test: (s) => s.rebirlvl >= 5 },
   { id: "r10", icon: FaMedal, name: "Inmortal", desc: "Llegar a RB 10.", test: (s) => s.rebirlvl >= 10 },
-  { id: "r20", icon: FaCrown, name: "Leyenda", desc: "Llegar a RB 20 (máximo).", test: (s) => s.rebirlvl >= 20 },
+  { id: "r19", icon: FaCrown, name: "Leyenda", desc: "Llegar a RB 19 (máximo).", test: (s) => s.rebirlvl >= 19 },
   { id: "mine1", icon: FaHardHat, name: "Minero", desc: "Comprar tu primer rig.", test: (s) => s.rigs >= 1 },
   { id: "mine12", icon: FaHardHat, name: "Excavación", desc: "Tener 12 rigs.", test: (s) => s.rigs >= 12 },
   { id: "mineAll", icon: FaHardHat, name: "Imperio minero", desc: `Tener los ${MineriaX.length} rigs.`, test: (s) => s.rigs >= MineriaX.length },

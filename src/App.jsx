@@ -3,8 +3,28 @@ import "./App.css";
 import { Inicio } from "./components/pages/Inicio";
 import { MenuNav } from "./components/shared/MenuNav";
 import { ACHIEVEMENTS } from "./components/logros/achievements.js";
+import rebirthReq from "./components/rebirs/rebirthReq.js";
+import upgrades from "./components/upgrader/upgrades.js";
 
 const SAVE_KEY = "clicker-empire-save-v1";
+
+// Constantes de saqueo (un solo lugar).
+const RAID_EVERY = 45;
+const RAID_MULT = 8;
+
+// #14: verificación automática de que rebirthReq.multiplier coincide con upgrades.max por nivel.
+const verifyShopCap = () => {
+  const maxByLevel = new Map();
+  for (const up of upgrades) maxByLevel.set(up.level, up.max);
+  for (const req of rebirthReq) {
+    if (maxByLevel.get(req.level) !== req.multiplier) {
+      console.error(
+        `[balance] Desajuste RB${req.level}: upgrades.max=${maxByLevel.get(req.level)} vs rebirthReq.multiplier=${req.multiplier}`,
+      );
+    }
+  }
+};
+verifyShopCap();
 
 const loadSave = () => {
   try {
@@ -20,14 +40,29 @@ function App() {
   // Carga inicial una sola vez (lazy) para no romper el primer render.
   const [saved] = useState(loadSave);
 
-  // Estado del dinero.
-  const [money, setMoney] = useState(saved?.money ?? 0);
-  // Estado del multiplicador.
-  const [multiplier, setMultiplier] = useState(saved?.multiplier ?? 1);
+  // Estado del dinero (saneado: finito y >= 0).
+  const [money, setMoney] = useState(() =>
+    Number.isFinite(saved?.money) && saved.money >= 0 ? saved.money : 0,
+  );
+  // Estado del multiplicador (saneado: finito y > 0).
+  const [multiplier, setMultiplier] = useState(() =>
+    Number.isFinite(saved?.multiplier) && saved.multiplier > 0 ? saved.multiplier : 1,
+  );
   // Estados para rebirths y niveles desbloqueados.
   const [rebirlvl, setRebirLvl] = useState(saved?.rebirlvl ?? 0);
-  // Estado de los niveles desbloqueados. (Infinity se serializa como null → vuelve a Infinity)
-  const [unlockedLvl, setUnlockedLvl] = useState(saved?.unlockedLvl ?? Infinity);
+  // #14: arranca en el tope de la primera fase (x50), no en Infinity.
+  // Si el save trae un número finito se respeta; si trae null (Infinity
+  // serializado) o falta, se recalcula según el rebirlvl guardado.
+  const [unlockedLvl, setUnlockedLvl] = useState(() => {
+    if (typeof saved?.unlockedLvl === "number" && Number.isFinite(saved.unlockedLvl)) {
+      return saved.unlockedLvl;
+    }
+    if ((saved?.rebirlvl ?? 0) >= rebirthReq.length) return Infinity;
+    return (
+      rebirthReq.find((r) => r.level === (saved?.rebirlvl ?? 0))?.multiplier ??
+      rebirthReq[0].multiplier
+    );
+  });
   // Estado para el bonus de bienvenida
   const [bonusActivo, setBonusActivo] = useState(saved?.bonusActivo ?? false);
   //Estados para el autoclick (no se persiste encendido: siempre arranca apagado)
@@ -82,8 +117,17 @@ function App() {
     general: 0,
     ...saved?.armyLvl,
   });
-  // Cooldown del saqueo en segundos (no se persiste: arranca listo).
-  const [raidCooldown, setRaidCooldown] = useState(0);
+  // #2: timestamp del último saqueo (persistido). Recargar ya no regala uno gratis:
+  // el cooldown inicial se recalcula desde este timestamp.
+  const [lastRaidAt, setLastRaidAt] = useState(() =>
+    Number.isFinite(saved?.lastRaidAt) && saved.lastRaidAt > 0 ? saved.lastRaidAt : 0,
+  );
+  // Cooldown del saqueo en segundos (derivado de lastRaidAt al cargar).
+  const [raidCooldown, setRaidCooldown] = useState(() => {
+    if (!lastRaidAt || (saved?.armyPower ?? 0) <= 0) return 0;
+    const elapsed = Math.floor((Date.now() - lastRaidAt) / 1000);
+    return Math.max(0, Math.min(RAID_EVERY, RAID_EVERY - elapsed));
+  });
 
   // --- SISTEMA ENTRENAMIENTO (panel izquierdo, pestaña Entrenamiento) ---
   // Stats base permanentes: fuerza → click, disciplina → pasivo, reflejos → auto.
@@ -144,6 +188,7 @@ function App() {
           cityLvl,
           armyPower,
           armyLvl,
+          lastRaidAt,
           trainClickBonus,
           trainRate,
           trainAutoBonus,
@@ -178,6 +223,7 @@ function App() {
     cityLvl,
     armyPower,
     armyLvl,
+    lastRaidAt,
     trainClickBonus,
     trainRate,
     trainAutoBonus,
@@ -350,22 +396,26 @@ function App() {
   };
 
   // Ganancias derivadas (para mostrar en UI sin recalcular en cada hijo)
+  // #1: el bonus de bienvenida es un factor aparte SOLO sobre multiplier
+  // (no toca multiplier, no rompe el tope de tienda/rebirth y sobrevive al renacer).
   // Frenesí: x3 al click (y por ende al auto, que deriva del click).
   // Entrenamiento suma base: fuerza al click, reflejos al auto.
+  const welcomeFactor = bonusActivo ? 2 : 1;
   const moneyPerClick =
-    (multiplier + clickBonus + cityClickBonus + trainClickBonus) *
+    (multiplier * welcomeFactor + clickBonus + cityClickBonus + trainClickBonus) *
     (frenzyLeft > 0 ? 3 : 1);
   const moneyPerAuto = moneyPerClick * autoPower + trainAutoBonus;
 
-  // --- SAQUEO DEL EJÉRCITO: botín = poder x multiplicador ---
-  const RAID_EVERY = 45;
-  const RAID_MULT = 8;
-  const raidLoot = armyPower * RAID_MULT;
+  // --- SAQUEO DEL EJÉRCITO: botín = poder x RAID_MULT (siempre entero) ---
+  const raidLoot = Math.floor(armyPower * RAID_MULT);
 
   const doRaid = () => {
     if (armyPower <= 0 || raidCooldown > 0) return false;
-    setMoney((m) => m + raidLoot);
+    const loot = Math.floor(raidLoot);
+    if (loot <= 0) return false;
+    setMoney((m) => m + loot);
     setTotalRaids((c) => c + 1);
+    setLastRaidAt(Date.now());
     setRaidCooldown(RAID_EVERY);
     return true;
   };
@@ -386,6 +436,7 @@ function App() {
     const loot = Math.floor(raidLootRef.current);
     if (loot > 0) setMoney((m) => m + loot);
     setTotalRaids((c) => c + 1);
+    setLastRaidAt(Date.now());
     setRaidCooldown(RAID_EVERY);
   }, [armyPower, raidCooldown]);
 
@@ -447,11 +498,12 @@ function App() {
     return () => clearInterval(interval);
   }, [directPassive, miningRate, passiveTotal]);
 
-  // Recaudar bóveda: mueve lo minado al dinero total.
+  // Recaudar bóveda: mueve lo minado al dinero total (siempre entero).
   const collectVault = () => {
-    if (vault <= 0) return;
-    setMoney((prev) => prev + vault);
-    setTotalCollected((c) => c + Math.floor(vault));
+    const v = Math.floor(vault);
+    if (v <= 0) return;
+    setMoney((prev) => prev + v);
+    setTotalCollected((c) => c + v);
     setVault(0);
   };
 
@@ -475,10 +527,21 @@ function App() {
     return () => clearInterval(id);
   }, [collectorLvl, collectEverySec]);
 
+  // #12: validación de compras. Costo finito y >= 0, fondos suficientes,
+  // y el descuento nunca deja money negativo (clamp funcional anti stale).
+  const isValidCost = (cost) => Number.isFinite(cost) && cost >= 0;
+  const canPay = (cost) =>
+    isValidCost(cost) && Number.isFinite(money) && money >= cost;
+  const spendMoney = (cost) =>
+    setMoney((prev) => {
+      if (!Number.isFinite(prev)) return 0;
+      return Math.max(0, prev - cost);
+    });
+
   // Compra genérica del panel Imperio.
   const buyImperio = (key, cost, apply) => {
-    if (money < cost) return false;
-    setMoney((prev) => prev - cost);
+    if (!canPay(cost)) return false;
+    spendMoney(cost);
     setImperioLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
     apply();
     return true;
@@ -496,8 +559,8 @@ function App() {
 
   // Compra genérica del panel Ciudad (misma idea que Imperio).
   const buyCiudad = (key, cost, apply) => {
-    if (money < cost) return false;
-    setMoney((prev) => prev - cost);
+    if (!canPay(cost)) return false;
+    spendMoney(cost);
     setCityLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
     apply();
     return true;
@@ -513,8 +576,9 @@ function App() {
 
   // Compra genérica del panel Ejército.
   const buyEjercito = (key, cost, power) => {
-    if (money < cost) return false;
-    setMoney((prev) => prev - cost);
+    if (!canPay(cost)) return false;
+    if (!Number.isFinite(power) || power <= 0) return false;
+    spendMoney(cost);
     setArmyLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
     setArmyPower((p) => p + power);
     return true;
@@ -527,8 +591,8 @@ function App() {
 
   // Compra genérica del panel Entrenamiento.
   const buyEntreno = (key, cost, apply) => {
-    if (money < cost) return false;
-    setMoney((prev) => prev - cost);
+    if (!canPay(cost)) return false;
+    spendMoney(cost);
     setTrainLvl((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
     apply();
     return true;
@@ -543,8 +607,10 @@ function App() {
 
   const buyMiner = (up) => {
     if (!up || purchasedMinerIds.includes(up.id)) return false;
-    if (money < up.cost) return false;
-    setMoney((prev) => prev - up.cost);
+    if (!isValidCost(up?.cost)) return false;
+    if (!Number.isFinite(up?.value)) return false;
+    if (!canPay(up.cost)) return false;
+    spendMoney(up.cost);
     setPurchasedMinerIds((prev) => [...prev, up.id]);
     setMiningRate((prev) => prev + up.value);
     return true;
@@ -564,12 +630,14 @@ function App() {
   // desbloqueado, se completa justo hasta el tope en vez de bloquearse.
   // Así nunca quedas trabado a pocos puntos del renacimiento (ej: 102/105).
   const buyUpgrade = (cost, increment, max) => {
-    if (money < cost) return;
+    if (!canPay(cost)) return;
+    if (!Number.isFinite(increment) || !Number.isFinite(max)) return;
     const cap = Math.min(max, unlockedLvl);
+    if (!Number.isFinite(cap)) return;
     if (multiplier >= cap) return;
     const newValue = Math.min(multiplier + increment, cap);
     if (newValue <= multiplier) return;
-    setMoney((prev) => prev - cost);
+    spendMoney(cost);
     setMultiplier(Number(newValue.toFixed(2)));
   };
   return (

@@ -6,6 +6,7 @@ export const ClikerGamer = ({
   money,
   handleClick,
   multiplier,
+  bonusActivo = false,
   autoClick,
   moneyPerClick,
   moneyPerAuto,
@@ -53,7 +54,7 @@ export const ClikerGamer = ({
         <div className="display-money">
           <span className="money-label">BALANCE ACTUAL</span>
           <h2 className="money-amount">${formatNumber(money)}</h2>
-          <span className="money-sub">x{multiplier} base + bonos del Imperio</span>
+          <span className="money-sub">x{multiplier} base{bonusActivo ? " x2" : ""} + bonos del Imperio</span>
         </div>
 
         <div className="stat-strip">
@@ -93,7 +94,7 @@ export const ClikerGamer = ({
             className="golden-btn"
             style={{ left: `${golden.x}%`, top: `${golden.y}%` }}
             onClick={collectGolden}
-            title="¡Click dorado! Fortuna o frenesí"
+            title="¡Click dorado! Fortuna (usa tu click actual, mayor en frenesí) o frenesí x3"
           >
             <FaCoins />
           </button>

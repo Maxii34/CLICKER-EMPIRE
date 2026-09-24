@@ -29,6 +29,8 @@ export const MenuNav = ({
 }) => {
   const req = rebirthReq.find((r) => r.level === rebirlvl) || rebirthReq[rebirthReq.length - 1];
   const isMax = rebirlvl >= rebirthReq.length;
+  // #4: botones DEV solo en desarrollo.
+  const isDev = import.meta.env.DEV;
   const pMoney = req ? Math.min(1, money / req.money) : 1;
   const pMult = req ? Math.min(1, multiplier / req.multiplier) : 1;
   const progress = Math.round(((pMoney + pMult) / 2) * 100);
@@ -89,15 +91,19 @@ export const MenuNav = ({
                 <FaCog />
               </Dropdown.Toggle>
               <Dropdown.Menu className="dev-dropdown-menu">
-                <div className="dev-menu-title">Herramientas DEV</div>
-                <div className="dev-menu-row">
-                  <button className="btn-dev text-success" onClick={addMoneyDev} title="Sumar $50M (testing)">
-                    +$ DEV
-                  </button>
-                  <button className="btn-dev text-danger" onClick={removeMoney} title="Poner dinero en 0">
-                    -$ DEV
-                  </button>
-                </div>
+                {isDev && (
+                  <>
+                    <div className="dev-menu-title">Herramientas DEV</div>
+                    <div className="dev-menu-row">
+                      <button className="btn-dev text-success" onClick={addMoneyDev} title="Sumar $50M (testing)">
+                        +$ DEV
+                      </button>
+                      <button className="btn-dev text-danger" onClick={removeMoney} title="Poner dinero en 0">
+                        -$ DEV
+                      </button>
+                    </div>
+                  </>
+                )}
                 {resetSave && <ResetGame onReset={resetSave} />}
                 <div className="dev-menu-note">Autoguardado activo</div>
               </Dropdown.Menu>

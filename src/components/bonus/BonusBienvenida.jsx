@@ -1,14 +1,14 @@
 import "./Bonus.css";
 
 export const BonusBienvenida = ({
-  setMultiplier,
   bonusActivo,
   setBonusActivo,
 }) => {
 
   const handleBonus = () => {
     if (bonusActivo) return;
-    setMultiplier((prev) => prev * 2);
+    // #1: no toca multiplier. El x2 vive como welcomeFactor en App.jsx
+    // (solo sobre multiplier, sobrevive al renacer y respeta el tope).
     setBonusActivo(true);
   };
 
