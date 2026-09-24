@@ -13,6 +13,8 @@ export const MAX_COLLECTOR = 5;
 export const COLLECTOR_BASE_SEC = 35;
 export const COLLECTOR_STEP_SEC = 5;
 export const COLLECTOR_MIN_SEC = 10;
+// P5: cada nivel de Recolector suma +10% a lo minado (además de automatizar).
+export const COLLECTOR_MINE_PCT = 0.1;
 
 // Bonus de bienvenida: factor aparte SOLO sobre multiplier (FASE 0.5).
 export const WELCOME_MULT = 2;
@@ -66,14 +68,19 @@ export const COSTS = {
   mercado: { base: 3000, exp: 2.6 },
   muralla: { base: 4000, exp: 2.8 },
   ayunta: { base: 12000, exp: 3 },
-  soldado: { base: 25000, exp: 2.9 },
-  arquero: { base: 70000, exp: 3.0 },
-  caballero: { base: 200000, exp: 3.1 },
-  general: { base: 600000, exp: 3.2 },
+  soldado: { base: 15000, exp: 2.9 },
+  arquero: { base: 42000, exp: 3.0 },
+  caballero: { base: 120000, exp: 3.1 },
+  general: { base: 360000, exp: 3.2 },
   fuerza: { base: 6000, exp: 2.6 },
   disciplina: { base: 9000, exp: 2.6 },
   reflejos: { base: 15000, exp: 2.8 },
 };
+
+// Tienda modelo C (FASE 2-bis): cada recompra del mismo ítem cuesta
+// +(SHOP_GROWTH*100)% sobre el precio base. El contador es por ítem
+// y se resetea al renacer. Los saves viejos arrancan en 0.
+export const SHOP_GROWTH = 0.3;
 
 // Dinero de prueba del botón DEV (solo en import.meta.env.DEV).
 export const DEV_MONEY = 50000000;

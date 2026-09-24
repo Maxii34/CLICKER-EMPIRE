@@ -18,7 +18,37 @@ Toda la interfaz está en español y debe seguir así.
 
 - Estado central: `src/App.jsx`
 - Layout de 3 columnas: `src/components/pages/Inicio.jsx`
-- Autoguardado: `localStorage`, clave `clicker-empire-save-v1`
+- Autoguardado: `localStorage`, clave `clicker-empire-save-v1`, solo vía `src/game/save.js`
+  (versión 2; `App.jsx` y componentes no hacen `JSON.parse/stringify` del save).
+  Se guarda en cada cambio + al ocultar/cerrar la pestaña (`visibilitychange`/`pagehide`).
+  Save grave → respaldo en `clicker-empire-backup-<fecha>` + pantalla de recovery
+  (importar respaldo / empezar de nuevo / reintentar). Ajustes: exportar/importar
+  (base64 + checksum FNV-1a) y reset con doble confirmación, en el menú ⚙️.
+
+## Esquema del save v2 (JSON puro, sin funciones ni referencias)
+
+| Campo | Tipo | Rango | Default | Notas |
+|---|---|---|---|---|
+| version | int | 2 | 2 | Sin campo = v1 → migra |
+| money, vault, miningRate, clickBonus, passiveRate, cityRate, cityClickBonus, trainClickBonus, trainRate, trainAutoBonus, armyPower, maxMoney | number | finito ≥ 0 | 0 | — |
+| multiplier | number | finito 1..1e6 | 1 | — |
+| rebirlvl | int | 0..20 | 0 | 20 = todo completado |
+| unlockedLvl | number\|null | finito ≥ 1 o null | según RB | **null = Infinity** (solo válido en MAX); al cargar se recalcula |
+| bonusActivo | boolean | — | false | Solo `true` exacto vale |
+| autoClickSpeed | number | 100..10000 | 1000 | autoClick nunca persiste encendido |
+| autoClickLevel | int | 0..5 | 0 | — |
+| autoPower | int | ≥ 4 | 4 | — |
+| imperioLvl | {exo,fondo,overclock:int≥0; crit:0..10; collector:0..5} | — | ceros | — |
+| cityLvl | {casa,mercado:int≥0; muralla:0..15; ayunta:0..10} | — | ceros | — |
+| armyLvl | {soldado,arquero,caballero:int≥0; general:0..5} | — | ceros | — |
+| trainLvl | {fuerza:0..30; disciplina:0..30; reflejos:0..20} | — | ceros | — |
+| lastRaidAt, lastSeenAt | number (ms) | finito ≥ 0 | 0 | lastSeenAt lo usará FASE 4 (offline) |
+| purchasedMinerIds | string[] | ids de `MineriaX.js`, sin duplicados | [] | Desconocidos se filtran |
+| shopCounts | {[idx]: int≥1} | — | {} | Contador tienda C, reset al renacer |
+| totalClicks, totalCollected, goldenCount, totalRaids | int | ≥ 0 | 0 | Estadísticas de logros |
+
+Campo inválido → default + `console.warn("[save] …")`. Nunca quedan `NaN`, negativos
+ni `Infinity` en el estado (salvo `unlockedLvl` en MAX, documentado arriba).
 
 | Zona | Componente | Archivo |
 |---|---|---|
@@ -29,41 +59,43 @@ Toda la interfaz está en español y debe seguir así.
 
 Datos importantes: `upgrades.js` (tienda), `rebirthReq.js` (20 rebirths), `unlocks.js` (33 filas de desbloqueos), `MineriaX.js` (36 rigs), `achievements.js` (26 logros).
 
-## Fórmulas madre (App.jsx, ~líneas 355-364)
+## Fórmulas madre (src/game/economy.js, puras)
 
 ```
-moneyPerClick = (multiplier + clickBonus + cityClickBonus + trainClickBonus) * (frenzy ? 3 : 1)
-moneyPerAuto  = moneyPerClick * autoPower + trainAutoBonus
-pasivoDirecto = passiveRate + cityRate + trainRate      // +$/s directo al dinero
-miningRate    -> vault                                  // +$/s a la bóveda, no directo
-raidLoot      = armyPower * 8                           // cada 45s (RAID_EVERY)
-crítico       : chance = critLvl * 3%, golpe = moneyPerClick * 5
+moneyPerClick = (multiplier * welcomeFactor + clickBonus + cityClickBonus + trainClickBonus) * (frenzy ? 3 : 1)
+moneyPerAuto  = moneyPerClick * autoPower + trainAutoBonus   // SUMA al manual (P3, ya no lo pausa)
+pasivoDirecto = passiveRate + cityRate + trainRate            // +$/s directo al dinero
+mineríaEfectiva = miningRate * (1 + 0.1 * collectorLvl)       // +$/s a la bóveda, no directo (P5)
+raidLoot      = floor(armyPower * 8)                          // cada 45s (RAID_EVERY)
+crítico       : chance = critLvl * 3%, golpe = moneyPerClick * 5 (solo click manual)
+shopPrice     = round(base * 1.3^vecesComprado)               // tienda modelo C (P2)
 ```
 
 Todo lo que se compra suma a una de esas variables. Por eso todo escala entre sí: cualquier cambio en una fórmula afecta a varios sistemas.
 
 ## Qué persiste y qué se pierde al renacer
 
-- Persiste: `imperioLvl`, `cityLvl`, `armyLvl`, `trainLvl`, `miningRate` + ids de rigs + vault, `autoLevel`, `bonusActivo`.
-- Se pierde: `money` y `multiplier`.
+- Persiste: `imperioLvl`, `cityLvl`, `armyLvl`, `trainLvl`, `miningRate` + ids de rigs + vault, `autoLevel`, `bonusActivo`, `lastRaidAt`, `lastSeenAt`.
+- Se pierde: `money`, `multiplier` y `shopCounts` (contador tienda C).
 - Al renacer: `rebirlvl++`, `money = 0`, `multiplier = bonus de inicio`, `unlockedLvl = próximo tope (o Infinity)`.
 
 ## Sistemas
 
 ### Tienda de aumentos (derecha)
 - Solo muestra el nivel actual (`upgrades.filter(level == rebirlvl)`). 20 niveles (0-19).
-- `buyUpgrade(cost, increment, max)`: tope = `min(max, unlockedLvl)`. Redondea al tope para no trabarse.
+- Modelo C (P2): cada recompra del mismo ítem cuesta `shopPrice = round(base * 1.3^vecesComprado)`. Contador por ítem (`shopCounts`), se resetea al renacer, saves viejos arrancan en 0.
+- `buyUpgrade(idx)`: tope = `min(max, unlockedLvl)`. Redondea al tope para no trabarse.
 - Es la única mejora que se resetea con el rebirth.
 
 ### Rebirth
-- Requisito doble: dinero y multiplicador (ver `rebirthReq.js`).
+- Requisito doble: dinero y multiplicador (ver `rebirthReq.js`). Dinero RB12-13 con x1.8/RB y RB14-19 con x1.6/RB (ajuste mínimo 2-bis); RB0-11 intactos.
 - Bonus de inicio por RB: x5, x7, x10, x14, x20, x28, x39, x55, x77, x108, x151... hasta x3108 en RB19.
 - Barra global en topbar: `(pMoney + pMult) / 2`.
 
 ### Panel izquierdo (persistente)
-- **Imperio (5 mejoras)**: Exoesqueleto (+2 click), Fondo Inversión (+5/s), Overclock (autoPower +1, base 4), Golpe Crítico (3% por nivel, máx 10), Recolector (vacía la bóveda cada `max(10, 35 - lvl*5)` s, máx 5).
+- **Imperio (5 mejoras)**: Exoesqueleto (+2 click), Fondo Inversión (+5/s), Overclock (autoPower +1, base 4), Golpe Crítico (3% por nivel, máx 10), Recolector (+10% minería por nivel y vacía la bóveda cada `max(10, 35 - lvl*5)` s, máx 5).
 - **Ciudad (4 edificios)**: Casa (+2/s), Mercado (+7/s), Muralla (+2 click), Ayuntamiento (+25/s).
-- **Ejército (4 tropas)**: Soldado +12, Arquero +35, Caballero +100, General +300 (máx 5). Sistema independiente: saqueo cada 45s, manual o automático.
+- **Ejército (4 tropas, costos P4a)**: Soldado 15k +12, Arquero 42k +35, Caballero 120k +100, General 360k +300 (máx 5). Sistema independiente: saqueo cada 45s, manual o automático.
 - **Entrenamiento (3 stats)**: Fuerza (+3 click), Disciplina (+4/s), Reflejos (+12 por auto, se suma después de multiplicar por autoPower).
 - **Logros**: 26, con toast de 4s al desbloquear.
 
@@ -73,7 +105,7 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 - **Combo**: crítico x5 bajo frenesí x3 = x15 por click.
 
 ### Derecha
-- **BonusAutoClick (5 niveles)**: solo acelera la frecuencia (900ms a 500ms). El daño lo dan Imperio/Entrenamiento. Cuando está encendido pausa el click manual.
+- **BonusAutoClick (5 niveles)**: solo acelera la frecuencia (900ms a 500ms). El daño lo dan Imperio/Entrenamiento. Cuando está encendido SUMA al click manual (P3, ya no lo pausa).
 - **Minería (36 rigs, 6 tiers)**: compra única y permanente. El flujo es `miningRate -> vault (cada 1s) -> RECAUDAR -> money`. El Recolector del Imperio lo automatiza.
 
 ## Conexiones clave

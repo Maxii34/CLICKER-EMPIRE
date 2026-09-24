@@ -26,6 +26,7 @@ export const Inicio = ({
   rebirlvl,
   setUnlockedLvl,
   unlockedLvl,
+  setShopCounts,
   bonusActivo,
   setBonusActivo,
   setAutoClickSpeed,
@@ -76,6 +77,7 @@ export const Inicio = ({
   buyReflejos,
   passivePerSec,
   miningRate,
+  shopCounts,
   purchasedMinerIds,
   buyMiner,
   vault,
@@ -180,6 +182,7 @@ export const Inicio = ({
                   buyUpgrade={buyUpgrade}
                   rebirlvl={rebirlvl}
                   unlockedLvl={unlockedLvl}
+                  shopCounts={shopCounts}
                 />
               </div>
 
@@ -195,6 +198,7 @@ export const Inicio = ({
                       rebirlvl={rebirlvl}
                       setUnlockedLvl={setUnlockedLvl}
                       setMultiplier={setMultiplier}
+                      setShopCounts={setShopCounts}
                     />
                   </div>
                 </Col>

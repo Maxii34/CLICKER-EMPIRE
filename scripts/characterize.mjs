@@ -27,6 +27,8 @@ const BASELINE = join(DIR, "characterize.baseline.json");
 
 // --- Copia literal de las curvas originales (NO TOCAR: es el snapshot) ---
 // base/exp de cada panel + tope (null = sin máximo).
+// Verificado pre-FASE 1 con `git show d5d7a49:...`.
+// P4 (FASE 2-bis, intencional): ejército -40% en base, mismo exp.
 const COST_SNAPSHOT = {
   exo: { base: 500, exp: 2.2, max: null },
   fondo: { base: 1500, exp: 2.5, max: null },
@@ -37,10 +39,10 @@ const COST_SNAPSHOT = {
   mercado: { base: 3000, exp: 2.6, max: null },
   muralla: { base: 4000, exp: 2.8, max: 15 },
   ayunta: { base: 12000, exp: 3, max: 10 },
-  soldado: { base: 25000, exp: 2.9, max: null },
-  arquero: { base: 70000, exp: 3.0, max: null },
-  caballero: { base: 200000, exp: 3.1, max: null },
-  general: { base: 600000, exp: 3.2, max: 5 },
+  soldado: { base: 15000, exp: 2.9, max: null },
+  arquero: { base: 42000, exp: 3.0, max: null },
+  caballero: { base: 120000, exp: 3.1, max: null },
+  general: { base: 360000, exp: 3.2, max: 5 },
   fuerza: { base: 6000, exp: 2.6, max: 30 },
   disciplina: { base: 9000, exp: 2.6, max: 30 },
   reflejos: { base: 15000, exp: 2.8, max: 20 },
@@ -53,6 +55,22 @@ const COST_LEVELS = (max) => {
 };
 const snapCost = (key, lvl) =>
   Math.floor(COST_SNAPSHOT[key].base * Math.pow(COST_SNAPSHOT[key].exp, lvl));
+// Snapshot de requisitos de rebirth (dinero/multiplicador/bonus por nivel).
+// RB0-11 originales, RB12-13 x1.8, RB14-19 x1.6 (FASE 2-bis).
+const REQ_SNAPSHOT = [
+  [590, 50, 5], [1490, 100, 7], [3930, 105, 10], [10220, 115, 14],
+  [52810, 120, 20], [137310, 150, 28], [356940, 170, 39], [928030, 200, 55],
+  [2412800, 230, 77], [9395110, 250, 108], [24427300, 270, 151],
+  [63510950, 305, 211], [114319710, 340, 295], [205775478, 375, 413],
+  [329240765, 410, 578], [526785224, 445, 809], [842856358, 480, 1133],
+  [1348570173, 515, 1586], [2157712277, 550, 2220], [3452339643, 585, 3108],
+];
+const snapShopPrice = (base, n) => Math.round(base * Math.pow(1.3, n));
+const SHOP_PRICE_CASES = [
+  [140, 0], [140, 1], [140, 5],
+  [3170, 0], [3170, 3],
+  [6616480, 0], [6616480, 2],
+];
 
 // --- Copia literal de las fórmulas actuales (NO TOCAR: es el snapshot) ---
 const snap = {
@@ -151,6 +169,9 @@ function computeCosts(costFn) {
       rows.push({ curve: key, lvl, cost: costFn(key, lvl) });
     }
   }
+  for (const [base, n] of SHOP_PRICE_CASES) {
+    rows.push({ curve: `shop:${base}x${n}`, lvl: n, cost: costFn(`shop:${base}`, n) });
+  }
   return rows;
 }
 
@@ -159,7 +180,12 @@ const mode = process.argv.includes("--check") ? "check" : "baseline";
 if (mode === "baseline") {
   const baseline = {
     states: compute(snap),
-    costs: computeCosts((key, lvl) => snapCost(key, lvl)),
+    costs: computeCosts((key, lvl) =>
+      key.startsWith("shop:")
+        ? snapShopPrice(Number(key.split(":")[1]), lvl)
+        : snapCost(key, lvl),
+    ),
+    reqs: REQ_SNAPSHOT.map(([money, multiplier, bonus], level) => ({ level, money, multiplier, bonus })),
   };
   writeFileSync(BASELINE, JSON.stringify(baseline, null, 2) + "\n");
   console.log(
@@ -169,6 +195,7 @@ if (mode === "baseline") {
   const { welcomeFactor, moneyPerClick, moneyPerAuto, directPassivePerSec, raidLoot, critChance, collectorEverySec, goldenFortune } =
     await import("../src/game/economy.js");
   const eco = await import("../src/game/economy.js");
+  const reqData = (await import("../src/components/rebirs/rebirthReq.js")).default;
   const costFns = {
     exo: eco.costExo, fondo: eco.costFondo, overclock: eco.costOverclock,
     crit: eco.costCrit, collector: eco.costCollector, casa: eco.costCasa,
@@ -194,7 +221,11 @@ if (mode === "baseline") {
   };
   const expected = JSON.parse(readFileSync(BASELINE, "utf-8"));
   const actualStates = compute(fns);
-  const actualCosts = computeCosts((key, lvl) => costFns[key](lvl));
+  const actualCosts = computeCosts((key, lvl) =>
+    key.startsWith("shop:")
+      ? eco.shopPrice(Number(key.split(":")[1]), lvl)
+      : costFns[key](lvl),
+  );
   const actual = { states: actualStates, costs: actualCosts };
   let fails = 0;
   const cmp = (label, e, a) => {
@@ -223,9 +254,16 @@ if (mode === "baseline") {
       console.error(`DIFIERE orden de costos en fila ${i}`);
     }
   }
+  for (let i = 0; i < expected.reqs.length; i++) {
+    const e = expected.reqs[i];
+    const a = reqData.find((r) => r.level === e.level) || {};
+    cmp(`[req RB${e.level} dinero]`, e.money, a.money);
+    cmp(`[req RB${e.level} mult]`, e.multiplier, a.multiplier);
+    cmp(`[req RB${e.level} bonus]`, e.bonus, a.bonus);
+  }
   if (fails > 0) {
     console.error(`CARACTERIZACIÓN FALLIDA: ${fails} diferencias.`);
     process.exit(1);
   }
-  console.log(`Caracterización OK: ${actual.states.length} estados y ${actual.costs.length} costos idénticos al baseline.`);
+  console.log(`Caracterización OK: ${actual.states.length} estados, ${actual.costs.length} costos y ${expected.reqs.length} reqs idénticos al baseline.`);
 }

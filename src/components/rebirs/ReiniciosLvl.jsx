@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   FaRedo,
   FaTrophy,
-  FaCoins,
   FaBolt,
   FaGift,
   FaStore,
@@ -41,6 +40,7 @@ export const ReiniciosLvl = ({
   rebirlvl,
   setRebirLvl,
   setUnlockedLvl,
+  setShopCounts,
 }) => {
   // Colapsado por defecto: solo resumen visible, clic para expandir
   const [open, setOpen] = useState(false);
@@ -57,10 +57,12 @@ export const ReiniciosLvl = ({
           <span className="rb-icon">
             <FaTrophy />
           </span>
-          <span className="rb-head-text">
-            <span className="rb-title">Renacimiento</span>
-            <span className="rb-sub">Nivel máximo alcanzado</span>
-          </span>
+          <div className="rb-head-text">
+            <div className="rb-title">Renacimiento</div>
+            <div className="rb-meta-row">
+              <span className="rb-sub">Nivel máximo alcanzado</span>
+            </div>
+          </div>
         </div>
         <p className="rb-max">Eres leyenda del imperio. No hay más renacimientos.</p>
       </div>
@@ -70,8 +72,6 @@ export const ReiniciosLvl = ({
   const moneyOk = money >= req.money;
   const multOk = multiplier >= req.multiplier;
   const canRebirth = moneyOk && multOk;
-  const moneyPct = Math.min(100, (money / req.money) * 100);
-  const multPct = Math.min(100, (multiplier / req.multiplier) * 100);
 
   const faltaDinero = Math.max(0, req.money - money);
   const faltaMult = Number(Math.max(0, req.multiplier - multiplier).toFixed(2));
@@ -83,6 +83,8 @@ export const ReiniciosLvl = ({
     setMoney(0);
     setMultiplier(req.bonus || 0);
     setUnlockedLvl(nextLevel ? nextLevel.multiplier : Infinity);
+    // P2: el contador de recompras de tienda se resetea al renacer.
+    if (setShopCounts) setShopCounts({});
   };
 
   const rewards = [
@@ -93,8 +95,6 @@ export const ReiniciosLvl = ({
       label: r.label,
     })),
   ];
-
-  const progress = Math.round((moneyPct + multPct) / 2);
 
   return (
     <div className="rb-box">
@@ -107,76 +107,31 @@ export const ReiniciosLvl = ({
         <span className="rb-icon">
           <FaRedo />
         </span>
-        <span className="rb-head-text">
-          <span className="rb-title">Renacimiento</span>
-          <span className={`rb-sub ${canRebirth ? "ready" : ""}`}>
-            {canRebirth ? (
-              <>
+        <div className="rb-head-text">
+          <div className="rb-title">Renacimiento</div>
+          <div className="rb-meta-row">
+            {canRebirth && (
+              <span className="rb-sub ready">
                 <FaCheck /> Listo
-              </>
-            ) : (
-              `${progress}%`
+              </span>
             )}
-          </span>
-        </span>
-        <span className="rb-head-right">
-          <span className="rb-lvl">RB {req.level}</span>
+            <span className="rb-lvl">RB {req.level}</span>
+          </div>
+        </div>
+        <div className="rb-head-right">
           <span className="collapse-chevron">{open ? <FaChevronUp /> : <FaChevronDown />}</span>
-        </span>
+        </div>
       </button>
 
-      <div className={`collapse-body ${open ? "open" : ""}`}>
-        <div className="collapse-inner rb-detail">
-          {/* Requisitos con progreso */}
-          <div className="rb-req">
-            <div className="rb-req-top">
-              <span>
-                <FaCoins /> Dinero
-              </span>
-              <span className={moneyOk ? "ok" : ""}>
-                ${fmt(money)} / ${fmt(req.money)}
-              </span>
-            </div>
-            <div className="rb-bar">
-              <div className="rb-fill money" style={{ width: `${moneyPct}%` }} />
-            </div>
-          </div>
-
-          <div className="rb-req">
-            <div className="rb-req-top">
-              <span>
-                <FaBolt /> Multiplicador
-              </span>
-              <span className={multOk ? "ok" : ""}>
-                x{multiplier} / x{req.multiplier}
-              </span>
-            </div>
-            <div className="rb-bar">
-              <div className="rb-fill mult" style={{ width: `${multPct}%` }} />
-            </div>
-          </div>
-
-          {/* Recompensas */}
-          <div className={`rb-rewards ${canRebirth ? "ready" : ""}`}>
-            <p className="rb-rewards-title">
-              <FaGift /> Al renacer obtienes:
-            </p>
-            <ul>
-              {rewards.map((r, i) => (
-                <li key={i}>
-                  <r.icon /> {r.label}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <p className="rb-warn">
-            <FaExclamationTriangle /> Resetea tu dinero y multiplicador actual.
-          </p>
-
+      {/* Modo compacto: botón renacer debajo, chico. Al expandir se oculta y vuelve a su lugar dentro de acciones. */}
+      {!open && (
+        <div className="rb-compact-action">
           <button
-            className={`rb-btn ${canRebirth ? "ready" : ""}`}
-            onClick={handleRebirth}
+            className={`rb-btn compact ${canRebirth ? "ready" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRebirth();
+            }}
             disabled={!canRebirth}
             title={
               canRebirth
@@ -188,16 +143,61 @@ export const ReiniciosLvl = ({
               <>
                 <FaRedo /> RENACER AHORA
               </>
-            ) : !moneyOk ? (
-              <>
-                <FaLock /> FALTAN ${fmt(faltaDinero)}
-              </>
             ) : (
               <>
-                <FaLock /> FALTA x{faltaMult}
+                <FaLock /> BLOQUEADO
               </>
             )}
           </button>
+        </div>
+      )}
+
+      <div className={`collapse-body ${open ? "open" : ""}`}>
+        <div className="collapse-inner rb-detail">
+          {/* Recompensas */}
+          <div className="rb-section rb-rewards-section">
+            <div className={`rb-rewards ${canRebirth ? "ready" : ""}`}>
+              <p className="rb-rewards-title">
+                <FaGift /> Al renacer obtienes:
+              </p>
+              <ul>
+                {rewards.map((r, i) => (
+                  <li key={i}>
+                    <r.icon /> {r.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="rb-section rb-warn-section">
+            <p className="rb-warn">
+              <FaExclamationTriangle /> Resetea dinero y multiplicador.
+            </p>
+          </div>
+
+          <div className="rb-section rb-actions-section">
+            <button
+              className={`rb-btn ${canRebirth ? "ready" : ""}`}
+              onClick={handleRebirth}
+              disabled={!canRebirth}
+              title={
+                canRebirth
+                  ? "Renacer ahora"
+                  : `Te faltan $${fmt(faltaDinero)} y x${faltaMult}`
+              }
+            >
+              {canRebirth ? (
+                <>
+                  <FaRedo /> RENACER AHORA
+                </>
+              ) : (
+                <>
+                  <FaLock /> BLOQUEADO
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

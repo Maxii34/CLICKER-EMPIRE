@@ -8,10 +8,12 @@ import {
   COLLECTOR_BASE_SEC,
   COLLECTOR_STEP_SEC,
   COLLECTOR_MIN_SEC,
+  COLLECTOR_MINE_PCT,
   WELCOME_MULT,
   FRENZY_MULT,
   FORTUNE_CLICK_MULT,
   FORTUNE_MONEY_PCT,
+  SHOP_GROWTH,
   COSTS,
 } from "./constants.js";
 
@@ -54,6 +56,10 @@ export const collectorEverySec = (collectorLvl) =>
     ? Math.max(COLLECTOR_MIN_SEC, COLLECTOR_BASE_SEC - collectorLvl * COLLECTOR_STEP_SEC)
     : 0;
 
+// Minería efectiva: base de rigs +10% por nivel de Recolector (P5).
+export const effectiveMiningRate = (baseRate, collectorLvl) =>
+  (baseRate || 0) * (1 + COLLECTOR_MINE_PCT * (collectorLvl || 0));
+
 // Premio Fortuna del evento dorado (entero).
 // Nota: usa el click actual, por eso en frenesí paga el triple (#10).
 export const goldenFortune = (perClick, money) =>
@@ -90,3 +96,12 @@ export const costReflejos = (lvl) => costFor("reflejos", lvl);
 export const isValidCost = (cost) => Number.isFinite(cost) && cost >= 0;
 export const canPay = (money, cost) =>
   isValidCost(cost) && Number.isFinite(money) && money >= cost;
+
+// Precio de tienda modelo C: base * (1+growth)^vecesComprado (redondeado).
+// Con tope en MAX_SAFE_INTEGER para no propagar Infinity (canPay lo rechaza igual).
+export const shopPrice = (baseCost, timesBought, growth = SHOP_GROWTH) => {
+  const n = Number.isFinite(timesBought) && timesBought > 0 ? Math.floor(timesBought) : 0;
+  if (!isValidCost(baseCost)) return NaN;
+  const p = Math.round(baseCost * Math.pow(1 + growth, n));
+  return Number.isFinite(p) ? p : Number.MAX_SAFE_INTEGER;
+};

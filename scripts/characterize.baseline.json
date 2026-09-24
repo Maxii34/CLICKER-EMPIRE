@@ -589,222 +589,222 @@
     {
       "curve": "soldado",
       "lvl": 0,
-      "cost": 25000
+      "cost": 15000
     },
     {
       "curve": "soldado",
       "lvl": 1,
-      "cost": 72500
+      "cost": 43500
     },
     {
       "curve": "soldado",
       "lvl": 2,
-      "cost": 210250
+      "cost": 126150
     },
     {
       "curve": "soldado",
       "lvl": 3,
-      "cost": 609724
+      "cost": 365834
     },
     {
       "curve": "soldado",
       "lvl": 4,
-      "cost": 1768202
+      "cost": 1060921
     },
     {
       "curve": "soldado",
       "lvl": 5,
-      "cost": 5127787
+      "cost": 3076672
     },
     {
       "curve": "soldado",
       "lvl": 6,
-      "cost": 14870583
+      "cost": 8922349
     },
     {
       "curve": "soldado",
       "lvl": 7,
-      "cost": 43124690
+      "cost": 25874814
     },
     {
       "curve": "soldado",
       "lvl": 8,
-      "cost": 125061603
+      "cost": 75036961
     },
     {
       "curve": "soldado",
       "lvl": 9,
-      "cost": 362678649
+      "cost": 217607189
     },
     {
       "curve": "soldado",
       "lvl": 10,
-      "cost": 1051768083
+      "cost": 631060849
     },
     {
       "curve": "arquero",
       "lvl": 0,
-      "cost": 70000
+      "cost": 42000
     },
     {
       "curve": "arquero",
       "lvl": 1,
-      "cost": 210000
+      "cost": 126000
     },
     {
       "curve": "arquero",
       "lvl": 2,
-      "cost": 630000
+      "cost": 378000
     },
     {
       "curve": "arquero",
       "lvl": 3,
-      "cost": 1890000
+      "cost": 1134000
     },
     {
       "curve": "arquero",
       "lvl": 4,
-      "cost": 5670000
+      "cost": 3402000
     },
     {
       "curve": "arquero",
       "lvl": 5,
-      "cost": 17010000
+      "cost": 10206000
     },
     {
       "curve": "arquero",
       "lvl": 6,
-      "cost": 51030000
+      "cost": 30618000
     },
     {
       "curve": "arquero",
       "lvl": 7,
-      "cost": 153090000
+      "cost": 91854000
     },
     {
       "curve": "arquero",
       "lvl": 8,
-      "cost": 459270000
+      "cost": 275562000
     },
     {
       "curve": "arquero",
       "lvl": 9,
-      "cost": 1377810000
+      "cost": 826686000
     },
     {
       "curve": "arquero",
       "lvl": 10,
-      "cost": 4133430000
+      "cost": 2480058000
     },
     {
       "curve": "caballero",
       "lvl": 0,
-      "cost": 200000
+      "cost": 120000
     },
     {
       "curve": "caballero",
       "lvl": 1,
-      "cost": 620000
+      "cost": 372000
     },
     {
       "curve": "caballero",
       "lvl": 2,
-      "cost": 1922000
+      "cost": 1153200
     },
     {
       "curve": "caballero",
       "lvl": 3,
-      "cost": 5958200
+      "cost": 3574920
     },
     {
       "curve": "caballero",
       "lvl": 4,
-      "cost": 18470420
+      "cost": 11082252
     },
     {
       "curve": "caballero",
       "lvl": 5,
-      "cost": 57258302
+      "cost": 34354981
     },
     {
       "curve": "caballero",
       "lvl": 6,
-      "cost": 177500736
+      "cost": 106500441
     },
     {
       "curve": "caballero",
       "lvl": 7,
-      "cost": 550252282
+      "cost": 330151369
     },
     {
       "curve": "caballero",
       "lvl": 8,
-      "cost": 1705782074
+      "cost": 1023469244
     },
     {
       "curve": "caballero",
       "lvl": 9,
-      "cost": 5287924432
+      "cost": 3172754659
     },
     {
       "curve": "caballero",
       "lvl": 10,
-      "cost": 16392565739
+      "cost": 9835539443
     },
     {
       "curve": "general",
       "lvl": 0,
-      "cost": 600000
+      "cost": 360000
     },
     {
       "curve": "general",
       "lvl": 1,
-      "cost": 1920000
+      "cost": 1152000
     },
     {
       "curve": "general",
       "lvl": 2,
-      "cost": 6144000
+      "cost": 3686400
     },
     {
       "curve": "general",
       "lvl": 3,
-      "cost": 19660800
+      "cost": 11796480
     },
     {
       "curve": "general",
       "lvl": 4,
-      "cost": 62914560
+      "cost": 37748736
     },
     {
       "curve": "general",
       "lvl": 5,
-      "cost": 201326592
+      "cost": 120795955
     },
     {
       "curve": "general",
       "lvl": 6,
-      "cost": 644245094
+      "cost": 386547056
     },
     {
       "curve": "general",
       "lvl": 7,
-      "cost": 2061584302
+      "cost": 1236950581
     },
     {
       "curve": "general",
       "lvl": 8,
-      "cost": 6597069766
+      "cost": 3958241859
     },
     {
       "curve": "general",
       "lvl": 9,
-      "cost": 21110623253
+      "cost": 12666373951
     },
     {
       "curve": "general",
       "lvl": 10,
-      "cost": 67553994410
+      "cost": 40532396646
     },
     {
       "curve": "fuerza",
@@ -985,6 +985,163 @@
       "curve": "reflejos",
       "lvl": 20,
       "cost": 13159878690123
+    },
+    {
+      "curve": "shop:140x0",
+      "lvl": 0,
+      "cost": 140
+    },
+    {
+      "curve": "shop:140x1",
+      "lvl": 1,
+      "cost": 182
+    },
+    {
+      "curve": "shop:140x5",
+      "lvl": 5,
+      "cost": 520
+    },
+    {
+      "curve": "shop:3170x0",
+      "lvl": 0,
+      "cost": 3170
+    },
+    {
+      "curve": "shop:3170x3",
+      "lvl": 3,
+      "cost": 6964
+    },
+    {
+      "curve": "shop:6616480x0",
+      "lvl": 0,
+      "cost": 6616480
+    },
+    {
+      "curve": "shop:6616480x2",
+      "lvl": 2,
+      "cost": 11181851
+    }
+  ],
+  "reqs": [
+    {
+      "level": 0,
+      "money": 590,
+      "multiplier": 50,
+      "bonus": 5
+    },
+    {
+      "level": 1,
+      "money": 1490,
+      "multiplier": 100,
+      "bonus": 7
+    },
+    {
+      "level": 2,
+      "money": 3930,
+      "multiplier": 105,
+      "bonus": 10
+    },
+    {
+      "level": 3,
+      "money": 10220,
+      "multiplier": 115,
+      "bonus": 14
+    },
+    {
+      "level": 4,
+      "money": 52810,
+      "multiplier": 120,
+      "bonus": 20
+    },
+    {
+      "level": 5,
+      "money": 137310,
+      "multiplier": 150,
+      "bonus": 28
+    },
+    {
+      "level": 6,
+      "money": 356940,
+      "multiplier": 170,
+      "bonus": 39
+    },
+    {
+      "level": 7,
+      "money": 928030,
+      "multiplier": 200,
+      "bonus": 55
+    },
+    {
+      "level": 8,
+      "money": 2412800,
+      "multiplier": 230,
+      "bonus": 77
+    },
+    {
+      "level": 9,
+      "money": 9395110,
+      "multiplier": 250,
+      "bonus": 108
+    },
+    {
+      "level": 10,
+      "money": 24427300,
+      "multiplier": 270,
+      "bonus": 151
+    },
+    {
+      "level": 11,
+      "money": 63510950,
+      "multiplier": 305,
+      "bonus": 211
+    },
+    {
+      "level": 12,
+      "money": 114319710,
+      "multiplier": 340,
+      "bonus": 295
+    },
+    {
+      "level": 13,
+      "money": 205775478,
+      "multiplier": 375,
+      "bonus": 413
+    },
+    {
+      "level": 14,
+      "money": 329240765,
+      "multiplier": 410,
+      "bonus": 578
+    },
+    {
+      "level": 15,
+      "money": 526785224,
+      "multiplier": 445,
+      "bonus": 809
+    },
+    {
+      "level": 16,
+      "money": 842856358,
+      "multiplier": 480,
+      "bonus": 1133
+    },
+    {
+      "level": 17,
+      "money": 1348570173,
+      "multiplier": 515,
+      "bonus": 1586
+    },
+    {
+      "level": 18,
+      "money": 2157712277,
+      "multiplier": 550,
+      "bonus": 2220
+    },
+    {
+      "level": 19,
+      "money": 3452339643,
+      "multiplier": 585,
+      "bonus": 3108
     }
   ]
 }

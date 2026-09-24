@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { FaCoins } from "react-icons/fa";
 import "./Clicker.css";
 import { formatMoney as formatNumber } from "../utils/format.js";
@@ -18,19 +17,6 @@ export const ClikerGamer = ({
   goldenMsg = "",
   collectGolden,
 }) => {
-
-  const [isAutoClickActive, setIsAutoClickActive] = useState(false);
-
-  useEffect(() => {
-    setIsAutoClickActive(autoClick);
-  }, [autoClick]);
-
-  const handleClickButton = () => {
-    // Solo permite click manual si autoClick está desactivado
-    if (!isAutoClickActive) {
-      handleClick();
-    }
-  };
 
   const perClick = moneyPerClick ?? multiplier;
   const perAuto = moneyPerAuto ?? multiplier * 4;
@@ -67,7 +53,7 @@ export const ClikerGamer = ({
 
         {autoClick && (
           <div className="auto-banner">
-            <span className="pulsing-dot"></span> AUTO-CLICKER ACTIVO — click manual en pausa
+            <span className="pulsing-dot"></span> AUTO-CLICKER ACTIVO — suma a tu click
           </div>
         )}
 
@@ -94,13 +80,10 @@ export const ClikerGamer = ({
         )}
         {goldenMsg && <div className="golden-msg">{goldenMsg}</div>}
         <div className="click-circle-outer">
-          <div 
-            className={`click-circle-inner ${isAutoClickActive ? 'auto-clicking' : ''}`}
-            onClick={handleClickButton}
-            style={{
-              cursor: isAutoClickActive ? 'not-allowed' : 'pointer',
-              opacity: isAutoClickActive ? 0.7 : 1,
-            }}
+          <div
+            className="click-circle-inner"
+            onClick={handleClick}
+            style={{ cursor: "pointer" }}
           >
             <div className="click-content">
               <span className="click-icon">💥</span>
