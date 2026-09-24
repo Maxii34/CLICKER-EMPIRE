@@ -4,16 +4,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { FaCog } from "react-icons/fa";
 import rebirthReq from "../rebirs/rebirthReq.js";
 import { ResetGame } from "./ResetGame";
+import { formatMoney } from "../../utils/format.js";
 import "./ResetGame.css";
 import "./Menu.css";
-
-const formatMoney = (num) => {
-  if (num < 10000) return num.toLocaleString("es-AR");
-  if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-  if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
-  return `${Math.floor(num)}`;
-};
 
 export const MenuNav = ({
   money,
@@ -21,7 +14,7 @@ export const MenuNav = ({
   bonusActivo,
   rebirlvl = 0,
   moneyPerClick = 0,
-  passiveTotal = 0,
+  passivePerSec = 0,
   autoClick = false,
   addMoneyDev,
   removeMoney,
@@ -65,8 +58,8 @@ export const MenuNav = ({
               <span className="hud-pill" title="Ganancia real por click (multiplicador + Imperio)">
                 👆 +${formatMoney(moneyPerClick)}
               </span>
-              <span className="hud-pill" title="Ingreso pasivo directo por segundo (Fondo de Inversión)">
-                🌱 +${formatMoney(passiveTotal)}/s
+              <span className="hud-pill" title="Ingreso pasivo directo por segundo (Fondo + Ciudad + Disciplina, sin minería)">
+                🌱 +${formatMoney(passivePerSec)}/s
               </span>
 
               {autoClick && (

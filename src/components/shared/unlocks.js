@@ -23,8 +23,8 @@ export const UNLOCKS = [
   { rb: 4, icon: "🤖", title: "Auto-Clicker lvl 2", side: "der", desc: "Velocidad 800ms." },
   { rb: 4, icon: "🏹", title: "Ejército: Arquero", side: "izq", desc: "+35 poder de saqueo por nivel." },
   { rb: 4, icon: "⛏️", title: "Minería tier 2", side: "der", desc: "Perforadoras de alto rendimiento." },
-  { rb: 6, icon: "🤖", title: "Auto-Clicker lvl 3", side: "der", desc: "Velocidad 700ms." },
   { rb: 5, icon: "🐎", title: "Ejército: Caballero", side: "izq", desc: "+100 poder de saqueo por nivel." },
+  { rb: 6, icon: "🤖", title: "Auto-Clicker lvl 3", side: "der", desc: "Velocidad 700ms." },
   { rb: 6, icon: "👑", title: "Ejército: General", side: "izq", desc: "+300 poder de saqueo por nivel (MAX 5)." },
   { rb: 6, icon: "⛏️", title: "Minería tier 3", side: "der", desc: "Taladros láser y drones." },
   { rb: 8, icon: "🤖", title: "Auto-Clicker lvl 4", side: "der", desc: "Velocidad 600ms." },
@@ -32,3 +32,38 @@ export const UNLOCKS = [
   { rb: 10, icon: "🤖", title: "Auto-Clicker lvl 5 MAX", side: "der", desc: "Velocidad máxima 500ms." },
   { rb: 10, icon: "⛏️", title: "Minería tier 5", side: "der", desc: "Singularidades y refinería final." },
 ];
+
+// Fuente única de recompensas extra por renacimiento (FASE 1).
+// La usa ReiniciosLvl.jsx para "Al renacer obtienes". icon = clave que el
+// componente mapea a react-icons (los datos no traen componentes).
+export const REBIRTH_EXTRA = {
+  2: [
+    { icon: "robot", label: "Auto-Clicker lvl 1" },
+    { icon: "hardhat", label: "Minería tier 1" },
+    { icon: "cogs", label: "Overclock del Imperio" },
+    { icon: "dumbbell", label: "Entrenamiento: Fuerza y Disciplina" },
+  ],
+  3: [
+    { icon: "shield", label: "Ejército: Soldado + saqueos" },
+    { icon: "bolt", label: "Entrenamiento: Reflejos" },
+  ],
+  4: [
+    { icon: "robot", label: "Auto-Clicker lvl 2" },
+    { icon: "hardhat", label: "Minería tier 2" },
+    { icon: "shield", label: "Ejército: Arquero" },
+  ],
+  5: [{ icon: "shield", label: "Ejército: Caballero" }],
+  6: [
+    { icon: "robot", label: "Auto-Clicker lvl 3" },
+    { icon: "hardhat", label: "Minería tier 3" },
+    { icon: "shield", label: "Ejército: General" },
+  ],
+  8: [
+    { icon: "robot", label: "Auto-Clicker lvl 4" },
+    { icon: "hardhat", label: "Minería tier 4" },
+  ],
+  10: [
+    { icon: "robot", label: "Auto-Clicker lvl 5 MAX" },
+    { icon: "hardhat", label: "Minería tier 5" },
+  ],
+};

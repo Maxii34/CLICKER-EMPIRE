@@ -5,12 +5,31 @@ import { MenuNav } from "./components/shared/MenuNav";
 import { ACHIEVEMENTS } from "./components/logros/achievements.js";
 import rebirthReq from "./components/rebirs/rebirthReq.js";
 import upgrades from "./components/upgrader/upgrades.js";
+import {
+  RAID_EVERY,
+  CRIT_MULT,
+  FRENZY_DURATION_SEC,
+  GOLDEN_FIRST_DELAY_MS,
+  GOLDEN_MIN_DELAY_MS,
+  GOLDEN_MAX_EXTRA_MS,
+  GOLDEN_VISIBLE_MS,
+  DEV_MONEY,
+} from "./game/constants.js";
+import {
+  welcomeFactor,
+  moneyPerClick as calcMoneyPerClick,
+  moneyPerAuto as calcMoneyPerAuto,
+  directPassivePerSec,
+  raidLoot as calcRaidLoot,
+  critChance as calcCritChance,
+  collectorEverySec as calcCollectorEverySec,
+  goldenFortune,
+  raidCooldownLeft,
+  isValidCost,
+  canPay as canPayPure,
+} from "./game/economy.js";
 
 const SAVE_KEY = "clicker-empire-save-v1";
-
-// Constantes de saqueo (un solo lugar).
-const RAID_EVERY = 45;
-const RAID_MULT = 8;
 
 // #14: verificación automática de que rebirthReq.multiplier coincide con upgrades.max por nivel.
 const verifyShopCap = () => {
@@ -123,11 +142,9 @@ function App() {
     Number.isFinite(saved?.lastRaidAt) && saved.lastRaidAt > 0 ? saved.lastRaidAt : 0,
   );
   // Cooldown del saqueo en segundos (derivado de lastRaidAt al cargar).
-  const [raidCooldown, setRaidCooldown] = useState(() => {
-    if (!lastRaidAt || (saved?.armyPower ?? 0) <= 0) return 0;
-    const elapsed = Math.floor((Date.now() - lastRaidAt) / 1000);
-    return Math.max(0, Math.min(RAID_EVERY, RAID_EVERY - elapsed));
-  });
+  const [raidCooldown, setRaidCooldown] = useState(() =>
+    raidCooldownLeft(lastRaidAt, saved?.armyPower ?? 0),
+  );
 
   // --- SISTEMA ENTRENAMIENTO (panel izquierdo, pestaña Entrenamiento) ---
   // Stats base permanentes: fuerza → click, disciplina → pasivo, reflejos → auto.
@@ -349,11 +366,11 @@ function App() {
         tDespawn = setTimeout(() => {
           if (!alive) return;
           setGolden(null);
-          schedule(60000 + Math.random() * 90000);
-        }, 12000);
+          schedule(GOLDEN_MIN_DELAY_MS + Math.random() * GOLDEN_MAX_EXTRA_MS);
+        }, GOLDEN_VISIBLE_MS);
       }, delay);
     };
-    schedule(25000);
+    schedule(GOLDEN_FIRST_DELAY_MS);
     return () => {
       alive = false;
       clearTimeout(tSpawn);
@@ -395,19 +412,19 @@ function App() {
     }
   };
 
-  // Ganancias derivadas (para mostrar en UI sin recalcular en cada hijo)
-  // #1: el bonus de bienvenida es un factor aparte SOLO sobre multiplier
-  // (no toca multiplier, no rompe el tope de tienda/rebirth y sobrevive al renacer).
-  // Frenesí: x3 al click (y por ende al auto, que deriva del click).
-  // Entrenamiento suma base: fuerza al click, reflejos al auto.
-  const welcomeFactor = bonusActivo ? 2 : 1;
-  const moneyPerClick =
-    (multiplier * welcomeFactor + clickBonus + cityClickBonus + trainClickBonus) *
-    (frenzyLeft > 0 ? 3 : 1);
-  const moneyPerAuto = moneyPerClick * autoPower + trainAutoBonus;
+  // Ganancias derivadas (economy.js, funciones puras — mismo cálculo que antes).
+  const moneyPerClick = calcMoneyPerClick({
+    multiplier,
+    bonusActivo,
+    clickBonus,
+    cityClickBonus,
+    trainClickBonus,
+    frenzy: frenzyLeft > 0,
+  });
+  const moneyPerAuto = calcMoneyPerAuto(moneyPerClick, { autoPower, trainAutoBonus });
 
-  // --- SAQUEO DEL EJÉRCITO: botín = poder x RAID_MULT (siempre entero) ---
-  const raidLoot = Math.floor(armyPower * RAID_MULT);
+  // --- SAQUEO DEL EJÉRCITO: botín entero cada RAID_EVERY segundos ---
+  const raidLoot = calcRaidLoot(armyPower);
 
   const doRaid = () => {
     if (armyPower <= 0 || raidCooldown > 0) return false;
@@ -447,22 +464,21 @@ function App() {
     setGoldenCount((c) => c + 1);
     beep();
     if (Math.random() < 0.5) {
-      setFrenzyLeft(20);
+      setFrenzyLeft(FRENZY_DURATION_SEC);
       setGoldenMsg("FRENESÍ x3 por 20s");
     } else {
-      const bonus = Math.floor(Math.max(moneyPerClick * 30, money * 0.15));
+      const bonus = goldenFortune(moneyPerClick, money);
       setMoney((m) => m + bonus);
       setGoldenMsg(`+$${bonus.toLocaleString("es-AR")}`);
     }
   };
 
   // --- Críticos: +3% chance por nivel (MAX 10 = 30%), golpe x5 ---
-  const CRIT_MULT = 5;
-  const critChance = (imperioLvl.crit || 0) * 3;
+  const critChance = calcCritChance(imperioLvl.crit || 0);
 
   // --- Recolector: recauda la bóveda solo cada N segundos ---
   const collectorLvl = imperioLvl.collector || 0;
-  const collectEverySec = collectorLvl > 0 ? Math.max(10, 35 - collectorLvl * 5) : 0;
+  const collectEverySec = calcCollectorEverySec(collectorLvl);
 
   // Función para manejar el clic principal del juego.
   const handleClick = () => {
@@ -486,17 +502,18 @@ function App() {
   }, [autoClick, autoClickSpeed, moneyPerAuto]);
 
   // Efecto para el ingreso pasivo.
-  // Fondo + Ciudad + Disciplina → directo al dinero. Minería → a la bóveda.
-  const passiveTotal = passiveRate + miningRate + cityRate + trainRate;
-  const directPassive = passiveRate + cityRate + trainRate;
+  // passivePerSec = Fondo + Ciudad + Disciplina → directo al dinero.
+  // miningRate → a la bóveda (NO es pasivo directo).
+  const passivePerSec = directPassivePerSec({ passiveRate, cityRate, trainRate });
+  const directPassive = passivePerSec;
   useEffect(() => {
-    if (passiveTotal <= 0) return;
+    if (directPassive + miningRate <= 0) return;
     const interval = setInterval(() => {
       if (directPassive > 0) setMoney((prev) => prev + directPassive);
       if (miningRate > 0) setVault((prev) => prev + miningRate);
     }, 1000);
     return () => clearInterval(interval);
-  }, [directPassive, miningRate, passiveTotal]);
+  }, [directPassive, miningRate]);
 
   // Recaudar bóveda: mueve lo minado al dinero total (siempre entero).
   const collectVault = () => {
@@ -527,11 +544,8 @@ function App() {
     return () => clearInterval(id);
   }, [collectorLvl, collectEverySec]);
 
-  // #12: validación de compras. Costo finito y >= 0, fondos suficientes,
-  // y el descuento nunca deja money negativo (clamp funcional anti stale).
-  const isValidCost = (cost) => Number.isFinite(cost) && cost >= 0;
-  const canPay = (cost) =>
-    isValidCost(cost) && Number.isFinite(money) && money >= cost;
+  // #12: validación pura (economy.js) + descuento con clamp anti stale.
+  const canPay = (cost) => canPayPure(money, cost);
   const spendMoney = (cost) =>
     setMoney((prev) => {
       if (!Number.isFinite(prev)) return 0;
@@ -616,9 +630,9 @@ function App() {
     return true;
   };
 
-  // Función para agregar dinero de desarrollo (testing).
+  // Función para agregar dinero de desarrollo (testing, solo DEV).
   const addMoneyDev = () => {
-    setMoney((prev) => prev + 50000000);
+    setMoney((prev) => prev + DEV_MONEY);
   };
   const removeMoney = () => {
     setMoney(0);
@@ -648,7 +662,7 @@ function App() {
         bonusActivo={bonusActivo}
         rebirlvl={rebirlvl}
         moneyPerClick={moneyPerClick}
-        passiveTotal={passiveRate + cityRate + trainRate}
+        passivePerSec={passivePerSec}
         autoClick={autoClick}
         addMoneyDev={addMoneyDev}
         removeMoney={removeMoney}
@@ -714,7 +728,7 @@ function App() {
           buyFuerza={buyFuerza}
           buyDisciplina={buyDisciplina}
           buyReflejos={buyReflejos}
-          passiveTotal={passiveRate + cityRate + trainRate}
+          passivePerSec={passivePerSec}
           miningRate={miningRate}
           purchasedMinerIds={purchasedMinerIds}
           buyMiner={buyMiner}

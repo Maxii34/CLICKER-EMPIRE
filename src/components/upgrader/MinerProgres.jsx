@@ -1,4 +1,5 @@
 import MineriaX from "./MineriaX.js";
+import { formatMoney as formatNumber } from "../../utils/format.js";
 
 export const MinerProges = ({
   money,
@@ -9,13 +10,6 @@ export const MinerProges = ({
   vault = 0,
   collectVault,
 }) => {
-  const formatNumber = (num) => {
-    if (num < 10000) return num.toLocaleString("es-AR");
-    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
-    return `${num}`;
-  };
 
   // Rigs desbloqueados con tu RB actual + siguiente tier bloqueado (preview)
   const unlocked = MineriaX.filter((up) => rebirlvl >= up.reqRebirth);

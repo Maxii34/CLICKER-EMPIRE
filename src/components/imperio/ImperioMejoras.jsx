@@ -5,23 +5,15 @@ import {
   FaCrosshairs,
   FaTruck,
 } from "react-icons/fa";
-
-const costExo = (lvl) => Math.floor(500 * Math.pow(2.2, lvl));
-const costFondo = (lvl) => Math.floor(1500 * Math.pow(2.5, lvl));
-const costOverclock = (lvl) => Math.floor(5000 * Math.pow(3, lvl));
-const costCrit = (lvl) => Math.floor(3000 * Math.pow(3, lvl));
-const costCollector = (lvl) => Math.floor(8000 * Math.pow(2.8, lvl));
-
-const MAX_CRIT = 10; // 10 x 3% = 30% chance
-const MAX_COLLECTOR = 5; // cada 10s al máximo
-
-const formatNumber = (num) => {
-  if (num < 10000) return num.toLocaleString("es-AR");
-  if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-  if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
-  return `${num}`;
-};
+import {
+  costExo,
+  costFondo,
+  costOverclock,
+  costCrit,
+  costCollector,
+} from "../../game/economy.js";
+import { MAX_CRIT, MAX_COLLECTOR } from "../../game/constants.js";
+import { formatMoney as formatNumber } from "../../utils/format.js";
 
 export const ImperioMejoras = ({
   money,

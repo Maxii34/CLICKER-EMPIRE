@@ -6,21 +6,14 @@ import {
   FaBolt,
 } from "react-icons/fa";
 import "./Ejercito.css";
-
-const costSoldado = (lvl) => Math.floor(25000 * Math.pow(2.9, lvl));
-const costArquero = (lvl) => Math.floor(70000 * Math.pow(3.0, lvl));
-const costCaballero = (lvl) => Math.floor(200000 * Math.pow(3.1, lvl));
-const costGeneral = (lvl) => Math.floor(600000 * Math.pow(3.2, lvl));
-
-const MAX_GENERAL = 5;
-
-const formatNumber = (num) => {
-  if (num < 10000) return Math.floor(num).toLocaleString("es-AR");
-  if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-  if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
-  return `${Math.floor(num)}`;
-};
+import {
+  costSoldado,
+  costArquero,
+  costCaballero,
+  costGeneral,
+} from "../../game/economy.js";
+import { MAX_GENERAL } from "../../game/constants.js";
+import { formatMoney as formatNumber } from "../../utils/format.js";
 
 export const EjercitoMejoras = ({
   money,

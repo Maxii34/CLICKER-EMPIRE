@@ -19,46 +19,18 @@ import {
   FaDumbbell,
 } from "react-icons/fa";
 import rebirthReq from "./rebirthReq.js";
+import { REBIRTH_EXTRA } from "../shared/unlocks.js";
+import { formatMoney as fmt } from "../../utils/format.js";
 import "./Reinicio.css";
 
-const fmt = (num) => {
-  if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-  if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
-  return num.toLocaleString("es-AR");
-};
-
-// Desbloqueos extra al llegar al siguiente nivel (además de tienda + bonus)
-const EXTRA = {
-  2: [
-    { icon: FaRobot, label: "Auto-Clicker lvl 1" },
-    { icon: FaHardHat, label: "Minería tier 1" },
-    { icon: FaCogs, label: "Overclock del Imperio" },
-    { icon: FaDumbbell, label: "Entrenamiento: Fuerza y Disciplina" },
-  ],
-  3: [
-    { icon: FaShieldAlt, label: "Ejército: Soldado + saqueos" },
-    { icon: FaBolt, label: "Entrenamiento: Reflejos" },
-  ],
-  4: [
-    { icon: FaRobot, label: "Auto-Clicker lvl 2" },
-    { icon: FaHardHat, label: "Minería tier 2" },
-    { icon: FaShieldAlt, label: "Ejército: Arquero" },
-  ],
-  5: [{ icon: FaShieldAlt, label: "Ejército: Caballero" }],
-  6: [
-    { icon: FaRobot, label: "Auto-Clicker lvl 3" },
-    { icon: FaHardHat, label: "Minería tier 3" },
-    { icon: FaShieldAlt, label: "Ejército: General" },
-  ],
-  8: [
-    { icon: FaRobot, label: "Auto-Clicker lvl 4" },
-    { icon: FaHardHat, label: "Minería tier 4" },
-  ],
-  10: [
-    { icon: FaRobot, label: "Auto-Clicker lvl 5 MAX" },
-    { icon: FaHardHat, label: "Minería tier 5" },
-  ],
+// Iconos para las recompensas extra (los datos viven en unlocks.js).
+const EXTRA_ICONS = {
+  robot: FaRobot,
+  hardhat: FaHardHat,
+  cogs: FaCogs,
+  dumbbell: FaDumbbell,
+  shield: FaShieldAlt,
+  bolt: FaBolt,
 };
 
 export const ReiniciosLvl = ({
@@ -116,7 +88,10 @@ export const ReiniciosLvl = ({
   const rewards = [
     { icon: FaRocket, label: `Empiezas en x${req.bonus}` },
     { icon: FaStore, label: `Tienda lvl ${req.level + 1}` },
-    ...(EXTRA[req.level + 1] || []),
+    ...(REBIRTH_EXTRA[req.level + 1] || []).map((r) => ({
+      icon: EXTRA_ICONS[r.icon] || FaGift,
+      label: r.label,
+    })),
   ];
 
   const progress = Math.round((moneyPct + multPct) / 2);

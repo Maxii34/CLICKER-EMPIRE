@@ -74,7 +74,7 @@ export const Inicio = ({
   buyFuerza,
   buyDisciplina,
   buyReflejos,
-  passiveTotal,
+  passivePerSec,
   miningRate,
   purchasedMinerIds,
   buyMiner,
@@ -160,7 +160,7 @@ export const Inicio = ({
               autoClick={autoClick}
               moneyPerClick={moneyPerClick}
               moneyPerAuto={moneyPerAuto}
-              passiveRate={passiveTotal ?? passiveRate}
+              passivePerSec={passivePerSec}
               autoPower={autoPower}
               golden={golden}
               frenzyLeft={frenzyLeft}

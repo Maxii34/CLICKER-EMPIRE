@@ -1,21 +1,13 @@
 import { FaHome, FaStore, FaChessRook, FaLandmark } from "react-icons/fa";
 import "./Ciudad.css";
-
-const costCasa = (lvl) => Math.floor(600 * Math.pow(2.1, lvl));
-const costMercado = (lvl) => Math.floor(3000 * Math.pow(2.6, lvl));
-const costMuralla = (lvl) => Math.floor(4000 * Math.pow(2.8, lvl));
-const costAyunta = (lvl) => Math.floor(12000 * Math.pow(3, lvl));
-
-const MAX_AYUNTA = 10;
-const MAX_MURALLA = 15;
-
-const formatNumber = (num) => {
-  if (num < 10000) return num.toLocaleString("es-AR");
-  if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-  if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
-  return `${num}`;
-};
+import {
+  costCasa,
+  costMercado,
+  costMuralla,
+  costAyunta,
+} from "../../game/economy.js";
+import { MAX_AYUNTA, MAX_MURALLA } from "../../game/constants.js";
+import { formatMoney as formatNumber } from "../../utils/format.js";
 
 export const CiudadMejoras = ({
   money,

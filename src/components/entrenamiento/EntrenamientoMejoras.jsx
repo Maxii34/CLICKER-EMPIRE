@@ -1,21 +1,16 @@
 import { FaDumbbell, FaHeart, FaBolt } from "react-icons/fa";
 import "./Entrenamiento.css";
-
-const costFuerza = (lvl) => Math.floor(6000 * Math.pow(2.6, lvl));
-const costDisciplina = (lvl) => Math.floor(9000 * Math.pow(2.6, lvl));
-const costReflejos = (lvl) => Math.floor(15000 * Math.pow(2.8, lvl));
-
-const MAX_FUERZA = 30;
-const MAX_DISCIPLINA = 30;
-const MAX_REFLEJOS = 20;
-
-const formatNumber = (num) => {
-  if (num < 10000) return Math.floor(num).toLocaleString("es-AR");
-  if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-  if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
-  return `${Math.floor(num)}`;
-};
+import {
+  costFuerza,
+  costDisciplina,
+  costReflejos,
+} from "../../game/economy.js";
+import {
+  MAX_FUERZA,
+  MAX_DISCIPLINA,
+  MAX_REFLEJOS,
+} from "../../game/constants.js";
+import { formatMoney as formatNumber } from "../../utils/format.js";
 
 export const EntrenamientoMejoras = ({
   money,

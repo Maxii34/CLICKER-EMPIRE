@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaCoins } from "react-icons/fa";
 import "./Clicker.css";
+import { formatMoney as formatNumber } from "../utils/format.js";
 
 export const ClikerGamer = ({
   money,
@@ -10,7 +11,7 @@ export const ClikerGamer = ({
   autoClick,
   moneyPerClick,
   moneyPerAuto,
-  passiveRate,
+  passivePerSec = 0,
   autoPower,
   golden,
   frenzyLeft = 0,
@@ -23,14 +24,6 @@ export const ClikerGamer = ({
   useEffect(() => {
     setIsAutoClickActive(autoClick);
   }, [autoClick]);
-
-  const formatNumber = (num) => {
-    if (num < 10000) return num.toLocaleString("es-AR");
-    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
-    return num;
-  };
 
   const handleClickButton = () => {
     // Solo permite click manual si autoClick está desactivado
@@ -68,7 +61,7 @@ export const ClikerGamer = ({
           </div>
           <div className="sstat">
             <span className="sstat-label">Pasivo</span>
-            <span className="sstat-value passive">+${formatNumber(passiveRate ?? 0)}/s</span>
+            <span className="sstat-value passive">+${formatNumber(passivePerSec)}/s</span>
           </div>
         </div>
 

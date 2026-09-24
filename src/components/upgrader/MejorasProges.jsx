@@ -1,5 +1,6 @@
 import "./Mejoras.css";
 import upgrades from "./upgrades.js";
+import { formatMoney as formatNumber } from "../../utils/format.js";
 
 export const MejorasProges = ({
   money,
@@ -22,14 +23,6 @@ export const MejorasProges = ({
   const bestCost = currentLevelUpgrades
     .filter(isBuyable)
     .reduce((min, up) => Math.min(min, up.cost), Infinity);
-
-  const formatNumber = (num) => {
-    if (num < 10000) return num.toLocaleString("es-AR");
-    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(0) + "K";
-    return num;
-  };
 
   return (
     <div className="shop-box">

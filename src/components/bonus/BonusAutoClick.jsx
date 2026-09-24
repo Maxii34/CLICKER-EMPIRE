@@ -12,8 +12,12 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import "./Bonus.css";
-
-const SPEEDS = [1000, 900, 800, 700, 600, 500];
+import {
+  AUTO_CLICKER_SPEEDS as SPEEDS,
+  AUTO_CLICKER_LEVELS,
+  MAX_AUTO_CLICKER,
+} from "../../game/constants.js";
+import { formatMoney as fmt } from "../../utils/format.js";
 
 export const BonusAutoClick = ({
   setAutoClickSpeed,
@@ -27,14 +31,8 @@ export const BonusAutoClick = ({
   hitGain = 0,
   intervalMs = 1000,
 }) => {
-  const maxLevels = 5;
-  const upgraderClicker = [
-    { level: 1, cost: 10000, speed: 900, reqRebirth: 2 },
-    { level: 2, cost: 50000, speed: 800, reqRebirth: 4 },
-    { level: 3, cost: 100000, speed: 700, reqRebirth: 6 },
-    { level: 4, cost: 250000, speed: 600, reqRebirth: 8 },
-    { level: 5, cost: 500000, speed: 500, reqRebirth: 10 },
-  ];
+  const maxLevels = MAX_AUTO_CLICKER;
+  const upgraderClicker = AUTO_CLICKER_LEVELS;
 
   // Al cargar partida guardada, restaura la velocidad según el nivel.
   useEffect(() => {
@@ -42,12 +40,6 @@ export const BonusAutoClick = ({
     if (current) setAutoClickSpeed(current.speed);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const fmt = (n) => {
-    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + "M";
-    if (n >= 1_000) return (n / 1_000).toFixed(1) + "K";
-    return `${Math.floor(n)}`;
-  };
 
   // Colapsado por defecto: solo resumen visible, clic para expandir
   const [open, setOpen] = useState(false);
