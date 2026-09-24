@@ -114,7 +114,8 @@ function freshState(cfg) {
   };
 }
 
-// Ingresos/s del estado (modo click o auto ya resuelto).
+// Ingresos/s del estado.
+// P3: el auto SUMA al click manual (ya no lo pausa).
 function income(st, cfg) {
   const wf = welcomeFactor(st.bonusActivo);
   const base = st.multiplier * wf + st.clickBonus + st.cityClickBonus + st.trainClickBonus;
@@ -123,13 +124,9 @@ function income(st, cfg) {
   const expClick = base * (1 + 4 * p) * gMult; // manual, con crítico esperado
   const autoHit = (base * st.autoPower + st.trainAutoBonus) * gMult; // sin crítico
   const hitsPerSec = 1000 / st.autoSpeed;
-  let clickPS = 0, autoPS = 0, autoActive = false;
-  if (cfg.auto && st.autoLevel > 0 && autoHit * hitsPerSec > expClick * cfg.cps) {
-    autoPS = autoHit * hitsPerSec;
-    autoActive = true;
-  } else {
-    clickPS = expClick * cfg.cps;
-  }
+  const clickPS = expClick * cfg.cps;
+  const autoOn = cfg.auto && st.autoLevel > 0;
+  const autoPS = autoOn ? autoHit * hitsPerSec : 0;
   const passivePS = directPassivePerSec({
     passiveRate: st.passiveRate, cityRate: st.cityRate, trainRate: st.trainRate,
   });
@@ -140,7 +137,7 @@ function income(st, cfg) {
     // fortuna esperada: 50% de los spawns (~cada 105s)
     goldenPS = (0.5 * Math.max(base * FRENZY_MULT * 30, st.money * 0.15)) / 105;
   }
-  return { clickPS, autoPS, autoActive, passivePS, miningPS, raidPS, goldenPS, base, p };
+  return { clickPS, autoPS, passivePS, miningPS, raidPS, goldenPS, base, p };
 }
 const totalPS = (inc) => inc.clickPS + inc.autoPS + inc.passivePS + inc.miningPS + inc.raidPS + inc.goldenPS;
 
@@ -162,9 +159,11 @@ function candidates(st, cfg, inc) {
     out.push({ key, label, cost, delta, payback: cost / delta, apply });
   };
   const wf = welcomeFactor(st.bonusActivo);
-  const ratePerMult = inc.autoActive
-    ? (1000 / st.autoSpeed) * st.autoPower * (cfg.golden === "avg" ? 1 + (20 / 210) * (FRENZY_MULT - 1) : 1)
-    : cfg.cps * (1 + 4 * inc.p) * (cfg.golden === "avg" ? 1 + (20 / 210) * (FRENZY_MULT - 1) : 1);
+  const gAvg = cfg.golden === "avg" ? 1 + (20 / 210) * (FRENZY_MULT - 1) : 1;
+  const autoOn = cfg.auto && st.autoLevel > 0;
+  // P3: el auto suma al manual -> cada punto de multiplier rinde en ambos.
+  const ratePerMult =
+    cfg.cps * (1 + 4 * inc.p) * gAvg + (autoOn ? (1000 / st.autoSpeed) * st.autoPower * gAvg : 0);
 
   add("exo", "Exoesqueleto", 0, null, costExo(st.imperio.exo), CLICK_FLAT.exo * ratePerMult, () => {
     st.imperio.exo++; st.clickBonus += CLICK_FLAT.exo;
@@ -173,13 +172,13 @@ function candidates(st, cfg, inc) {
     st.imperio.fondo++; st.passiveRate += PASSIVE_FLAT.fondo;
   });
   add("overclock", "Overclock", 2, null, costOverclock(st.imperio.overclock),
-    inc.autoActive ? inc.base * (1000 / st.autoSpeed) : 0, () => {
+    autoOn ? inc.base * (1000 / st.autoSpeed) : 0, () => {
       st.imperio.overclock++; st.autoPower++;
     });
   // Crítico: SOLO existe en click manual (handleAutoClick nunca critica).
-  // En modo auto el manual está en pausa -> Δ = 0.
+  // P3: el manual nunca se pausa, así que siempre vale.
   add("crit", "Crítico", 1, MAX_CRIT, costCrit(st.imperio.crit),
-    inc.autoActive ? 0 : inc.base * cfg.cps * 0.03 * (CRIT_MULT - 1), () => {
+    inc.base * cfg.cps * 0.03 * (CRIT_MULT - 1), () => {
       st.imperio.crit++;
     });
   add("collector", "Recolector", 2, MAX_COLLECTOR, costCollector(st.imperio.collector), 0, () => {
@@ -215,7 +214,7 @@ function candidates(st, cfg, inc) {
     st.train.disciplina++; st.trainRate += PASSIVE_FLAT.disciplina;
   });
   add("reflejos", "Reflejos", 3, MAX_REFLEJOS, costReflejos(st.train.reflejos),
-    inc.autoActive ? (1000 / st.autoSpeed) * AUTO_FLAT.reflejos : 0, () => {
+    autoOn ? (1000 / st.autoSpeed) * AUTO_FLAT.reflejos : 0, () => {
       st.train.reflejos++; st.trainAutoBonus += AUTO_FLAT.reflejos;
     });
   // Minería disponible por RB.
@@ -342,9 +341,8 @@ function run(cfg) {
   while (st.t < maxT) {
     st.t++;
     const inc = income(st, cfg);
-    // 1) ingresos del segundo
-    const clickGain = inc.autoActive ? 0 : inc.clickPS;
-    st.money += clickGain + inc.autoPS + inc.passivePS + inc.goldenPS;
+    // 1) ingresos del segundo (P3: click manual + auto suman)
+    st.money += inc.clickPS + inc.autoPS + inc.passivePS + inc.goldenPS;
     st.money += raidLoot(st.armyPower) / RAID_EVERY;
     st.vault += inc.miningPS;
     // 2) bóveda: recolector o manual

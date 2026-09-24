@@ -152,7 +152,7 @@ export const BonusAutoClick = ({
           <button
             className={`ac-toggle ${autoClick ? "on" : ""}`}
             onClick={() => setAutoClick(!autoClick)}
-            title={autoClick ? "Apagar auto-clicker (vuelves a clickear manual)" : "Encender auto-clicker (pausa tu click manual)"}
+            title={autoClick ? "Apagar auto-clicker (tu click manual sigue igual)" : "Encender auto-clicker (suma golpes sin pausar tu click manual)"}
           >
             <FaPowerOff /> {autoClick ? "APAGAR" : "ENCENDER"}
           </button>
