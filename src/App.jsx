@@ -14,6 +14,7 @@ import {
   GOLDEN_MAX_EXTRA_MS,
   GOLDEN_VISIBLE_MS,
   DEV_MONEY,
+  SHOP_GROWTH,
 } from "./game/constants.js";
 import {
   welcomeFactor,
@@ -27,6 +28,7 @@ import {
   raidCooldownLeft,
   isValidCost,
   canPay as canPayPure,
+  shopPrice,
 } from "./game/economy.js";
 
 const SAVE_KEY = "clicker-empire-save-v1";
@@ -170,6 +172,17 @@ function App() {
   );
   // Bóveda minera: lo minado se acumula aquí hasta RECAUDAR.
   const [vault, setVault] = useState(saved?.vault ?? 0);
+  // P2 (tienda C): veces comprado cada ítem (índice en upgrades.js).
+  // Se resetea al renacer. Saves viejos (sin campo) arrancan en {}.
+  const [shopCounts, setShopCounts] = useState(() => {
+    const raw = saved?.shopCounts;
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+    const clean = {};
+    for (const [k, v] of Object.entries(raw)) {
+      if (Number.isFinite(v) && v > 0) clean[k] = Math.floor(v);
+    }
+    return clean;
+  });
 
   // --- ESTADÍSTICAS PARA LOGROS (persistidas) ---
   const [maxMoney, setMaxMoney] = useState(saved?.maxMoney ?? 0);
@@ -213,6 +226,7 @@ function App() {
           miningRate,
           purchasedMinerIds,
           vault,
+          shopCounts,
           maxMoney,
           totalCollected,
           goldenCount,
@@ -248,6 +262,7 @@ function App() {
     miningRate,
     purchasedMinerIds,
     vault,
+    shopCounts,
     maxMoney,
     totalCollected,
     goldenCount,
@@ -639,20 +654,26 @@ function App() {
   };
 
 
-  // Función para comprar mejoras.
+  // Función para comprar mejoras (tienda modelo C: precio crece +30%
+  // por compra previa del mismo ítem; el contador se resetea al renacer).
   // REDONDEO AL TOPE: si el aumento supera el máximo del nivel o el tope
   // desbloqueado, se completa justo hasta el tope en vez de bloquearse.
   // Así nunca quedas trabado a pocos puntos del renacimiento (ej: 102/105).
-  const buyUpgrade = (cost, increment, max) => {
+  const buyUpgrade = (shopIdx) => {
+    const up = upgrades[shopIdx];
+    if (!up) return;
+    const times = Number.isFinite(shopCounts[shopIdx]) ? shopCounts[shopIdx] : 0;
+    const cost = shopPrice(up.cost, times, SHOP_GROWTH);
     if (!canPay(cost)) return;
-    if (!Number.isFinite(increment) || !Number.isFinite(max)) return;
-    const cap = Math.min(max, unlockedLvl);
+    if (!Number.isFinite(up.value) || !Number.isFinite(up.max)) return;
+    const cap = Math.min(up.max, unlockedLvl);
     if (!Number.isFinite(cap)) return;
     if (multiplier >= cap) return;
-    const newValue = Math.min(multiplier + increment, cap);
+    const newValue = Math.min(multiplier + up.value, cap);
     if (newValue <= multiplier) return;
     spendMoney(cost);
     setMultiplier(Number(newValue.toFixed(2)));
+    setShopCounts((prev) => ({ ...prev, [shopIdx]: (prev[shopIdx] || 0) + 1 }));
   };
   return (
     <>
@@ -680,6 +701,8 @@ function App() {
           rebirlvl={rebirlvl}
           setUnlockedLvl={setUnlockedLvl}
           unlockedLvl={unlockedLvl}
+          shopCounts={shopCounts}
+          setShopCounts={setShopCounts}
           bonusActivo={bonusActivo}
           setBonusActivo={setBonusActivo}
           setAutoClickSpeed={setAutoClickSpeed}

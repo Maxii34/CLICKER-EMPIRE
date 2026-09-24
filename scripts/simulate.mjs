@@ -36,7 +36,7 @@ import {
   MAX_CRIT, MAX_COLLECTOR, MAX_MURALLA, MAX_AYUNTA, MAX_GENERAL,
   MAX_FUERZA, MAX_DISCIPLINA, MAX_REFLEJOS,
   TROOP_POWER, CLICK_FLAT, PASSIVE_FLAT, AUTO_FLAT,
-  AUTO_CLICKER_LEVELS, MAX_AUTO_CLICKER,
+  AUTO_CLICKER_LEVELS, MAX_AUTO_CLICKER, SHOP_GROWTH,
 } from "../src/game/constants.js";
 import upgrades from "../src/components/upgrader/upgrades.js";
 import rebirthReq from "../src/components/rebirs/rebirthReq.js";
@@ -77,7 +77,7 @@ const lvlOf = (st, key) => {
 function parseArgs(argv) {
   const cfg = {
     cps: 3, auto: true, bonus: true, vaultEvery: 60,
-    golden: "none", shop: "A", growth: 0.08, maxHours: 48,
+    golden: "none", shop: "A", growth: SHOP_GROWTH, maxHours: 48,
     matrix: false, md: false,
   };
   for (const a of argv) {
@@ -392,6 +392,8 @@ function run(cfg) {
       st.money = 0;
       st.multiplier = req.bonus;
       st.unlockedLvl = next ? next.multiplier : Infinity;
+      // P2: el contador de recompras de tienda se resetea al renacer.
+      st.shopCounts = new Map();
       st.segStart = st.t;
       st.segDelta = new Map();
       st.vaultTimer = 0; st.collectorTimer = 0; st.costHint = null;

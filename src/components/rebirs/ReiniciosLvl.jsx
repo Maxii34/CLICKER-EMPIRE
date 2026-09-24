@@ -41,6 +41,7 @@ export const ReiniciosLvl = ({
   rebirlvl,
   setRebirLvl,
   setUnlockedLvl,
+  setShopCounts,
 }) => {
   // Colapsado por defecto: solo resumen visible, clic para expandir
   const [open, setOpen] = useState(false);
@@ -83,6 +84,8 @@ export const ReiniciosLvl = ({
     setMoney(0);
     setMultiplier(req.bonus || 0);
     setUnlockedLvl(nextLevel ? nextLevel.multiplier : Infinity);
+    // P2: el contador de recompras de tienda se resetea al renacer.
+    if (setShopCounts) setShopCounts({});
   };
 
   const rewards = [

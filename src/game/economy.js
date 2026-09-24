@@ -12,6 +12,7 @@ import {
   FRENZY_MULT,
   FORTUNE_CLICK_MULT,
   FORTUNE_MONEY_PCT,
+  SHOP_GROWTH,
   COSTS,
 } from "./constants.js";
 
@@ -90,3 +91,10 @@ export const costReflejos = (lvl) => costFor("reflejos", lvl);
 export const isValidCost = (cost) => Number.isFinite(cost) && cost >= 0;
 export const canPay = (money, cost) =>
   isValidCost(cost) && Number.isFinite(money) && money >= cost;
+
+// Precio de tienda modelo C: base * (1+growth)^vecesComprado (redondeado).
+export const shopPrice = (baseCost, timesBought, growth = SHOP_GROWTH) => {
+  const n = Number.isFinite(timesBought) && timesBought > 0 ? Math.floor(timesBought) : 0;
+  if (!isValidCost(baseCost)) return NaN;
+  return Math.round(baseCost * Math.pow(1 + growth, n));
+};

@@ -75,5 +75,10 @@ export const COSTS = {
   reflejos: { base: 15000, exp: 2.8 },
 };
 
+// Tienda modelo C (FASE 2-bis): cada recompra del mismo ítem cuesta
+// +(SHOP_GROWTH*100)% sobre el precio base. El contador es por ítem
+// y se resetea al renacer. Los saves viejos arrancan en 0.
+export const SHOP_GROWTH = 0.3;
+
 // Dinero de prueba del botón DEV (solo en import.meta.env.DEV).
 export const DEV_MONEY = 50000000;
