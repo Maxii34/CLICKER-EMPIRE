@@ -5,7 +5,16 @@ import "./Logros.css";
 
 export const LogrosPanel = ({ unlockedIds = [] }) => {
   const [open, setOpen] = useState(false);
+  const [tip, setTip] = useState(null);
   const unlocked = new Set(unlockedIds);
+
+  const showTip = (e, a, has) => {
+    setTip({ id: a.id, x: e.clientX, y: e.clientY, name: a.name, desc: a.desc, has });
+  };
+  const moveTip = (e) => {
+    setTip((t) => (t ? { ...t, x: e.clientX, y: e.clientY } : t));
+  };
+  const hideTip = () => setTip(null);
 
   return (
     <div className="logros-box">
@@ -35,7 +44,10 @@ export const LogrosPanel = ({ unlockedIds = [] }) => {
                 <span
                   key={a.id}
                   className={`logro-tile ${has ? "has" : ""}`}
-                  title={has ? `${a.name} — ${a.desc}` : `? — ${a.desc}`}
+                  aria-label={has ? `${a.name} — ${a.desc}` : `Bloqueado — ${a.desc}`}
+                  onMouseEnter={(e) => showTip(e, a, has)}
+                  onMouseMove={moveTip}
+                  onMouseLeave={hideTip}
                 >
                   <Icon />
                 </span>
@@ -44,6 +56,21 @@ export const LogrosPanel = ({ unlockedIds = [] }) => {
           </div>
         </div>
       </div>
+
+      {tip && (
+        <div
+          className={`logro-tip ${tip.has ? "has" : ""} ${tip.y < 150 ? "below" : ""}`}
+          style={{ left: tip.x, top: tip.y }}
+        >
+          <strong className="logro-tip-name">
+            {tip.has ? tip.name : "Logro bloqueado"}
+          </strong>
+          <span className="logro-tip-desc">{tip.desc}</span>
+          <span className="logro-tip-state">
+            {tip.has ? "Desbloqueado" : "Bloqueado"}
+          </span>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,3 +1,6 @@
+// Versión visible del juego (se muestra en el pie).
+export const GAME_VERSION = "1.0.0";
+
 // Constantes centrales del juego (FASE 1).
 // Antes vivían dispersas en App.jsx y en cada panel de mejoras.
 // No cambiar números sin pasar por el simulador (FASE 2) y confirmación.

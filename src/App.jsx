@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import { Inicio } from "./components/pages/Inicio";
 import { MenuNav } from "./components/shared/MenuNav";
+import { PieImperio } from "./components/shared/PieImperio";
 import { ACHIEVEMENTS } from "./components/logros/achievements.js";
 import rebirthReq from "./components/rebirs/rebirthReq.js";
 import upgrades from "./components/upgrader/upgrades.js";
@@ -767,6 +768,8 @@ function App() {
           unlockedIds={unlockedIds}
         />
       </main>
+
+      <PieImperio rebirlvl={rebirlvl} totalClicks={totalClicks} />
 
       {/* Toast de logro desbloqueado */}
       {achToast && (

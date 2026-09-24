@@ -1,0 +1,80 @@
+/* ===== PIE SUELO DEL IMPERIO ===== */
+.pie-suelo {
+  /* Línea dorada del horizonte + losas de piedra + tierra oscura */
+  border-top: 3px solid #f59e0b;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0 2px,
+      transparent 2px 72px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 0 2px,
+      transparent 2px 26px
+    ),
+    linear-gradient(180deg, #2b2118 0%, #1a1410 45%, #0d0a07 100%);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+  padding: 14px 20px 16px;
+}
+
+.pie-contenido {
+  max-width: 1720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-size: 0.72rem;
+  color: #a8a29e;
+}
+
+.pie-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #fbbf24;
+}
+
+.pie-marca em {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 0.62rem;
+  color: #78716c;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 1px 7px;
+  letter-spacing: 0.3px;
+}
+
+.pie-dato {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pie-dato svg {
+  color: #fbbf24;
+  font-size: 0.7rem;
+}
+
+.pie-guardado {
+  color: #4ade80;
+}
+
+.pie-guardado svg {
+  color: #4ade80;
+}
+
+@media (max-width: 576px) {
+  .pie-contenido {
+    gap: 6px 14px;
+    font-size: 0.66rem;
+  }
+}

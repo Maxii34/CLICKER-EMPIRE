@@ -53,8 +53,8 @@ ni `Infinity` en el estado (salvo `unlockedLvl` en MAX, documentado arriba).
 | Zona | Componente | Archivo |
 |---|---|---|
 | Topbar | MenuNav (HUD + progreso de rebirth) | `shared/MenuNav.jsx` |
-| Izquierda (lg=3) | PanelIzquierdo con 4 tabs + LogrosPanel | `panel/PanelIzquierdo.jsx` |
-| Centro (lg=5) | BonusBienvenida + ClikerGamer + GuiaDesbloqueos | `bonus/`, `ClikerGamer.jsx`, `shared/GuiaDesbloqueos.jsx` |
+| Izquierda (lg=3) | PanelIzquierdo con 4 tabs | `panel/PanelIzquierdo.jsx` |
+| Centro (lg=5) | BonusBienvenida + ClikerGamer + GuiaDesbloqueos + LogrosPanel | `bonus/`, `ClikerGamer.jsx`, `shared/GuiaDesbloqueos.jsx`, `logros/LogrosPanel.jsx` |
 | Derecha (lg=4) | MejorasProges + ReiniciosLvl + BonusAutoClick + MinerProges | `upgrader/`, `rebirs/`, `bonus/` |
 
 Datos importantes: `upgrades.js` (tienda), `rebirthReq.js` (20 rebirths), `unlocks.js` (33 filas de desbloqueos), `MineriaX.js` (36 rigs), `achievements.js` (26 logros).

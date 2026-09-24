@@ -139,7 +139,6 @@ export const Inicio = ({
                 buyDisciplina={buyDisciplina}
                 buyReflejos={buyReflejos}
               />
-              <LogrosPanel unlockedIds={unlockedIds} />
             </div>
           </Col>
 
@@ -170,6 +169,7 @@ export const Inicio = ({
               collectGolden={collectGolden}
             />
             <GuiaDesbloqueos rebirlvl={rebirlvl} />
+            <LogrosPanel unlockedIds={unlockedIds} />
           </Col>
 
           {/* 3. SECCIÓN DERECHA (TIENDA Y MEJORAS) */}
