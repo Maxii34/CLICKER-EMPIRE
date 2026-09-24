@@ -26,6 +26,7 @@ import { fileURLToPath } from "node:url";
 import {
   moneyPerClick, moneyPerAuto, directPassivePerSec, raidLoot, critChance,
   collectorEverySec, goldenFortune, welcomeFactor, effectiveMiningRate,
+  offlineGains,
   costExo, costFondo, costOverclock, costCrit, costCollector,
   costCasa, costMercado, costMuralla, costAyunta,
   costSoldado, costArquero, costCaballero, costGeneral,
@@ -78,7 +79,7 @@ function parseArgs(argv) {
   const cfg = {
     cps: 3, auto: true, bonus: true, vaultEvery: 60,
     golden: "none", shop: "A", growth: SHOP_GROWTH, maxHours: 48,
-    matrix: false, md: false,
+    matrix: false, md: false, offlineHours: 0,
   };
   for (const a of argv) {
     if (a.startsWith("--cps=")) cfg.cps = Number(a.split("=")[1]);
@@ -89,6 +90,8 @@ function parseArgs(argv) {
     else if (a.startsWith("--shop=")) cfg.shop = a.split("=")[1];
     else if (a.startsWith("--growth=")) cfg.growth = Number(a.split("=")[1]);
     else if (a.startsWith("--max-hours=")) cfg.maxHours = Number(a.split("=")[1]);
+    else if (a.startsWith("--offline-hours=")) cfg.offlineHours = Number(a.split("=")[1]);
+    else if (a.startsWith("--offline=")) cfg.offlineHours = Number(a.split("=")[1]);
     else if (a === "--matrix") cfg.matrix = true;
     else if (a === "--md") cfg.md = true;
   }
@@ -455,6 +458,31 @@ function reportRun(res) {
   return L.join("\n");
 }
 
+// Modo opcional --offline-hours=N: con las stats de cada RB ya alcanzado,
+// muestra cuánto daría dormir N horas con el juego cerrado (offlineGains:
+// tope 8h, 50% eficiencia, sin clicks/auto). No cambia la simulación.
+function reportOffline(rows, hours) {
+  const L = [];
+  L.push(`## Offline: dormir ${hours}h con el juego cerrado (tope 8h, 50% ritmo)`);
+  L.push("");
+  L.push("| RB | Pasivo | Minería | Saqueos | Al dinero | A bóveda | Equivale a (jugando) |");
+  L.push("|---|---|---|---|---|---|---|");
+  for (const r of rows) {
+    if (!Number.isFinite(r.seg)) continue;
+    const collector = r.lvls.collector || 0;
+    const baseMining = r.miningPS / (1 + 0.1 * collector);
+    const g = offlineGains({
+      passiveRate: r.flats.passiveRate, cityRate: r.flats.cityRate, trainRate: r.flats.trainRate,
+      miningRate: baseMining, imperioLvl: { collector }, armyPower: r.flats.armyPower,
+    }, hours * 3600);
+    const f = (v) => (v >= 100 ? Math.round(v).toLocaleString("es-AR") : v.toFixed(0));
+    const activePS = r.clickPS + r.autoPS + r.passivePS + r.miningPS + r.raidPS;
+    const equiv = activePS > 0 && g.grandTotal > 0 ? `${(g.grandTotal / activePS / 60).toFixed(0)} min` : "—";
+    L.push(`| ${r.rb} | +$${f(g.passive)} | +$${f(g.mining)}${g.miningToVault > 0 ? " (bóveda)" : ""} | ${g.raids} × $${f(g.raidEach)} | +$${f(g.totalToMoney)} | +$${f(g.totalToVault)} | ${equiv} |`);
+  }
+  return L.join("\n");
+}
+
 function main() {
   const cfg = parseArgs(process.argv.slice(2));
   if (cfg.matrix) {
@@ -502,7 +530,8 @@ function main() {
     return results;
   }
   const res = run(cfg);
-  const md = `# Simulación — cps=${cfg.cps} tienda=${cfg.shop}\n\n${reportRun(res)}\n`;
+  let md = `# Simulación — cps=${cfg.cps} tienda=${cfg.shop}\n\n${reportRun(res)}\n`;
+  if (cfg.offlineHours > 0) md += `\n${reportOffline(res.rows, cfg.offlineHours)}\n`;
   console.log(md);
   if (cfg.md) writeFileSync(OUT_MD, md + "\n");
 }

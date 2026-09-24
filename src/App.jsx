@@ -28,6 +28,8 @@ import {
   effectiveMiningRate as calcEffectiveMining,
   goldenFortune,
   raidCooldownLeft,
+  offlineGains,
+  offlineElapsedSec,
   isValidCost,
   canPay as canPayPure,
   shopPrice,
@@ -52,8 +54,12 @@ import {
   persistSave,
   backupRaw,
   clearSave,
+  applyOfflineResult,
+  tryClaimOffline,
+  SAVE_KEY,
 } from "./game/save.js";
 import { SaveRecovery } from "./components/shared/SaveRecovery.jsx";
+import { OfflineModal } from "./components/shared/OfflineModal.jsx";
 
 function App() {
   // Carga inicial una sola vez (save.js: migrate + validate + defaults).
@@ -76,92 +82,139 @@ function App() {
     for (const w of loadWarnings) console.warn(`[save] ${w}`);
   }, [loadWarnings]);
 
+  // FASE 4 (offline): resolución al cargar, una sola vez.
+  // lastSeenAt 0/ausente (save viejo o partida nueva) o futuro/negativo
+  // -> sin progreso. Por debajo de OFFLINE_MIN_SECONDS -> nada ni modal.
+  // Con ganancias: se aplican al estado inicial y se persisten ANTES de
+  // mostrar el modal (atómico: recargar en el modal no duplica ni pierde).
+  // tryClaimOffline garantiza que con dos pestañas solo una cobra.
+  const [offlineInit] = useState(() => {
+    if (initial.status === "recovery" || !initial.state) {
+      return { state: initial.state ?? null, report: null, claimedFrom: 0 };
+    }
+    const base = initial.state;
+    const now = Date.now();
+    const t0 = base.lastSeenAt;
+    if (typeof t0 !== "number" || !Number.isFinite(t0) || t0 <= 0) {
+      return { state: base, report: null, claimedFrom: 0 };
+    }
+    if (base.lastOfflineAt === t0) {
+      return { state: base, report: null, claimedFrom: 0 };
+    }
+    const elapsed = offlineElapsedSec(t0, now);
+    if (elapsed <= 0) return { state: base, report: null, claimedFrom: 0 };
+    const gains = offlineGains(base, elapsed);
+    if (!gains.eligible) {
+      // Sin nada que cobrar (o muy corto): solo se avanza lastSeenAt
+      // para no recalcular en cada carga. Sin modal.
+      return {
+        state: { ...base, lastSeenAt: now },
+        report: null,
+        claimedFrom: 0,
+      };
+    }
+    const { state: applied, applied: did } = applyOfflineResult(base, gains, {
+      now,
+      claimedFrom: t0,
+    });
+    if (!did) return { state: base, report: null, claimedFrom: 0 };
+    const claim = tryClaimOffline(t0, applied);
+    if (!claim.ok) {
+      console.warn(`[offline] otra pestaña ya cobró (${claim.reason}): no se duplica.`);
+      return { state: { ...base, lastSeenAt: now }, report: null, claimedFrom: 0 };
+    }
+    return { state: applied, report: gains, claimedFrom: t0 };
+  });
+  const resolved = offlineInit.state ?? saved;
+  const [offlineReport, setOfflineReport] = useState(offlineInit.report);
+
   // Estado del dinero (validado en save.js: finito y >= 0).
-  const [money, setMoney] = useState(saved?.money ?? 0);
+  const [money, setMoney] = useState(resolved?.money ?? 0);
   // Estado del multiplicador (validado: finito y >= 1).
-  const [multiplier, setMultiplier] = useState(saved?.multiplier ?? 1);
+  const [multiplier, setMultiplier] = useState(resolved?.multiplier ?? 1);
   // Estados para rebirths y niveles desbloqueados.
-  const [rebirlvl, setRebirLvl] = useState(saved?.rebirlvl ?? 0);
+  const [rebirlvl, setRebirLvl] = useState(resolved?.rebirlvl ?? 0);
   // Tope de tienda (validado; Infinity solo si terminó todo).
   const [unlockedLvl, setUnlockedLvl] = useState(
-    saved?.unlockedLvl ?? Infinity,
+    resolved?.unlockedLvl ?? Infinity,
   );
   // Estado para el bonus de bienvenida
-  const [bonusActivo, setBonusActivo] = useState(saved?.bonusActivo ?? false);
+  const [bonusActivo, setBonusActivo] = useState(resolved?.bonusActivo ?? false);
   //Estados para el autoclick (no se persiste encendido: siempre arranca apagado)
   const [autoClick, setAutoClick] = useState(false);
   // Estado para la velocidad del autoclick
-  const [autoClickSpeed, setAutoClickSpeed] = useState(saved?.autoClickSpeed ?? 1000);
+  const [autoClickSpeed, setAutoClickSpeed] = useState(resolved?.autoClickSpeed ?? 1000);
   // Nivel del autoclicker (antes vivía dentro de BonusAutoClick y se perdía al recargar)
-  const [autoClickLevel, setAutoClickLevel] = useState(saved?.autoClickLevel ?? 0);
+  const [autoClickLevel, setAutoClickLevel] = useState(resolved?.autoClickLevel ?? 0);
 
   // --- SISTEMA IMPERIO (panel izquierdo) ---
   // Bono plano que se suma a cada click: ganancia = multiplier + clickBonus
-  const [clickBonus, setClickBonus] = useState(saved?.clickBonus ?? 0);
+  const [clickBonus, setClickBonus] = useState(resolved?.clickBonus ?? 0);
   // Ingreso pasivo en $/seg (Fondo de Inversión)
-  const [passiveRate, setPassiveRate] = useState(saved?.passiveRate ?? 0);
+  const [passiveRate, setPassiveRate] = useState(resolved?.passiveRate ?? 0);
   // Potencia del autoclicker: ganancia = (multiplier + clickBonus) * autoPower
-  const [autoPower, setAutoPower] = useState(saved?.autoPower ?? 4);
+  const [autoPower, setAutoPower] = useState(resolved?.autoPower ?? 4);
   // Niveles comprados en el panel imperio (validados en save.js).
   const [imperioLvl, setImperioLvl] = useState(
-    saved?.imperioLvl ?? { exo: 0, fondo: 0, overclock: 0, crit: 0, collector: 0 },
+    resolved?.imperioLvl ?? { exo: 0, fondo: 0, overclock: 0, crit: 0, collector: 0 },
   );
   // Estadística total de clicks para el dashboard
-  const [totalClicks, setTotalClicks] = useState(saved?.totalClicks ?? 0);
+  const [totalClicks, setTotalClicks] = useState(resolved?.totalClicks ?? 0);
 
   // --- SISTEMA CIUDAD (panel izquierdo, pestaña Ciudad) ---
   // Renta pasiva de edificios: Casa + Mercado + Ayuntamiento → directo al dinero.
-  const [cityRate, setCityRate] = useState(saved?.cityRate ?? 0);
+  const [cityRate, setCityRate] = useState(resolved?.cityRate ?? 0);
   // Bonus plano al click por Murallas: ganancia = multiplier + clickBonus + cityClickBonus
-  const [cityClickBonus, setCityClickBonus] = useState(saved?.cityClickBonus ?? 0);
+  const [cityClickBonus, setCityClickBonus] = useState(resolved?.cityClickBonus ?? 0);
   // Niveles de edificios (validados en save.js).
   const [cityLvl, setCityLvl] = useState(
-    saved?.cityLvl ?? { casa: 0, mercado: 0, muralla: 0, ayunta: 0 },
+    resolved?.cityLvl ?? { casa: 0, mercado: 0, muralla: 0, ayunta: 0 },
   );
 
   // --- SISTEMA EJÉRCITO (panel izquierdo, pestaña Ejército) ---
   // Poder de saqueo: cada tropa suma poder. El botín = poder * RAID_MULT
   // y cae solo cada RAID_EVERY segundos o con el botón SAQUEAR.
-  const [armyPower, setArmyPower] = useState(saved?.armyPower ?? 0);
+  const [armyPower, setArmyPower] = useState(resolved?.armyPower ?? 0);
   const [armyLvl, setArmyLvl] = useState(
-    saved?.armyLvl ?? { soldado: 0, arquero: 0, caballero: 0, general: 0 },
+    resolved?.armyLvl ?? { soldado: 0, arquero: 0, caballero: 0, general: 0 },
   );
   // Timestamp del último saqueo (persistido). Recargar ya no regala uno gratis:
   // el cooldown inicial se recalcula desde este timestamp.
-  const [lastRaidAt, setLastRaidAt] = useState(saved?.lastRaidAt ?? 0);
+  const [lastRaidAt, setLastRaidAt] = useState(resolved?.lastRaidAt ?? 0);
   // Cooldown del saqueo en segundos (derivado de lastRaidAt al cargar).
   const [raidCooldown, setRaidCooldown] = useState(() =>
-    raidCooldownLeft(lastRaidAt, saved?.armyPower ?? 0),
+    raidCooldownLeft(lastRaidAt, resolved?.armyPower ?? 0),
   );
 
   // --- SISTEMA ENTRENAMIENTO (panel izquierdo, pestaña Entrenamiento) ---
   // Stats base permanentes: fuerza → click, disciplina → pasivo, reflejos → auto.
-  const [trainClickBonus, setTrainClickBonus] = useState(saved?.trainClickBonus ?? 0);
-  const [trainRate, setTrainRate] = useState(saved?.trainRate ?? 0);
-  const [trainAutoBonus, setTrainAutoBonus] = useState(saved?.trainAutoBonus ?? 0);
+  const [trainClickBonus, setTrainClickBonus] = useState(resolved?.trainClickBonus ?? 0);
+  const [trainRate, setTrainRate] = useState(resolved?.trainRate ?? 0);
+  const [trainAutoBonus, setTrainAutoBonus] = useState(resolved?.trainAutoBonus ?? 0);
   const [trainLvl, setTrainLvl] = useState(
-    saved?.trainLvl ?? { fuerza: 0, disciplina: 0, reflejos: 0 },
+    resolved?.trainLvl ?? { fuerza: 0, disciplina: 0, reflejos: 0 },
   );
 
   // --- SISTEMA MINERÍA (panel derecho, ingreso pasivo permanente) ---
   // Declarado arriba: el autoguardado y passiveTotal lo usan.
-  const [miningRate, setMiningRate] = useState(saved?.miningRate ?? 0);
+  const [miningRate, setMiningRate] = useState(resolved?.miningRate ?? 0);
   const [purchasedMinerIds, setPurchasedMinerIds] = useState(
-    saved?.purchasedMinerIds ?? [],
+    resolved?.purchasedMinerIds ?? [],
   );
   // Bóveda minera: lo minado se acumula aquí hasta RECAUDAR.
-  const [vault, setVault] = useState(saved?.vault ?? 0);
+  const [vault, setVault] = useState(resolved?.vault ?? 0);
   // P2 (tienda C): veces comprado cada ítem (índice en upgrades.js).
   // Se resetea al renacer. Saves viejos (sin campo) arrancan en {}.
-  const [shopCounts, setShopCounts] = useState(saved?.shopCounts ?? {});
-  // FASE 4 (offline): última vez visto. Por ahora solo se guarda.
-  const [lastSeenAt, setLastSeenAt] = useState(saved?.lastSeenAt ?? 0);
+  const [shopCounts, setShopCounts] = useState(resolved?.shopCounts ?? {});
+  // FASE 4 (offline): última vez visto + marca anti-doble-cobro.
+  const [lastSeenAt, setLastSeenAt] = useState(resolved?.lastSeenAt ?? 0);
+  const [lastOfflineAt, setLastOfflineAt] = useState(resolved?.lastOfflineAt ?? 0);
 
   // --- ESTADÍSTICAS PARA LOGROS (persistidas) ---
-  const [maxMoney, setMaxMoney] = useState(saved?.maxMoney ?? 0);
-  const [totalCollected, setTotalCollected] = useState(saved?.totalCollected ?? 0);
-  const [goldenCount, setGoldenCount] = useState(saved?.goldenCount ?? 0);
-  const [totalRaids, setTotalRaids] = useState(saved?.totalRaids ?? 0);
+  const [maxMoney, setMaxMoney] = useState(resolved?.maxMoney ?? 0);
+  const [totalCollected, setTotalCollected] = useState(resolved?.totalCollected ?? 0);
+  const [goldenCount, setGoldenCount] = useState(resolved?.goldenCount ?? 0);
+  const [totalRaids, setTotalRaids] = useState(resolved?.totalRaids ?? 0);
 
   // Récord de dinero (solo sube, las compras no lo bajan).
   useEffect(() => {
@@ -170,7 +223,7 @@ function App() {
 
   // Foto del estado para guardar (JSON puro, esquema en AGENTS.md).
   const buildSnapshot = () => ({
-    version: 2,
+    version: 3,
     money,
     multiplier,
     rebirlvl,
@@ -202,6 +255,7 @@ function App() {
     goldenCount,
     totalRaids,
     lastSeenAt,
+    lastOfflineAt,
   });
 
   // Espejo siempre fresco para guardar al ocultar/cerrar la pestaña.
@@ -243,16 +297,63 @@ function App() {
     goldenCount,
     totalRaids,
     lastSeenAt,
+    lastOfflineAt,
   ]);
 
-  // Guardar al ocultar o cerrar la pestaña (FASE 4 usará lastSeenAt).
+  // Guardar al ocultar/cerrar + cobrar offline al volver (FASE 4).
+  // Al volver se usa el save persistido como verdad: si los timers
+  // siguieron corriendo en segundo plano, lastSeenAt está fresco y solo
+  // se cobra la cola que faltó (sin duplicar lo que ya dieron los timers).
+  // Atómico vía tryClaimOffline: con dos pestañas solo una cobra.
+  const reportRef = useRef(null);
+  reportRef.current = offlineReport;
   useEffect(() => {
     const saveNow = () => {
-      setLastSeenAt(Date.now());
-      persistSave({ ...snapshotRef.current, lastSeenAt: Date.now() });
+      const now = Date.now();
+      setLastSeenAt(now);
+      persistSave({ ...snapshotRef.current, lastSeenAt: now });
     };
     const onVis = () => {
-      if (document.visibilityState === "hidden") saveNow();
+      if (document.visibilityState === "hidden") {
+        saveNow();
+        return;
+      }
+      if (document.visibilityState !== "visible") return;
+      if (initial.status === "recovery") return;
+      if (reportRef.current) return; // modal abierto: no encimar otro
+      let persistedT0 = 0;
+      try {
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (raw) persistedT0 = JSON.parse(raw)?.lastSeenAt ?? 0;
+      } catch {
+        persistedT0 = 0;
+      }
+      const now = Date.now();
+      const elapsed = offlineElapsedSec(persistedT0, now);
+      if (elapsed <= 0) return;
+      const snap = { ...snapshotRef.current };
+      if (snap.lastOfflineAt === persistedT0) return; // este T0 ya se cobró
+      const gains = offlineGains(snap, elapsed);
+      if (!gains.eligible) return;
+      const { state: applied, applied: did } = applyOfflineResult(snap, gains, {
+        now,
+        claimedFrom: persistedT0,
+      });
+      if (!did) return;
+      const claim = tryClaimOffline(persistedT0, applied);
+      if (!claim.ok) {
+        console.warn(`[offline] cobro al volver omitido (${claim.reason}).`);
+        return;
+      }
+      setMoney(applied.money);
+      setVault(applied.vault ?? 0);
+      setTotalCollected(applied.totalCollected ?? 0);
+      setTotalRaids(applied.totalRaids ?? 0);
+      setLastRaidAt(applied.lastRaidAt ?? 0);
+      if (gains.raids > 0) setRaidCooldown(RAID_EVERY);
+      setLastSeenAt(now);
+      setLastOfflineAt(persistedT0);
+      setOfflineReport(gains);
     };
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("pagehide", saveNow);
@@ -260,7 +361,8 @@ function App() {
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pagehide", saveNow);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initial.status]);
 
   // --- LOGROS: desbloqueo derivado + toast solo para los nuevos ---
   const achStats = {
@@ -770,6 +872,11 @@ function App() {
       </main>
 
       <PieImperio rebirlvl={rebirlvl} totalClicks={totalClicks} />
+
+      {/* FASE 4: ganancias offline ya aplicadas; "Recoger" solo cierra */}
+      {offlineReport && (
+        <OfflineModal report={offlineReport} onCollect={() => setOfflineReport(null)} />
+      )}
 
       {/* Toast de logro desbloqueado */}
       {achToast && (

@@ -1,10 +1,11 @@
-// Guardado robusto FASE 3 — funciones puras + acceso a localStorage aislado aquí.
+// Guardado robusto FASE 3 + offline FASE 4 — funciones puras + acceso a localStorage aislado aquí.
 // Ni App.jsx ni los componentes hacen JSON.parse/stringify del save directamente.
 //
 // Versiones: el save original (sin campo version) es v1 implícita.
 //   v1 -> v2: +version, +lastRaidAt, +shopCounts, +lastSeenAt,
 //             unlockedLvl null (Infinity serializado) se recalcula.
-// Esquema v2 documentado en AGENTS.md.
+//   v2 -> v3: +lastOfflineAt (marca anti-doble-cobro offline, FASE 4).
+// Esquema v3 documentado en AGENTS.md.
 import rebirthReq from "../components/rebirs/rebirthReq.js";
 import MineriaX from "../components/upgrader/MineriaX.js";
 import {
@@ -19,7 +20,7 @@ import {
   MAX_AUTO_CLICKER,
 } from "./constants.js";
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 export const SAVE_KEY = "clicker-empire-save-v1";
 export const BACKUP_PREFIX = "clicker-empire-backup-";
 export const EXPORT_FORMAT = "clicker-empire-export";
@@ -66,6 +67,9 @@ export const defaultState = () => ({
   goldenCount: 0,
   totalRaids: 0,
   lastSeenAt: 0,
+  // FASE 4: T0 (lastSeenAt anterior) ya cobrado offline. 0 = nada cobrado.
+  // Aplicar dos veces con el mismo lastSeenAt es imposible (idempotente).
+  lastOfflineAt: 0,
 });
 
 // --- Migraciones. Esqueleto para futuras: agregar v2->v3 en MIGRATIONS. ---
@@ -87,7 +91,16 @@ const migrateV1toV2 = (raw, warnings) => {
   return out;
 };
 
-const MIGRATIONS = { 1: migrateV1toV2 };
+const migrateV2toV3 = (raw, warnings) => {
+  const out = { ...defaultState(), ...raw, version: 3 };
+  if (raw.lastOfflineAt === undefined || raw.lastOfflineAt === null) {
+    out.lastOfflineAt = 0;
+    warnings.push("lastOfflineAt faltante (save v2): arranca en 0 (sin doble cobro).");
+  }
+  return out;
+};
+
+const MIGRATIONS = { 1: migrateV1toV2, 2: migrateV2toV3 };
 
 export const migrate = (raw) => {
   const warnings = [];
@@ -244,6 +257,7 @@ export const validate = (state) => {
   out.goldenCount = checkInt("goldenCount");
   out.totalRaids = checkInt("totalRaids");
   out.lastSeenAt = checkNum("lastSeenAt");
+  out.lastOfflineAt = checkNum("lastOfflineAt");
 
   // unlockedLvl: el único campo que admite Infinity (solo si terminó todo).
   // Se serializa como null y se recalcula al cargar.
@@ -349,6 +363,69 @@ export const readBackup = (key) => {
   } catch {
     return null;
   }
+};
+
+// --- Offline FASE 4: aplicación pura + cobro atómico entre pestañas ---
+// applyOfflineResult(state, gains, { now, claimedFrom }): devuelve el estado
+// con money/vault/totalCollected/totalRaids/lastSeenAt/lastRaidAt/lastOfflineAt
+// actualizados. Pura (no toca storage). Idempotente: si claimedFrom ya fue
+// cobrado (state.lastOfflineAt === claimedFrom) o gains no es elegible,
+// devuelve { state, applied: false }.
+export const applyOfflineResult = (state, gains, { now = Date.now(), claimedFrom = 0 } = {}) => {
+  if (!state || typeof state !== "object") return { state, applied: false };
+  if (!gains || gains.eligible !== true) return { state, applied: false };
+  if (typeof claimedFrom !== "number" || !Number.isFinite(claimedFrom) || claimedFrom <= 0) {
+    return { state, applied: false };
+  }
+  if (state.lastOfflineAt === claimedFrom) return { state, applied: false };
+  const safeAdd = (base, add) => {
+    const b = typeof base === "number" && Number.isFinite(base) && base >= 0 ? base : 0;
+    const a = typeof add === "number" && Number.isFinite(add) && add > 0 ? Math.floor(add) : 0;
+    const r = b + a;
+    return Number.isFinite(r) ? Math.min(r, Number.MAX_SAFE_INTEGER) : b;
+  };
+  const t = typeof now === "number" && Number.isFinite(now) && now > 0 ? Math.floor(now) : Date.now();
+  return {
+    state: {
+      ...state,
+      money: safeAdd(state.money, gains.totalToMoney),
+      vault: safeAdd(state.vault, gains.miningToVault),
+      totalCollected: safeAdd(state.totalCollected, gains.miningToMoney),
+      totalRaids: safeAdd(state.totalRaids, gains.raids),
+      lastRaidAt: gains.raids > 0 ? t : (state.lastRaidAt ?? 0),
+      lastSeenAt: t,
+      lastOfflineAt: Math.floor(claimedFrom),
+    },
+    applied: true,
+  };
+};
+
+// tryClaimOffline(oldSeenAt, newState): solo una pestaña cobra.
+// Lee el save persistido y lo compara con el T0 que se quiere cobrar:
+//   - si el persistido ya marcó lastOfflineAt === T0 -> otra pestaña cobró.
+//   - si el persistido ya avanzó lastSeenAt !== T0 -> ya se cobró/movió.
+// Solo entonces persiste newState. Sin storage (Node/tests) devuelve ok:true
+// sin persistir. Devuelve { ok, reason? }.
+export const tryClaimOffline = (oldSeenAt, newState) => {
+  const ls = storage();
+  if (!ls) return { ok: true, reason: "sin-storage" };
+  let persisted = null;
+  try {
+    const raw = ls.getItem(SAVE_KEY);
+    if (raw) persisted = JSON.parse(raw);
+  } catch {
+    persisted = null;
+  }
+  if (persisted && typeof persisted === "object") {
+    if (persisted.lastOfflineAt === oldSeenAt) {
+      return { ok: false, reason: "already-claimed" };
+    }
+    if (persisted.lastSeenAt !== undefined && persisted.lastSeenAt !== oldSeenAt) {
+      return { ok: false, reason: "already-updated" };
+    }
+  }
+  const ok = persistSave(newState);
+  return ok ? { ok: true } : { ok: false, reason: "persist-failed" };
 };
 
 // --- Checksum FNV-1a (simple, no criptográfico) ---

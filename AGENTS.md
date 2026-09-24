@@ -19,17 +19,20 @@ Toda la interfaz está en español y debe seguir así.
 - Estado central: `src/App.jsx`
 - Layout de 3 columnas: `src/components/pages/Inicio.jsx`
 - Autoguardado: `localStorage`, clave `clicker-empire-save-v1`, solo vía `src/game/save.js`
-  (versión 2; `App.jsx` y componentes no hacen `JSON.parse/stringify` del save).
+  (versión 3; `App.jsx` y componentes no hacen `JSON.parse/stringify` del save).
   Se guarda en cada cambio + al ocultar/cerrar la pestaña (`visibilitychange`/`pagehide`).
   Save grave → respaldo en `clicker-empire-backup-<fecha>` + pantalla de recovery
   (importar respaldo / empezar de nuevo / reintentar). Ajustes: exportar/importar
   (base64 + checksum FNV-1a) y reset con doble confirmación, en el menú ⚙️.
+- Offline (FASE 4): al cargar y al volver a una pestaña visible tras ≥60s se cobra
+  `offlineGains` (tope 8h, 50% ritmo, sin clicks/auto) con modal "Mientras no estabas…"
+  (`src/components/shared/OfflineModal.jsx`). Atómico vía `lastOfflineAt` + `tryClaimOffline`.
 
-## Esquema del save v2 (JSON puro, sin funciones ni referencias)
+## Esquema del save v3 (JSON puro, sin funciones ni referencias)
 
 | Campo | Tipo | Rango | Default | Notas |
 |---|---|---|---|---|
-| version | int | 2 | 2 | Sin campo = v1 → migra |
+| version | int | 3 | 3 | Sin campo = v1 → migra; v2 → v3 agrega `lastOfflineAt` |
 | money, vault, miningRate, clickBonus, passiveRate, cityRate, cityClickBonus, trainClickBonus, trainRate, trainAutoBonus, armyPower, maxMoney | number | finito ≥ 0 | 0 | — |
 | multiplier | number | finito 1..1e6 | 1 | — |
 | rebirlvl | int | 0..20 | 0 | 20 = todo completado |
@@ -42,7 +45,7 @@ Toda la interfaz está en español y debe seguir así.
 | cityLvl | {casa,mercado:int≥0; muralla:0..15; ayunta:0..10} | — | ceros | — |
 | armyLvl | {soldado,arquero,caballero:int≥0; general:0..5} | — | ceros | — |
 | trainLvl | {fuerza:0..30; disciplina:0..30; reflejos:0..20} | — | ceros | — |
-| lastRaidAt, lastSeenAt | number (ms) | finito ≥ 0 | 0 | lastSeenAt lo usará FASE 4 (offline) |
+| lastRaidAt, lastSeenAt, lastOfflineAt | number (ms) | finito ≥ 0 | 0 | `lastOfflineAt` = T0 ya cobrado (anti-doble-cobro FASE 4) |
 | purchasedMinerIds | string[] | ids de `MineriaX.js`, sin duplicados | [] | Desconocidos se filtran |
 | shopCounts | {[idx]: int≥1} | — | {} | Contador tienda C, reset al renacer |
 | totalClicks, totalCollected, goldenCount, totalRaids | int | ≥ 0 | 0 | Estadísticas de logros |
@@ -67,6 +70,7 @@ moneyPerAuto  = moneyPerClick * autoPower + trainAutoBonus   // SUMA al manual (
 pasivoDirecto = passiveRate + cityRate + trainRate            // +$/s directo al dinero
 mineríaEfectiva = miningRate * (1 + 0.1 * collectorLvl)       // +$/s a la bóveda, no directo (P5)
 raidLoot      = floor(armyPower * 8)                          // cada 45s (RAID_EVERY)
+offlineGains  = pasivo+minería+saqueos sobre min(elapsed,8h)*0.5 // sin clicks/auto, todo floor (FASE 4)
 crítico       : chance = critLvl * 3%, golpe = moneyPerClick * 5 (solo click manual)
 shopPrice     = round(base * 1.3^vecesComprado)               // tienda modelo C (P2)
 ```
@@ -75,7 +79,7 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 
 ## Qué persiste y qué se pierde al renacer
 
-- Persiste: `imperioLvl`, `cityLvl`, `armyLvl`, `trainLvl`, `miningRate` + ids de rigs + vault, `autoLevel`, `bonusActivo`, `lastRaidAt`, `lastSeenAt`.
+- Persiste: `imperioLvl`, `cityLvl`, `armyLvl`, `trainLvl`, `miningRate` + ids de rigs + vault, `autoLevel`, `bonusActivo`, `lastRaidAt`, `lastSeenAt`, `lastOfflineAt`.
 - Se pierde: `money`, `multiplier` y `shopCounts` (contador tienda C).
 - Al renacer: `rebirlvl++`, `money = 0`, `multiplier = bonus de inicio`, `unlockedLvl = próximo tope (o Infinity)`.
 
@@ -108,6 +112,23 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 - **BonusAutoClick (5 niveles)**: solo acelera la frecuencia (900ms a 500ms). El daño lo dan Imperio/Entrenamiento. Cuando está encendido SUMA al click manual (P3, ya no lo pausa).
 - **Minería (36 rigs, 6 tiers)**: compra única y permanente. El flujo es `miningRate -> vault (cada 1s) -> RECAUDAR -> money`. El Recolector del Imperio lo automatiza.
 
+### Offline (FASE 4, sin cambios de balance)
+- Constantes en `constants.js`: `OFFLINE_CAP_HOURS = 8`, `OFFLINE_EFFICIENCY = 0.5`,
+  `OFFLINE_MIN_SECONDS = 60`, `OFFLINE_INCLUDE_AUTO = false`.
+- `offlineGains(state, elapsedSeconds)` en `economy.js`: pura, no muta. Pasivo directo
+  + minería efectiva (+10%/nv Recolector) + `floor(efectivo/45)` saqueos, todo `floor`.
+  Con Recolector (y efectivo ≥ su intervalo) lo minado va a money; si no, a vault.
+  Auto siempre 0 salvo que se active `OFFLINE_INCLUDE_AUTO`. Nunca NaN/Infinity.
+- `lastSeenAt` 0/ausente (save viejo, partida nueva) o futuro/negativo → 0, sin modal.
+  Tras cobrar se actualizan `lastSeenAt` y `lastRaidAt` (a `now` si hubo saqueos).
+- Al cargar y al volver a pestaña visible (≥60s) con el mismo cálculo; si los timers
+  siguieron corriendo, el save persistido está fresco y solo se cobra lo que faltó.
+- Atómico: se aplica + persiste antes del modal; "Recoger" solo cierra. Recargar en
+  el modal no duplica ni pierde. `lastOfflineAt` + `tryClaimOffline` = idempotente
+  (dos pestañas: solo una cobra).
+- Tests: `scripts/test-offline.mjs`. Simulador: `--offline-hours=N` muestra por RB
+  cuánto da dormir N horas y a cuántos minutos jugando equivale.
+
 ## Conexiones clave
 
 1. `multiplier` es la raíz: entra en click, auto, Frenesí, Crítico y Fortuna.
@@ -124,7 +145,7 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 - Exoesqueleto, Muralla y Fuerza son casi idénticos en función.
 - El ejército está aislado del resto de sistemas.
 - Las fórmulas viven en `App.jsx` y no hay simulador para validar el balance.
-- Faltan: progreso offline, exportar/importar partida, versión y migración del save.
+- Falta una moneda de prestigio propia.
 
 ## Checklist antes de dar una tarea por terminada
 

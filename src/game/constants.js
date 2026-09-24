@@ -85,5 +85,13 @@ export const COSTS = {
 // y se resetea al renacer. Los saves viejos arrancan en 0.
 export const SHOP_GROWTH = 0.3;
 
+// Progreso offline (FASE 4): no toca balance ni mecánicas online.
+// Solo usa pasivo directo + minería + saqueos. Clicks y auto excluidos
+// salvo que OFFLINE_INCLUDE_AUTO se active.
+export const OFFLINE_CAP_HOURS = 8; // tope de horas computables
+export const OFFLINE_EFFICIENCY = 0.5; // 50% del ritmo online
+export const OFFLINE_MIN_SECONDS = 60; // por debajo no se calcula ni se muestra
+export const OFFLINE_INCLUDE_AUTO = false; // auto-clicker offline (apagado)
+
 // Dinero de prueba del botón DEV (solo en import.meta.env.DEV).
 export const DEV_MONEY = 50000000;
