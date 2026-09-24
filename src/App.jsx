@@ -24,6 +24,7 @@ import {
   raidLoot as calcRaidLoot,
   critChance as calcCritChance,
   collectorEverySec as calcCollectorEverySec,
+  effectiveMiningRate as calcEffectiveMining,
   goldenFortune,
   raidCooldownLeft,
   isValidCost,
@@ -518,17 +519,18 @@ function App() {
 
   // Efecto para el ingreso pasivo.
   // passivePerSec = Fondo + Ciudad + Disciplina → directo al dinero.
-  // miningRate → a la bóveda (NO es pasivo directo).
+  // Minería efectiva (base +10%/nv Recolector) → a la bóveda, NO directo.
   const passivePerSec = directPassivePerSec({ passiveRate, cityRate, trainRate });
   const directPassive = passivePerSec;
+  const miningPerSec = calcEffectiveMining(miningRate, collectorLvl);
   useEffect(() => {
-    if (directPassive + miningRate <= 0) return;
+    if (directPassive + miningPerSec <= 0) return;
     const interval = setInterval(() => {
       if (directPassive > 0) setMoney((prev) => prev + directPassive);
-      if (miningRate > 0) setVault((prev) => prev + miningRate);
+      if (miningPerSec > 0) setVault((prev) => prev + miningPerSec);
     }, 1000);
     return () => clearInterval(interval);
-  }, [directPassive, miningRate]);
+  }, [directPassive, miningPerSec]);
 
   // Recaudar bóveda: mueve lo minado al dinero total (siempre entero).
   const collectVault = () => {
@@ -752,7 +754,7 @@ function App() {
           buyDisciplina={buyDisciplina}
           buyReflejos={buyReflejos}
           passivePerSec={passivePerSec}
-          miningRate={miningRate}
+          miningRate={miningPerSec}
           purchasedMinerIds={purchasedMinerIds}
           buyMiner={buyMiner}
           vault={vault}

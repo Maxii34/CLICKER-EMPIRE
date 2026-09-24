@@ -13,6 +13,8 @@ export const MAX_COLLECTOR = 5;
 export const COLLECTOR_BASE_SEC = 35;
 export const COLLECTOR_STEP_SEC = 5;
 export const COLLECTOR_MIN_SEC = 10;
+// P5: cada nivel de Recolector suma +10% a lo minado (además de automatizar).
+export const COLLECTOR_MINE_PCT = 0.1;
 
 // Bonus de bienvenida: factor aparte SOLO sobre multiplier (FASE 0.5).
 export const WELCOME_MULT = 2;

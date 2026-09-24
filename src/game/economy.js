@@ -8,6 +8,7 @@ import {
   COLLECTOR_BASE_SEC,
   COLLECTOR_STEP_SEC,
   COLLECTOR_MIN_SEC,
+  COLLECTOR_MINE_PCT,
   WELCOME_MULT,
   FRENZY_MULT,
   FORTUNE_CLICK_MULT,
@@ -54,6 +55,10 @@ export const collectorEverySec = (collectorLvl) =>
   collectorLvl > 0
     ? Math.max(COLLECTOR_MIN_SEC, COLLECTOR_BASE_SEC - collectorLvl * COLLECTOR_STEP_SEC)
     : 0;
+
+// Minería efectiva: base de rigs +10% por nivel de Recolector (P5).
+export const effectiveMiningRate = (baseRate, collectorLvl) =>
+  (baseRate || 0) * (1 + COLLECTOR_MINE_PCT * (collectorLvl || 0));
 
 // Premio Fortuna del evento dorado (entero).
 // Nota: usa el click actual, por eso en frenesí paga el triple (#10).

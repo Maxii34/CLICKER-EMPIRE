@@ -25,7 +25,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   moneyPerClick, moneyPerAuto, directPassivePerSec, raidLoot, critChance,
-  collectorEverySec, goldenFortune, welcomeFactor,
+  collectorEverySec, goldenFortune, welcomeFactor, effectiveMiningRate,
   costExo, costFondo, costOverclock, costCrit, costCollector,
   costCasa, costMercado, costMuralla, costAyunta,
   costSoldado, costArquero, costCaballero, costGeneral,
@@ -130,7 +130,7 @@ function income(st, cfg) {
   const passivePS = directPassivePerSec({
     passiveRate: st.passiveRate, cityRate: st.cityRate, trainRate: st.trainRate,
   });
-  const miningPS = st.miningRate;
+  const miningPS = effectiveMiningRate(st.miningRate, st.imperio.collector); // P5
   const raidPS = raidLoot(st.armyPower) / RAID_EVERY;
   let goldenPS = 0;
   if (cfg.golden === "avg") {
@@ -181,9 +181,11 @@ function candidates(st, cfg, inc) {
     inc.base * cfg.cps * 0.03 * (CRIT_MULT - 1), () => {
       st.imperio.crit++;
     });
-  add("collector", "Recolector", 2, MAX_COLLECTOR, costCollector(st.imperio.collector), 0, () => {
-    st.imperio.collector++;
-  });
+  // P5: el Recolector da +10% a lo minado por nivel (además de automatizar).
+  add("collector", "Recolector", 2, MAX_COLLECTOR, costCollector(st.imperio.collector),
+    0.1 * st.miningRate, () => {
+      st.imperio.collector++;
+    });
   add("casa", "Casa", 0, null, costCasa(st.city.casa), PASSIVE_FLAT.casa, () => {
     st.city.casa++; st.cityRate += PASSIVE_FLAT.casa;
   });
