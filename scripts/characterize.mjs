@@ -27,6 +27,8 @@ const BASELINE = join(DIR, "characterize.baseline.json");
 
 // --- Copia literal de las curvas originales (NO TOCAR: es el snapshot) ---
 // base/exp de cada panel + tope (null = sin máximo).
+// Verificado pre-FASE 1 con `git show d5d7a49:...`.
+// P4 (FASE 2-bis, intencional): ejército -40% en base, mismo exp.
 const COST_SNAPSHOT = {
   exo: { base: 500, exp: 2.2, max: null },
   fondo: { base: 1500, exp: 2.5, max: null },
@@ -37,10 +39,10 @@ const COST_SNAPSHOT = {
   mercado: { base: 3000, exp: 2.6, max: null },
   muralla: { base: 4000, exp: 2.8, max: 15 },
   ayunta: { base: 12000, exp: 3, max: 10 },
-  soldado: { base: 25000, exp: 2.9, max: null },
-  arquero: { base: 70000, exp: 3.0, max: null },
-  caballero: { base: 200000, exp: 3.1, max: null },
-  general: { base: 600000, exp: 3.2, max: 5 },
+  soldado: { base: 15000, exp: 2.9, max: null },
+  arquero: { base: 42000, exp: 3.0, max: null },
+  caballero: { base: 120000, exp: 3.1, max: null },
+  general: { base: 360000, exp: 3.2, max: 5 },
   fuerza: { base: 6000, exp: 2.6, max: 30 },
   disciplina: { base: 9000, exp: 2.6, max: 30 },
   reflejos: { base: 15000, exp: 2.8, max: 20 },
@@ -53,6 +55,13 @@ const COST_LEVELS = (max) => {
 };
 const snapCost = (key, lvl) =>
   Math.floor(COST_SNAPSHOT[key].base * Math.pow(COST_SNAPSHOT[key].exp, lvl));
+// Snapshot tienda C (P2): precio = round(base * 1.3^n).
+const snapShopPrice = (base, n) => Math.round(base * Math.pow(1.3, n));
+const SHOP_PRICE_CASES = [
+  [140, 0], [140, 1], [140, 5],
+  [3170, 0], [3170, 3],
+  [6616480, 0], [6616480, 2],
+];
 
 // --- Copia literal de las fórmulas actuales (NO TOCAR: es el snapshot) ---
 const snap = {
@@ -151,6 +160,9 @@ function computeCosts(costFn) {
       rows.push({ curve: key, lvl, cost: costFn(key, lvl) });
     }
   }
+  for (const [base, n] of SHOP_PRICE_CASES) {
+    rows.push({ curve: `shop:${base}x${n}`, lvl: n, cost: costFn(`shop:${base}`, n) });
+  }
   return rows;
 }
 
@@ -159,7 +171,11 @@ const mode = process.argv.includes("--check") ? "check" : "baseline";
 if (mode === "baseline") {
   const baseline = {
     states: compute(snap),
-    costs: computeCosts((key, lvl) => snapCost(key, lvl)),
+    costs: computeCosts((key, lvl) =>
+      key.startsWith("shop:")
+        ? snapShopPrice(Number(key.split(":")[1]), lvl)
+        : snapCost(key, lvl),
+    ),
   };
   writeFileSync(BASELINE, JSON.stringify(baseline, null, 2) + "\n");
   console.log(
@@ -194,7 +210,11 @@ if (mode === "baseline") {
   };
   const expected = JSON.parse(readFileSync(BASELINE, "utf-8"));
   const actualStates = compute(fns);
-  const actualCosts = computeCosts((key, lvl) => costFns[key](lvl));
+  const actualCosts = computeCosts((key, lvl) =>
+    key.startsWith("shop:")
+      ? eco.shopPrice(Number(key.split(":")[1]), lvl)
+      : costFns[key](lvl),
+  );
   const actual = { states: actualStates, costs: actualCosts };
   let fails = 0;
   const cmp = (label, e, a) => {
