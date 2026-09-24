@@ -58,7 +58,7 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 - Es la única mejora que se resetea con el rebirth.
 
 ### Rebirth
-- Requisito doble: dinero y multiplicador (ver `rebirthReq.js`). Dinero RB12-19 con x1.8/RB (P1a); RB0-11 intactos.
+- Requisito doble: dinero y multiplicador (ver `rebirthReq.js`). Dinero RB12-13 con x1.8/RB y RB14-19 con x1.6/RB (ajuste mínimo 2-bis); RB0-11 intactos.
 - Bonus de inicio por RB: x5, x7, x10, x14, x20, x28, x39, x55, x77, x108, x151... hasta x3108 en RB19.
 - Barra global en topbar: `(pMoney + pMult) / 2`.
 

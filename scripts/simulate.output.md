@@ -21,6 +21,7 @@ Resultado: NO terminó (corte 48h 0m)
 | 11 | 15h 24m | 7h 20m | 1.518 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+8033/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
 | 12 | 22h 40m | 7h 16m | 1.683 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+7276/s)<br>Overclock (+1530/s)<br>Fuerza (+84.6/s) |  |
 | 13 | 28h 59m | 6h 18m | 1.846 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+4832/s)<br>Muralla (+60.4/s)<br>Exoesqueleto (+60.4/s) |  |
+| 14 | 41h 51m | 12h 52m | 2.020 | 27.780 | 491 | 15.795 | 468 | Overclock (+1836/s)<br>Fuerza (+90.6/s)<br>Ayuntamiento (+25.0/s) |  |
 
 ## cps=1 auto=sí bonus=x2 bóveda=60s dorados=none tienda=B
 Resultado: NO terminó (corte 2m 16s)
@@ -48,6 +49,7 @@ Resultado: NO terminó (corte 48h 0m)
 | 11 | 15h 21m | 7h 20m | 1.518 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+5216/s)<br>Tienda +101 ($2673970) (+2817/s)<br>Mina Imperio Galáctico (+1620/s) |  |
 | 12 | 22h 37m | 7h 16m | 1.683 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+6486/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+790/s) |  |
 | 13 | 28h 56m | 6h 18m | 1.846 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+4832/s)<br>Muralla (+60.4/s)<br>Exoesqueleto (+60.4/s) |  |
+| 14 | 41h 48m | 12h 52m | 2.020 | 27.780 | 491 | 15.795 | 468 | Overclock (+1836/s)<br>Fuerza (+90.6/s)<br>Ayuntamiento (+25.0/s) |  |
 
 ## cps=3 auto=sí bonus=x2 bóveda=60s dorados=none tienda=A
 Resultado: NO terminó (corte 48h 0m)
@@ -67,8 +69,8 @@ Resultado: NO terminó (corte 48h 0m)
 | 10 | 6h 54m | 2h 59m | 3.825 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+9033/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
 | 11 | 13h 37m | 6h 42m | 4.554 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+9314/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
 | 12 | 20h 19m | 6h 41m | 5.049 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+8411/s)<br>Overclock (+1530/s)<br>Fuerza (+97.8/s) |  |
-| 13 | 26h 7m | 5h 48m | 5.537 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+5536/s)<br>Muralla (+69.2/s)<br>Exoesqueleto (+69.2/s) | rápido vs sig |
-| 14 | 45h 25m | 19h 17m | 6.085 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+104/s)<br>Exoesqueleto (+73.2/s) | lento vs ant |
+| 13 | 26h 7m | 5h 48m | 5.537 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+5536/s)<br>Muralla (+69.2/s)<br>Exoesqueleto (+69.2/s) |  |
+| 14 | 37h 56m | 11h 48m | 6.059 | 27.780 | 491 | 15.795 | 468 | Overclock (+1836/s)<br>Fuerza (+104/s)<br>Ayuntamiento (+25.0/s) |  |
 
 ## cps=3 auto=sí bonus=x2 bóveda=60s dorados=none tienda=B
 Resultado: NO terminó (corte 46s)
@@ -95,8 +97,8 @@ Resultado: NO terminó (corte 48h 0m)
 | 10 | 6h 55m | 2h 59m | 3.825 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+4740/s)<br>Tienda +86 ($1028450) (+4294/s)<br>Overclock (+1212/s) |  |
 | 11 | 13h 38m | 6h 42m | 4.554 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+6048/s)<br>Tienda +101 ($2673970) (+3266/s)<br>Mina Imperio Galáctico (+1620/s) |  |
 | 12 | 20h 19m | 6h 41m | 5.049 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+7498/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+913/s) |  |
-| 13 | 26h 8m | 5h 48m | 5.537 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+5536/s)<br>Muralla (+69.2/s)<br>Exoesqueleto (+69.2/s) | rápido vs sig |
-| 14 | 45h 26m | 19h 17m | 6.085 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+104/s)<br>Exoesqueleto (+73.2/s) | lento vs ant |
+| 13 | 26h 8m | 5h 48m | 5.537 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+5536/s)<br>Muralla (+69.2/s)<br>Exoesqueleto (+69.2/s) |  |
+| 14 | 37h 57m | 11h 48m | 6.059 | 27.780 | 491 | 15.795 | 468 | Overclock (+1836/s)<br>Fuerza (+104/s)<br>Ayuntamiento (+25.0/s) |  |
 
 ## cps=6 auto=sí bonus=x2 bóveda=60s dorados=none tienda=A
 Resultado: NO terminó (corte 48h 0m)
@@ -116,8 +118,9 @@ Resultado: NO terminó (corte 48h 0m)
 | 10 | 5h 50m | 2h 36m | 7.650 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+10938/s)<br>Overclock (+1212/s)<br>Auto-Clicker nv 5 (+1062/s) |  |
 | 11 | 11h 47m | 5h 57m | 9.108 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+11236/s)<br>Mina Imperio Galáctico (+1620/s)<br>Overclock (+1376/s) |  |
 | 12 | 17h 46m | 5h 58m | 10.098 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+10114/s)<br>Overclock (+1530/s)<br>Fuerza (+118/s) |  |
-| 13 | 22h 57m | 5h 11m | 11.075 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+6592/s)<br>Muralla (+82.4/s)<br>Exoesqueleto (+82.4/s) | rápido vs sig |
-| 14 | 40h 9m | 17h 11m | 12.170 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+124/s)<br>Exoesqueleto (+86.4/s) | lento vs ant |
+| 13 | 22h 57m | 5h 11m | 11.075 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+6592/s)<br>Muralla (+82.4/s)<br>Exoesqueleto (+82.4/s) |  |
+| 14 | 33h 28m | 10h 30m | 12.118 | 27.780 | 491 | 15.795 | 468 | Overclock (+1836/s)<br>Fuerza (+124/s)<br>Ayuntamiento (+25.0/s) |  |
+| 15 | 43h 55m | 10h 27m | 16.526 | 37.824 | 497 | 15.795 | 486 | Exoesqueleto (+86.4/s)<br>Muralla (+86.4/s)<br>Reflejos (+24.0/s) |  |
 
 ## cps=6 auto=sí bonus=x2 bóveda=60s dorados=none tienda=B
 Resultado: NO terminó (corte 23s)
@@ -144,8 +147,9 @@ Resultado: NO terminó (corte 48h 0m)
 | 10 | 5h 51m | 2h 36m | 7.650 | 14.904 | 366 | 8.100 | 354 | Tienda +85 ($978770) (+5739/s)<br>Tienda +86 ($1028450) (+5199/s)<br>Overclock (+1212/s) |  |
 | 11 | 11h 48m | 5h 57m | 9.108 | 18.156 | 409 | 15.795 | 434 | Tienda +100 ($2544800) (+7296/s)<br>Tienda +101 ($2673970) (+3940/s)<br>Mina Imperio Galáctico (+1620/s) |  |
 | 12 | 17h 47m | 5h 58m | 10.098 | 21.636 | 448 | 15.795 | 460 | Tienda +115 ($6616480) (+9016/s)<br>Overclock (+1530/s)<br>Tienda +116 ($6952310) (+1098/s) |  |
-| 13 | 22h 58m | 5h 11m | 11.075 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+6592/s)<br>Muralla (+82.4/s)<br>Exoesqueleto (+82.4/s) | rápido vs sig |
-| 14 | 40h 10m | 17h 11m | 12.170 | 27.900 | 495 | 15.795 | 486 | Overclock (+1836/s)<br>Fuerza (+124/s)<br>Exoesqueleto (+86.4/s) | lento vs ant |
+| 13 | 22h 58m | 5h 11m | 11.075 | 23.732 | 454 | 15.795 | 460 | Tienda +130 ($17202850) (+6592/s)<br>Muralla (+82.4/s)<br>Exoesqueleto (+82.4/s) |  |
+| 14 | 33h 29m | 10h 30m | 12.118 | 27.780 | 491 | 15.795 | 468 | Overclock (+1836/s)<br>Fuerza (+124/s)<br>Ayuntamiento (+25.0/s) |  |
+| 15 | 43h 56m | 10h 27m | 16.526 | 37.824 | 497 | 15.795 | 486 | Exoesqueleto (+86.4/s)<br>Muralla (+86.4/s)<br>Reflejos (+24.0/s) |  |
 
 ## Comparativa de tiempos por RB (tramo, minutos)
 | RB | cps1-A | cps3-A | cps6-A | cps1-B | cps3-B | cps6-B | cps1-C | cps3-C | cps6-C |
@@ -164,8 +168,8 @@ Resultado: NO terminó (corte 48h 0m)
 | 11 | 440.3 | 402.8 | 357.3 | X | X | X | 440.5 | 402.9 | 357.3 |
 | 12 | 436.2 | 401.6 | 358.8 | X | X | X | 436.3 | 401.7 | 359.0 |
 | 13 | 379.0 | 348.6 | 311.2 | X | X | X | 379.0 | 348.6 | 311.2 |
-| 14 | X | 1157.7 | 1031.8 | X | X | X | X | 1157.7 | 1031.8 |
-| 15 | X | X | X | X | X | X | X | X | X |
+| 14 | 772.5 | 708.9 | 630.9 | X | X | X | 772.5 | 708.9 | 630.9 |
+| 15 | X | X | 627.2 | X | X | X | X | X | 627.2 |
 | 16 | X | X | X | X | X | X | X | X | X |
 | 17 | X | X | X | X | X | X | X | X | X |
 | 18 | X | X | X | X | X | X | X | X | X |
