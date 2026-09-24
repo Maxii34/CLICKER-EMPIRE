@@ -18,7 +18,37 @@ Toda la interfaz está en español y debe seguir así.
 
 - Estado central: `src/App.jsx`
 - Layout de 3 columnas: `src/components/pages/Inicio.jsx`
-- Autoguardado: `localStorage`, clave `clicker-empire-save-v1`
+- Autoguardado: `localStorage`, clave `clicker-empire-save-v1`, solo vía `src/game/save.js`
+  (versión 2; `App.jsx` y componentes no hacen `JSON.parse/stringify` del save).
+  Se guarda en cada cambio + al ocultar/cerrar la pestaña (`visibilitychange`/`pagehide`).
+  Save grave → respaldo en `clicker-empire-backup-<fecha>` + pantalla de recovery
+  (importar respaldo / empezar de nuevo / reintentar). Ajustes: exportar/importar
+  (base64 + checksum FNV-1a) y reset con doble confirmación, en el menú ⚙️.
+
+## Esquema del save v2 (JSON puro, sin funciones ni referencias)
+
+| Campo | Tipo | Rango | Default | Notas |
+|---|---|---|---|---|
+| version | int | 2 | 2 | Sin campo = v1 → migra |
+| money, vault, miningRate, clickBonus, passiveRate, cityRate, cityClickBonus, trainClickBonus, trainRate, trainAutoBonus, armyPower, maxMoney | number | finito ≥ 0 | 0 | — |
+| multiplier | number | finito 1..1e6 | 1 | — |
+| rebirlvl | int | 0..20 | 0 | 20 = todo completado |
+| unlockedLvl | number\|null | finito ≥ 1 o null | según RB | **null = Infinity** (solo válido en MAX); al cargar se recalcula |
+| bonusActivo | boolean | — | false | Solo `true` exacto vale |
+| autoClickSpeed | number | 100..10000 | 1000 | autoClick nunca persiste encendido |
+| autoClickLevel | int | 0..5 | 0 | — |
+| autoPower | int | ≥ 4 | 4 | — |
+| imperioLvl | {exo,fondo,overclock:int≥0; crit:0..10; collector:0..5} | — | ceros | — |
+| cityLvl | {casa,mercado:int≥0; muralla:0..15; ayunta:0..10} | — | ceros | — |
+| armyLvl | {soldado,arquero,caballero:int≥0; general:0..5} | — | ceros | — |
+| trainLvl | {fuerza:0..30; disciplina:0..30; reflejos:0..20} | — | ceros | — |
+| lastRaidAt, lastSeenAt | number (ms) | finito ≥ 0 | 0 | lastSeenAt lo usará FASE 4 (offline) |
+| purchasedMinerIds | string[] | ids de `MineriaX.js`, sin duplicados | [] | Desconocidos se filtran |
+| shopCounts | {[idx]: int≥1} | — | {} | Contador tienda C, reset al renacer |
+| totalClicks, totalCollected, goldenCount, totalRaids | int | ≥ 0 | 0 | Estadísticas de logros |
+
+Campo inválido → default + `console.warn("[save] …")`. Nunca quedan `NaN`, negativos
+ni `Infinity` en el estado (salvo `unlockedLvl` en MAX, documentado arriba).
 
 | Zona | Componente | Archivo |
 |---|---|---|
@@ -45,8 +75,8 @@ Todo lo que se compra suma a una de esas variables. Por eso todo escala entre s�
 
 ## Qué persiste y qué se pierde al renacer
 
-- Persiste: `imperioLvl`, `cityLvl`, `armyLvl`, `trainLvl`, `miningRate` + ids de rigs + vault, `autoLevel`, `bonusActivo`.
-- Se pierde: `money` y `multiplier`.
+- Persiste: `imperioLvl`, `cityLvl`, `armyLvl`, `trainLvl`, `miningRate` + ids de rigs + vault, `autoLevel`, `bonusActivo`, `lastRaidAt`, `lastSeenAt`.
+- Se pierde: `money`, `multiplier` y `shopCounts` (contador tienda C).
 - Al renacer: `rebirlvl++`, `money = 0`, `multiplier = bonus de inicio`, `unlockedLvl = próximo tope (o Infinity)`.
 
 ## Sistemas

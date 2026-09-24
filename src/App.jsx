@@ -32,8 +32,6 @@ import {
   shopPrice,
 } from "./game/economy.js";
 
-const SAVE_KEY = "clicker-empire-save-v1";
-
 // #14: verificación automática de que rebirthReq.multiplier coincide con upgrades.max por nivel.
 const verifyShopCap = () => {
   const maxByLevel = new Map();
@@ -48,43 +46,45 @@ const verifyShopCap = () => {
 };
 verifyShopCap();
 
-const loadSave = () => {
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-};
+import {
+  loadSave,
+  persistSave,
+  backupRaw,
+  clearSave,
+} from "./game/save.js";
+import { SaveRecovery } from "./components/shared/SaveRecovery.jsx";
 
 function App() {
-  // Carga inicial una sola vez (lazy) para no romper el primer render.
-  const [saved] = useState(loadSave);
+  // Carga inicial una sola vez (save.js: migrate + validate + defaults).
+  // Si el save está grave (JSON roto, versión futura), se ofrece recovery.
+  const [initial] = useState(loadSave);
+  const saved = initial.status === "recovery" ? null : initial.state;
+  const loadWarnings = initial.status === "recovery" ? [] : (initial.warnings ?? []);
 
-  // Estado del dinero (saneado: finito y >= 0).
-  const [money, setMoney] = useState(() =>
-    Number.isFinite(saved?.money) && saved.money >= 0 ? saved.money : 0,
-  );
-  // Estado del multiplicador (saneado: finito y > 0).
-  const [multiplier, setMultiplier] = useState(() =>
-    Number.isFinite(saved?.multiplier) && saved.multiplier > 0 ? saved.multiplier : 1,
-  );
+  // Respaldo del texto original si la carga falló (una sola vez).
+  const [backupKey, setBackupKey] = useState(null);
+  const backedUpRef = useRef(false);
+  useEffect(() => {
+    if (initial.status === "recovery" && !backedUpRef.current) {
+      backedUpRef.current = true;
+      setBackupKey(backupRaw(initial.rawText));
+    }
+  }, [initial]);
+  // Avisos de validación/migración a consola (no se pierde nada).
+  useEffect(() => {
+    for (const w of loadWarnings) console.warn(`[save] ${w}`);
+  }, [loadWarnings]);
+
+  // Estado del dinero (validado en save.js: finito y >= 0).
+  const [money, setMoney] = useState(saved?.money ?? 0);
+  // Estado del multiplicador (validado: finito y >= 1).
+  const [multiplier, setMultiplier] = useState(saved?.multiplier ?? 1);
   // Estados para rebirths y niveles desbloqueados.
   const [rebirlvl, setRebirLvl] = useState(saved?.rebirlvl ?? 0);
-  // #14: arranca en el tope de la primera fase (x50), no en Infinity.
-  // Si el save trae un número finito se respeta; si trae null (Infinity
-  // serializado) o falta, se recalcula según el rebirlvl guardado.
-  const [unlockedLvl, setUnlockedLvl] = useState(() => {
-    if (typeof saved?.unlockedLvl === "number" && Number.isFinite(saved.unlockedLvl)) {
-      return saved.unlockedLvl;
-    }
-    if ((saved?.rebirlvl ?? 0) >= rebirthReq.length) return Infinity;
-    return (
-      rebirthReq.find((r) => r.level === (saved?.rebirlvl ?? 0))?.multiplier ??
-      rebirthReq[0].multiplier
-    );
-  });
+  // Tope de tienda (validado; Infinity solo si terminó todo).
+  const [unlockedLvl, setUnlockedLvl] = useState(
+    saved?.unlockedLvl ?? Infinity,
+  );
   // Estado para el bonus de bienvenida
   const [bonusActivo, setBonusActivo] = useState(saved?.bonusActivo ?? false);
   //Estados para el autoclick (no se persiste encendido: siempre arranca apagado)
@@ -101,16 +101,10 @@ function App() {
   const [passiveRate, setPassiveRate] = useState(saved?.passiveRate ?? 0);
   // Potencia del autoclicker: ganancia = (multiplier + clickBonus) * autoPower
   const [autoPower, setAutoPower] = useState(saved?.autoPower ?? 4);
-  // Niveles comprados en el panel imperio.
-  // Merge con defaults para partidas viejas que no tienen crit/collector.
-  const [imperioLvl, setImperioLvl] = useState({
-    exo: 0,
-    fondo: 0,
-    overclock: 0,
-    crit: 0,
-    collector: 0,
-    ...saved?.imperioLvl,
-  });
+  // Niveles comprados en el panel imperio (validados en save.js).
+  const [imperioLvl, setImperioLvl] = useState(
+    saved?.imperioLvl ?? { exo: 0, fondo: 0, overclock: 0, crit: 0, collector: 0 },
+  );
   // Estadística total de clicks para el dashboard
   const [totalClicks, setTotalClicks] = useState(saved?.totalClicks ?? 0);
 
@@ -119,31 +113,21 @@ function App() {
   const [cityRate, setCityRate] = useState(saved?.cityRate ?? 0);
   // Bonus plano al click por Murallas: ganancia = multiplier + clickBonus + cityClickBonus
   const [cityClickBonus, setCityClickBonus] = useState(saved?.cityClickBonus ?? 0);
-  // Niveles de edificios. Merge con defaults para partidas viejas.
-  const [cityLvl, setCityLvl] = useState({
-    casa: 0,
-    mercado: 0,
-    muralla: 0,
-    ayunta: 0,
-    ...saved?.cityLvl,
-  });
+  // Niveles de edificios (validados en save.js).
+  const [cityLvl, setCityLvl] = useState(
+    saved?.cityLvl ?? { casa: 0, mercado: 0, muralla: 0, ayunta: 0 },
+  );
 
   // --- SISTEMA EJÉRCITO (panel izquierdo, pestaña Ejército) ---
   // Poder de saqueo: cada tropa suma poder. El botín = poder * RAID_MULT
   // y cae solo cada RAID_EVERY segundos o con el botón SAQUEAR.
   const [armyPower, setArmyPower] = useState(saved?.armyPower ?? 0);
-  const [armyLvl, setArmyLvl] = useState({
-    soldado: 0,
-    arquero: 0,
-    caballero: 0,
-    general: 0,
-    ...saved?.armyLvl,
-  });
-  // #2: timestamp del último saqueo (persistido). Recargar ya no regala uno gratis:
-  // el cooldown inicial se recalcula desde este timestamp.
-  const [lastRaidAt, setLastRaidAt] = useState(() =>
-    Number.isFinite(saved?.lastRaidAt) && saved.lastRaidAt > 0 ? saved.lastRaidAt : 0,
+  const [armyLvl, setArmyLvl] = useState(
+    saved?.armyLvl ?? { soldado: 0, arquero: 0, caballero: 0, general: 0 },
   );
+  // Timestamp del último saqueo (persistido). Recargar ya no regala uno gratis:
+  // el cooldown inicial se recalcula desde este timestamp.
+  const [lastRaidAt, setLastRaidAt] = useState(saved?.lastRaidAt ?? 0);
   // Cooldown del saqueo en segundos (derivado de lastRaidAt al cargar).
   const [raidCooldown, setRaidCooldown] = useState(() =>
     raidCooldownLeft(lastRaidAt, saved?.armyPower ?? 0),
@@ -151,19 +135,12 @@ function App() {
 
   // --- SISTEMA ENTRENAMIENTO (panel izquierdo, pestaña Entrenamiento) ---
   // Stats base permanentes: fuerza → click, disciplina → pasivo, reflejos → auto.
-  const [trainClickBonus, setTrainClickBonus] = useState(
-    saved?.trainClickBonus ?? 0,
-  );
+  const [trainClickBonus, setTrainClickBonus] = useState(saved?.trainClickBonus ?? 0);
   const [trainRate, setTrainRate] = useState(saved?.trainRate ?? 0);
-  const [trainAutoBonus, setTrainAutoBonus] = useState(
-    saved?.trainAutoBonus ?? 0,
+  const [trainAutoBonus, setTrainAutoBonus] = useState(saved?.trainAutoBonus ?? 0);
+  const [trainLvl, setTrainLvl] = useState(
+    saved?.trainLvl ?? { fuerza: 0, disciplina: 0, reflejos: 0 },
   );
-  const [trainLvl, setTrainLvl] = useState({
-    fuerza: 0,
-    disciplina: 0,
-    reflejos: 0,
-    ...saved?.trainLvl,
-  });
 
   // --- SISTEMA MINERÍA (panel derecho, ingreso pasivo permanente) ---
   // Declarado arriba: el autoguardado y passiveTotal lo usan.
@@ -175,15 +152,9 @@ function App() {
   const [vault, setVault] = useState(saved?.vault ?? 0);
   // P2 (tienda C): veces comprado cada ítem (índice en upgrades.js).
   // Se resetea al renacer. Saves viejos (sin campo) arrancan en {}.
-  const [shopCounts, setShopCounts] = useState(() => {
-    const raw = saved?.shopCounts;
-    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
-    const clean = {};
-    for (const [k, v] of Object.entries(raw)) {
-      if (Number.isFinite(v) && v > 0) clean[k] = Math.floor(v);
-    }
-    return clean;
-  });
+  const [shopCounts, setShopCounts] = useState(saved?.shopCounts ?? {});
+  // FASE 4 (offline): última vez visto. Por ahora solo se guarda.
+  const [lastSeenAt, setLastSeenAt] = useState(saved?.lastSeenAt ?? 0);
 
   // --- ESTADÍSTICAS PARA LOGROS (persistidas) ---
   const [maxMoney, setMaxMoney] = useState(saved?.maxMoney ?? 0);
@@ -196,47 +167,49 @@ function App() {
     setMaxMoney((m) => Math.max(m, money));
   }, [money]);
 
-  // Autoguardado en cada cambio relevante.
+  // Foto del estado para guardar (JSON puro, esquema en AGENTS.md).
+  const buildSnapshot = () => ({
+    version: 2,
+    money,
+    multiplier,
+    rebirlvl,
+    unlockedLvl,
+    bonusActivo,
+    autoClickSpeed,
+    autoClickLevel,
+    clickBonus,
+    passiveRate,
+    autoPower,
+    imperioLvl,
+    totalClicks,
+    cityRate,
+    cityClickBonus,
+    cityLvl,
+    armyPower,
+    armyLvl,
+    lastRaidAt,
+    trainClickBonus,
+    trainRate,
+    trainAutoBonus,
+    trainLvl,
+    miningRate,
+    purchasedMinerIds,
+    vault,
+    shopCounts,
+    maxMoney,
+    totalCollected,
+    goldenCount,
+    totalRaids,
+    lastSeenAt,
+  });
+
+  // Espejo siempre fresco para guardar al ocultar/cerrar la pestaña.
+  const snapshotRef = useRef(null);
+  snapshotRef.current = buildSnapshot();
+
+  // Autoguardado en cada cambio relevante (vía save.js, con lastSeenAt fresco).
   useEffect(() => {
-    try {
-      localStorage.setItem(
-        SAVE_KEY,
-        JSON.stringify({
-          money,
-          multiplier,
-          rebirlvl,
-          unlockedLvl,
-          bonusActivo,
-          autoClickSpeed,
-          autoClickLevel,
-          clickBonus,
-          passiveRate,
-          autoPower,
-          imperioLvl,
-          totalClicks,
-          cityRate,
-          cityClickBonus,
-          cityLvl,
-          armyPower,
-          armyLvl,
-          lastRaidAt,
-          trainClickBonus,
-          trainRate,
-          trainAutoBonus,
-          trainLvl,
-          miningRate,
-          purchasedMinerIds,
-          vault,
-          shopCounts,
-          maxMoney,
-          totalCollected,
-          goldenCount,
-          totalRaids,
-        }),
-      );
-    } catch {
-      // almacenamiento lleno o bloqueado: el juego sigue funcionando sin guardar
-    }
+    persistSave({ ...snapshotRef.current, lastSeenAt: Date.now() });
   }, [
     money,
     multiplier,
@@ -268,7 +241,25 @@ function App() {
     totalCollected,
     goldenCount,
     totalRaids,
+    lastSeenAt,
   ]);
+
+  // Guardar al ocultar o cerrar la pestaña (FASE 4 usará lastSeenAt).
+  useEffect(() => {
+    const saveNow = () => {
+      setLastSeenAt(Date.now());
+      persistSave({ ...snapshotRef.current, lastSeenAt: Date.now() });
+    };
+    const onVis = () => {
+      if (document.visibilityState === "hidden") saveNow();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("pagehide", saveNow);
+    return () => {
+      document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("pagehide", saveNow);
+    };
+  }, []);
 
   // --- LOGROS: desbloqueo derivado + toast solo para los nuevos ---
   const achStats = {
@@ -350,11 +341,7 @@ function App() {
   }, [achToast]);
 
   const resetSave = () => {
-    try {
-      localStorage.removeItem(SAVE_KEY);
-    } catch {
-      // ignorar
-    }
+    clearSave();
     window.location.reload();
   };
 
@@ -677,6 +664,18 @@ function App() {
     setMultiplier(Number(newValue.toFixed(2)));
     setShopCounts((prev) => ({ ...prev, [shopIdx]: (prev[shopIdx] || 0) + 1 }));
   };
+  // Save grave: no se toca nada sin avisar. Pantalla de recovery con
+  // el respaldo ya guardado en otra clave.
+  if (initial.status === "recovery") {
+    return (
+      <SaveRecovery
+        reason={initial.reason}
+        found={initial.found}
+        backupKey={backupKey}
+      />
+    );
+  }
+
   return (
     <>
       <MenuNav
@@ -690,6 +689,8 @@ function App() {
         addMoneyDev={addMoneyDev}
         removeMoney={removeMoney}
         resetSave={resetSave}
+        saveSnapshot={snapshotRef.current}
+        saveWarnings={loadWarnings}
       />
       <main>
         <Inicio

@@ -3,7 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FaCog } from "react-icons/fa";
 import rebirthReq from "../rebirs/rebirthReq.js";
-import { ResetGame } from "./ResetGame";
+import { AjustesPartida } from "./AjustesPartida";
 import { formatMoney } from "../../utils/format.js";
 import "./ResetGame.css";
 import "./Menu.css";
@@ -19,6 +19,8 @@ export const MenuNav = ({
   addMoneyDev,
   removeMoney,
   resetSave,
+  saveSnapshot,
+  saveWarnings = [],
 }) => {
   const req = rebirthReq.find((r) => r.level === rebirlvl) || rebirthReq[rebirthReq.length - 1];
   const isMax = rebirlvl >= rebirthReq.length;
@@ -97,7 +99,11 @@ export const MenuNav = ({
                     </div>
                   </>
                 )}
-                {resetSave && <ResetGame onReset={resetSave} />}
+                <AjustesPartida
+                  snapshot={saveSnapshot}
+                  saveWarnings={saveWarnings}
+                  resetSave={resetSave}
+                />
                 <div className="dev-menu-note">Autoguardado activo</div>
               </Dropdown.Menu>
             </Dropdown>
