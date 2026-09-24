@@ -55,7 +55,16 @@ const COST_LEVELS = (max) => {
 };
 const snapCost = (key, lvl) =>
   Math.floor(COST_SNAPSHOT[key].base * Math.pow(COST_SNAPSHOT[key].exp, lvl));
-// Snapshot tienda C (P2): precio = round(base * 1.3^n).
+// Snapshot de requisitos de rebirth (dinero/multiplicador/bonus por nivel).
+// RB0-11 originales, RB12-13 x1.8, RB14-19 x1.6 (FASE 2-bis).
+const REQ_SNAPSHOT = [
+  [590, 50, 5], [1490, 100, 7], [3930, 105, 10], [10220, 115, 14],
+  [52810, 120, 20], [137310, 150, 28], [356940, 170, 39], [928030, 200, 55],
+  [2412800, 230, 77], [9395110, 250, 108], [24427300, 270, 151],
+  [63510950, 305, 211], [114319710, 340, 295], [205775478, 375, 413],
+  [329240765, 410, 578], [526785224, 445, 809], [842856358, 480, 1133],
+  [1348570173, 515, 1586], [2157712277, 550, 2220], [3452339643, 585, 3108],
+];
 const snapShopPrice = (base, n) => Math.round(base * Math.pow(1.3, n));
 const SHOP_PRICE_CASES = [
   [140, 0], [140, 1], [140, 5],
@@ -176,6 +185,7 @@ if (mode === "baseline") {
         ? snapShopPrice(Number(key.split(":")[1]), lvl)
         : snapCost(key, lvl),
     ),
+    reqs: REQ_SNAPSHOT.map(([money, multiplier, bonus], level) => ({ level, money, multiplier, bonus })),
   };
   writeFileSync(BASELINE, JSON.stringify(baseline, null, 2) + "\n");
   console.log(
@@ -185,6 +195,7 @@ if (mode === "baseline") {
   const { welcomeFactor, moneyPerClick, moneyPerAuto, directPassivePerSec, raidLoot, critChance, collectorEverySec, goldenFortune } =
     await import("../src/game/economy.js");
   const eco = await import("../src/game/economy.js");
+  const reqData = (await import("../src/components/rebirs/rebirthReq.js")).default;
   const costFns = {
     exo: eco.costExo, fondo: eco.costFondo, overclock: eco.costOverclock,
     crit: eco.costCrit, collector: eco.costCollector, casa: eco.costCasa,
@@ -243,9 +254,16 @@ if (mode === "baseline") {
       console.error(`DIFIERE orden de costos en fila ${i}`);
     }
   }
+  for (let i = 0; i < expected.reqs.length; i++) {
+    const e = expected.reqs[i];
+    const a = reqData.find((r) => r.level === e.level) || {};
+    cmp(`[req RB${e.level} dinero]`, e.money, a.money);
+    cmp(`[req RB${e.level} mult]`, e.multiplier, a.multiplier);
+    cmp(`[req RB${e.level} bonus]`, e.bonus, a.bonus);
+  }
   if (fails > 0) {
     console.error(`CARACTERIZACIÓN FALLIDA: ${fails} diferencias.`);
     process.exit(1);
   }
-  console.log(`Caracterización OK: ${actual.states.length} estados y ${actual.costs.length} costos idénticos al baseline.`);
+  console.log(`Caracterización OK: ${actual.states.length} estados, ${actual.costs.length} costos y ${expected.reqs.length} reqs idénticos al baseline.`);
 }
