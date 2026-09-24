@@ -1,5 +1,5 @@
 // multiplier = debe coincidir siempre con el "max" del ultimo upgrade de ese nivel en upgrades.js
-// P1a (FASE 2-bis): dinero de RB12 a RB19 con crecimiento x1.8 por RB
+// P1a (FASE 2-bis): dinero RB12-13 con x1.8, RB14-19 con x1.6 por RB
 // (antes x2.6). RB0 a RB11 intactos.
 const rebirthReq = [
   { level: 0, money: 590, multiplier: 50, bonus: 5 },
@@ -16,12 +16,12 @@ const rebirthReq = [
   { level: 11, money: 63510950, multiplier: 305, bonus: 211 },
   { level: 12, money: 114319710, multiplier: 340, bonus: 295 },
   { level: 13, money: 205775478, multiplier: 375, bonus: 413 },
-  { level: 14, money: 370395860, multiplier: 410, bonus: 578 },
-  { level: 15, money: 666712548, multiplier: 445, bonus: 809 },
-  { level: 16, money: 1200082586, multiplier: 480, bonus: 1133 },
-  { level: 17, money: 2160148655, multiplier: 515, bonus: 1586 },
-  { level: 18, money: 3888267579, multiplier: 550, bonus: 2220 },
-  { level: 19, money: 6998881642, multiplier: 585, bonus: 3108 },
+  { level: 14, money: 329240765, multiplier: 410, bonus: 578 },
+  { level: 15, money: 526785224, multiplier: 445, bonus: 809 },
+  { level: 16, money: 842856358, multiplier: 480, bonus: 1133 },
+  { level: 17, money: 1348570173, multiplier: 515, bonus: 1586 },
+  { level: 18, money: 2157712277, multiplier: 550, bonus: 2220 },
+  { level: 19, money: 3452339643, multiplier: 585, bonus: 3108 },
 ];
 
 export default rebirthReq;
