@@ -1,6 +1,6 @@
-// Test de caracterización FASE 1 — Clicker Empire.
-// Captura el comportamiento ACTUAL de las fórmulas para garantizar
-// que el refactor a src/game/economy.js no cambie ningún número.
+// Test de caracterización FASE 1 (+ costos FASE 2) — Clicker Empire.
+// Captura el comportamiento ACTUAL de fórmulas y costos para garantizar
+// que los refactors no cambien ningún número.
 //
 // Uso:
 //   node scripts/characterize.mjs            -> genera scripts/characterize.baseline.json
@@ -16,12 +16,43 @@
 //   critChance    = critLvl * 3 (%)
 //   collectEvery  = lvl>0 ? max(10, 35 - lvl*5) : 0
 //   fortuna       = floor(max(moneyPerClick*30, money*15%))
+// Los costos inline son copia literal de los paneles pre-FASE 1
+// (verificado con `git show d5d7a49:...`, commit anterior a FASE 1).
 import { writeFileSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const BASELINE = join(DIR, "characterize.baseline.json");
+
+// --- Copia literal de las curvas originales (NO TOCAR: es el snapshot) ---
+// base/exp de cada panel + tope (null = sin máximo).
+const COST_SNAPSHOT = {
+  exo: { base: 500, exp: 2.2, max: null },
+  fondo: { base: 1500, exp: 2.5, max: null },
+  overclock: { base: 5000, exp: 3, max: null },
+  crit: { base: 3000, exp: 3, max: 10 },
+  collector: { base: 8000, exp: 2.8, max: 5 },
+  casa: { base: 600, exp: 2.1, max: null },
+  mercado: { base: 3000, exp: 2.6, max: null },
+  muralla: { base: 4000, exp: 2.8, max: 15 },
+  ayunta: { base: 12000, exp: 3, max: 10 },
+  soldado: { base: 25000, exp: 2.9, max: null },
+  arquero: { base: 70000, exp: 3.0, max: null },
+  caballero: { base: 200000, exp: 3.1, max: null },
+  general: { base: 600000, exp: 3.2, max: 5 },
+  fuerza: { base: 6000, exp: 2.6, max: 30 },
+  disciplina: { base: 9000, exp: 2.6, max: 30 },
+  reflejos: { base: 15000, exp: 2.8, max: 20 },
+};
+// Niveles verificados: 0 a 10 + el tope si queda fuera del rango.
+const COST_LEVELS = (max) => {
+  const lvls = Array.from({ length: 11 }, (_, i) => i);
+  if (Number.isFinite(max) && max > 10) lvls.push(max);
+  return lvls;
+};
+const snapCost = (key, lvl) =>
+  Math.floor(COST_SNAPSHOT[key].base * Math.pow(COST_SNAPSHOT[key].exp, lvl));
 
 // --- Copia literal de las fórmulas actuales (NO TOCAR: es el snapshot) ---
 const snap = {
@@ -113,15 +144,39 @@ function compute(fns) {
   });
 }
 
+function computeCosts(costFn) {
+  const rows = [];
+  for (const key of Object.keys(COST_SNAPSHOT)) {
+    for (const lvl of COST_LEVELS(COST_SNAPSHOT[key].max)) {
+      rows.push({ curve: key, lvl, cost: costFn(key, lvl) });
+    }
+  }
+  return rows;
+}
+
 const mode = process.argv.includes("--check") ? "check" : "baseline";
 
 if (mode === "baseline") {
-  const results = compute(snap);
-  writeFileSync(BASELINE, JSON.stringify(results, null, 2) + "\n");
-  console.log(`Baseline escrito en scripts/characterize.baseline.json (${results.length} estados).`);
+  const baseline = {
+    states: compute(snap),
+    costs: computeCosts((key, lvl) => snapCost(key, lvl)),
+  };
+  writeFileSync(BASELINE, JSON.stringify(baseline, null, 2) + "\n");
+  console.log(
+    `Baseline escrito en scripts/characterize.baseline.json (${baseline.states.length} estados, ${baseline.costs.length} costos).`,
+  );
 } else {
   const { welcomeFactor, moneyPerClick, moneyPerAuto, directPassivePerSec, raidLoot, critChance, collectorEverySec, goldenFortune } =
     await import("../src/game/economy.js");
+  const eco = await import("../src/game/economy.js");
+  const costFns = {
+    exo: eco.costExo, fondo: eco.costFondo, overclock: eco.costOverclock,
+    crit: eco.costCrit, collector: eco.costCollector, casa: eco.costCasa,
+    mercado: eco.costMercado, muralla: eco.costMuralla, ayunta: eco.costAyunta,
+    soldado: eco.costSoldado, arquero: eco.costArquero, caballero: eco.costCaballero,
+    general: eco.costGeneral, fuerza: eco.costFuerza, disciplina: eco.costDisciplina,
+    reflejos: eco.costReflejos,
+  };
   const fns = {
     welcomeFactor,
     moneyPerClick: (s) =>
@@ -138,25 +193,39 @@ if (mode === "baseline") {
     fortuna: (mpc, money) => goldenFortune(mpc, money),
   };
   const expected = JSON.parse(readFileSync(BASELINE, "utf-8"));
-  const actual = compute(fns);
+  const actualStates = compute(fns);
+  const actualCosts = computeCosts((key, lvl) => costFns[key](lvl));
+  const actual = { states: actualStates, costs: actualCosts };
   let fails = 0;
-  for (let i = 0; i < expected.length; i++) {
-    for (const key of Object.keys(expected[i])) {
-      const e = expected[i][key];
-      const a = actual[i][key];
-      const same =
-        typeof e === "number" && typeof a === "number"
-          ? Math.abs(e - a) < 1e-9
-          : e === a;
-      if (!same) {
-        fails++;
-        console.error(`DIFIERE [${expected[i].state}] ${key}: baseline=${e} actual=${a}`);
-      }
+  const cmp = (label, e, a) => {
+    const same =
+      typeof e === "number" && typeof a === "number"
+        ? Math.abs(e - a) < 1e-9
+        : e === a;
+    if (!same) {
+      fails++;
+      console.error(`DIFIERE ${label}: baseline=${e} actual=${a}`);
+    }
+  };
+  for (let i = 0; i < expected.states.length; i++) {
+    for (const key of Object.keys(expected.states[i])) {
+      cmp(`[${expected.states[i].state}] ${key}`, expected.states[i][key], actual.states[i][key]);
+    }
+  }
+  for (let i = 0; i < expected.costs.length; i++) {
+    cmp(
+      `[costo ${expected.costs[i].curve} lvl ${expected.costs[i].lvl}]`,
+      expected.costs[i].cost,
+      actual.costs[i].cost,
+    );
+    if (expected.costs[i].curve !== actual.costs[i].curve || expected.costs[i].lvl !== actual.costs[i].lvl) {
+      fails++;
+      console.error(`DIFIERE orden de costos en fila ${i}`);
     }
   }
   if (fails > 0) {
     console.error(`CARACTERIZACIÓN FALLIDA: ${fails} diferencias.`);
     process.exit(1);
   }
-  console.log(`Caracterización OK: ${actual.length} estados idénticos al baseline.`);
+  console.log(`Caracterización OK: ${actual.states.length} estados y ${actual.costs.length} costos idénticos al baseline.`);
 }

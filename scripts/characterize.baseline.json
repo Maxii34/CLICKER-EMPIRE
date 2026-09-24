@@ -1,86 +1,990 @@
-[
-  {
-    "state": "RB0 arranque",
-    "welcomeFactor": 1,
-    "moneyPerClick": 1,
-    "moneyPerAuto": 4,
-    "directPassive": 0,
-    "miningPerSec": 0,
-    "raidLoot": 0,
-    "critChance": 0,
-    "critHit": 5,
-    "frenzyCritHit": 5,
-    "collectEverySec": 0,
-    "fortuna": 30
-  },
-  {
-    "state": "RB0 con bonus, sin frenesi",
-    "welcomeFactor": 2,
-    "moneyPerClick": 70,
-    "moneyPerAuto": 280,
-    "directPassive": 23,
-    "miningPerSec": 26,
-    "raidLoot": 0,
-    "critChance": 0,
-    "critHit": 350,
-    "frenzyCritHit": 350,
-    "collectEverySec": 0,
-    "fortuna": 2100
-  },
-  {
-    "state": "RB3 con bonus y frenesi",
-    "welcomeFactor": 2,
-    "moneyPerClick": 798,
-    "moneyPerAuto": 4848,
-    "directPassive": 202,
-    "miningPerSec": 116,
-    "raidLoot": 1600,
-    "critChance": 12,
-    "critHit": 3990,
-    "frenzyCritHit": 3990,
-    "collectEverySec": 25,
-    "fortuna": 75000
-  },
-  {
-    "state": "RB10 con bonus, sin frenesi",
-    "welcomeFactor": 2,
-    "moneyPerClick": 740,
-    "moneyPerAuto": 9120,
-    "directPassive": 1120,
-    "miningPerSec": 5000,
-    "raidLoot": 20000,
-    "critChance": 30,
-    "critHit": 3700,
-    "frenzyCritHit": 3700,
-    "collectEverySec": 10,
-    "fortuna": 12000000
-  },
-  {
-    "state": "RB10 sin bonus, con frenesi (combo crit x15)",
-    "welcomeFactor": 1,
-    "moneyPerClick": 1470,
-    "moneyPerAuto": 17880,
-    "directPassive": 1120,
-    "miningPerSec": 5000,
-    "raidLoot": 20000,
-    "critChance": 30,
-    "critHit": 7350,
-    "frenzyCritHit": 7350,
-    "collectEverySec": 10,
-    "fortuna": 12000000
-  },
-  {
-    "state": "RB3 decimales de tienda (mult 102.2)",
-    "welcomeFactor": 1,
-    "moneyPerClick": 115.2,
-    "moneyPerAuto": 588,
-    "directPassive": 67,
-    "miningPerSec": 40,
-    "raidLoot": 376,
-    "critChance": 9,
-    "critHit": 576,
-    "frenzyCritHit": 576,
-    "collectEverySec": 30,
-    "fortuna": 3456
-  }
-]
+{
+  "states": [
+    {
+      "state": "RB0 arranque",
+      "welcomeFactor": 1,
+      "moneyPerClick": 1,
+      "moneyPerAuto": 4,
+      "directPassive": 0,
+      "miningPerSec": 0,
+      "raidLoot": 0,
+      "critChance": 0,
+      "critHit": 5,
+      "frenzyCritHit": 5,
+      "collectEverySec": 0,
+      "fortuna": 30
+    },
+    {
+      "state": "RB0 con bonus, sin frenesi",
+      "welcomeFactor": 2,
+      "moneyPerClick": 70,
+      "moneyPerAuto": 280,
+      "directPassive": 23,
+      "miningPerSec": 26,
+      "raidLoot": 0,
+      "critChance": 0,
+      "critHit": 350,
+      "frenzyCritHit": 350,
+      "collectEverySec": 0,
+      "fortuna": 2100
+    },
+    {
+      "state": "RB3 con bonus y frenesi",
+      "welcomeFactor": 2,
+      "moneyPerClick": 798,
+      "moneyPerAuto": 4848,
+      "directPassive": 202,
+      "miningPerSec": 116,
+      "raidLoot": 1600,
+      "critChance": 12,
+      "critHit": 3990,
+      "frenzyCritHit": 3990,
+      "collectEverySec": 25,
+      "fortuna": 75000
+    },
+    {
+      "state": "RB10 con bonus, sin frenesi",
+      "welcomeFactor": 2,
+      "moneyPerClick": 740,
+      "moneyPerAuto": 9120,
+      "directPassive": 1120,
+      "miningPerSec": 5000,
+      "raidLoot": 20000,
+      "critChance": 30,
+      "critHit": 3700,
+      "frenzyCritHit": 3700,
+      "collectEverySec": 10,
+      "fortuna": 12000000
+    },
+    {
+      "state": "RB10 sin bonus, con frenesi (combo crit x15)",
+      "welcomeFactor": 1,
+      "moneyPerClick": 1470,
+      "moneyPerAuto": 17880,
+      "directPassive": 1120,
+      "miningPerSec": 5000,
+      "raidLoot": 20000,
+      "critChance": 30,
+      "critHit": 7350,
+      "frenzyCritHit": 7350,
+      "collectEverySec": 10,
+      "fortuna": 12000000
+    },
+    {
+      "state": "RB3 decimales de tienda (mult 102.2)",
+      "welcomeFactor": 1,
+      "moneyPerClick": 115.2,
+      "moneyPerAuto": 588,
+      "directPassive": 67,
+      "miningPerSec": 40,
+      "raidLoot": 376,
+      "critChance": 9,
+      "critHit": 576,
+      "frenzyCritHit": 576,
+      "collectEverySec": 30,
+      "fortuna": 3456
+    }
+  ],
+  "costs": [
+    {
+      "curve": "exo",
+      "lvl": 0,
+      "cost": 500
+    },
+    {
+      "curve": "exo",
+      "lvl": 1,
+      "cost": 1100
+    },
+    {
+      "curve": "exo",
+      "lvl": 2,
+      "cost": 2420
+    },
+    {
+      "curve": "exo",
+      "lvl": 3,
+      "cost": 5324
+    },
+    {
+      "curve": "exo",
+      "lvl": 4,
+      "cost": 11712
+    },
+    {
+      "curve": "exo",
+      "lvl": 5,
+      "cost": 25768
+    },
+    {
+      "curve": "exo",
+      "lvl": 6,
+      "cost": 56689
+    },
+    {
+      "curve": "exo",
+      "lvl": 7,
+      "cost": 124717
+    },
+    {
+      "curve": "exo",
+      "lvl": 8,
+      "cost": 274379
+    },
+    {
+      "curve": "exo",
+      "lvl": 9,
+      "cost": 603634
+    },
+    {
+      "curve": "exo",
+      "lvl": 10,
+      "cost": 1327996
+    },
+    {
+      "curve": "fondo",
+      "lvl": 0,
+      "cost": 1500
+    },
+    {
+      "curve": "fondo",
+      "lvl": 1,
+      "cost": 3750
+    },
+    {
+      "curve": "fondo",
+      "lvl": 2,
+      "cost": 9375
+    },
+    {
+      "curve": "fondo",
+      "lvl": 3,
+      "cost": 23437
+    },
+    {
+      "curve": "fondo",
+      "lvl": 4,
+      "cost": 58593
+    },
+    {
+      "curve": "fondo",
+      "lvl": 5,
+      "cost": 146484
+    },
+    {
+      "curve": "fondo",
+      "lvl": 6,
+      "cost": 366210
+    },
+    {
+      "curve": "fondo",
+      "lvl": 7,
+      "cost": 915527
+    },
+    {
+      "curve": "fondo",
+      "lvl": 8,
+      "cost": 2288818
+    },
+    {
+      "curve": "fondo",
+      "lvl": 9,
+      "cost": 5722045
+    },
+    {
+      "curve": "fondo",
+      "lvl": 10,
+      "cost": 14305114
+    },
+    {
+      "curve": "overclock",
+      "lvl": 0,
+      "cost": 5000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 1,
+      "cost": 15000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 2,
+      "cost": 45000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 3,
+      "cost": 135000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 4,
+      "cost": 405000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 5,
+      "cost": 1215000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 6,
+      "cost": 3645000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 7,
+      "cost": 10935000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 8,
+      "cost": 32805000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 9,
+      "cost": 98415000
+    },
+    {
+      "curve": "overclock",
+      "lvl": 10,
+      "cost": 295245000
+    },
+    {
+      "curve": "crit",
+      "lvl": 0,
+      "cost": 3000
+    },
+    {
+      "curve": "crit",
+      "lvl": 1,
+      "cost": 9000
+    },
+    {
+      "curve": "crit",
+      "lvl": 2,
+      "cost": 27000
+    },
+    {
+      "curve": "crit",
+      "lvl": 3,
+      "cost": 81000
+    },
+    {
+      "curve": "crit",
+      "lvl": 4,
+      "cost": 243000
+    },
+    {
+      "curve": "crit",
+      "lvl": 5,
+      "cost": 729000
+    },
+    {
+      "curve": "crit",
+      "lvl": 6,
+      "cost": 2187000
+    },
+    {
+      "curve": "crit",
+      "lvl": 7,
+      "cost": 6561000
+    },
+    {
+      "curve": "crit",
+      "lvl": 8,
+      "cost": 19683000
+    },
+    {
+      "curve": "crit",
+      "lvl": 9,
+      "cost": 59049000
+    },
+    {
+      "curve": "crit",
+      "lvl": 10,
+      "cost": 177147000
+    },
+    {
+      "curve": "collector",
+      "lvl": 0,
+      "cost": 8000
+    },
+    {
+      "curve": "collector",
+      "lvl": 1,
+      "cost": 22400
+    },
+    {
+      "curve": "collector",
+      "lvl": 2,
+      "cost": 62719
+    },
+    {
+      "curve": "collector",
+      "lvl": 3,
+      "cost": 175615
+    },
+    {
+      "curve": "collector",
+      "lvl": 4,
+      "cost": 491724
+    },
+    {
+      "curve": "collector",
+      "lvl": 5,
+      "cost": 1376829
+    },
+    {
+      "curve": "collector",
+      "lvl": 6,
+      "cost": 3855122
+    },
+    {
+      "curve": "collector",
+      "lvl": 7,
+      "cost": 10794342
+    },
+    {
+      "curve": "collector",
+      "lvl": 8,
+      "cost": 30224159
+    },
+    {
+      "curve": "collector",
+      "lvl": 9,
+      "cost": 84627647
+    },
+    {
+      "curve": "collector",
+      "lvl": 10,
+      "cost": 236957413
+    },
+    {
+      "curve": "casa",
+      "lvl": 0,
+      "cost": 600
+    },
+    {
+      "curve": "casa",
+      "lvl": 1,
+      "cost": 1260
+    },
+    {
+      "curve": "casa",
+      "lvl": 2,
+      "cost": 2646
+    },
+    {
+      "curve": "casa",
+      "lvl": 3,
+      "cost": 5556
+    },
+    {
+      "curve": "casa",
+      "lvl": 4,
+      "cost": 11668
+    },
+    {
+      "curve": "casa",
+      "lvl": 5,
+      "cost": 24504
+    },
+    {
+      "curve": "casa",
+      "lvl": 6,
+      "cost": 51459
+    },
+    {
+      "curve": "casa",
+      "lvl": 7,
+      "cost": 108065
+    },
+    {
+      "curve": "casa",
+      "lvl": 8,
+      "cost": 226937
+    },
+    {
+      "curve": "casa",
+      "lvl": 9,
+      "cost": 476568
+    },
+    {
+      "curve": "casa",
+      "lvl": 10,
+      "cost": 1000792
+    },
+    {
+      "curve": "mercado",
+      "lvl": 0,
+      "cost": 3000
+    },
+    {
+      "curve": "mercado",
+      "lvl": 1,
+      "cost": 7800
+    },
+    {
+      "curve": "mercado",
+      "lvl": 2,
+      "cost": 20280
+    },
+    {
+      "curve": "mercado",
+      "lvl": 3,
+      "cost": 52728
+    },
+    {
+      "curve": "mercado",
+      "lvl": 4,
+      "cost": 137092
+    },
+    {
+      "curve": "mercado",
+      "lvl": 5,
+      "cost": 356441
+    },
+    {
+      "curve": "mercado",
+      "lvl": 6,
+      "cost": 926747
+    },
+    {
+      "curve": "mercado",
+      "lvl": 7,
+      "cost": 2409543
+    },
+    {
+      "curve": "mercado",
+      "lvl": 8,
+      "cost": 6264811
+    },
+    {
+      "curve": "mercado",
+      "lvl": 9,
+      "cost": 16288511
+    },
+    {
+      "curve": "mercado",
+      "lvl": 10,
+      "cost": 42350128
+    },
+    {
+      "curve": "muralla",
+      "lvl": 0,
+      "cost": 4000
+    },
+    {
+      "curve": "muralla",
+      "lvl": 1,
+      "cost": 11200
+    },
+    {
+      "curve": "muralla",
+      "lvl": 2,
+      "cost": 31359
+    },
+    {
+      "curve": "muralla",
+      "lvl": 3,
+      "cost": 87807
+    },
+    {
+      "curve": "muralla",
+      "lvl": 4,
+      "cost": 245862
+    },
+    {
+      "curve": "muralla",
+      "lvl": 5,
+      "cost": 688414
+    },
+    {
+      "curve": "muralla",
+      "lvl": 6,
+      "cost": 1927561
+    },
+    {
+      "curve": "muralla",
+      "lvl": 7,
+      "cost": 5397171
+    },
+    {
+      "curve": "muralla",
+      "lvl": 8,
+      "cost": 15112079
+    },
+    {
+      "curve": "muralla",
+      "lvl": 9,
+      "cost": 42313823
+    },
+    {
+      "curve": "muralla",
+      "lvl": 10,
+      "cost": 118478706
+    },
+    {
+      "curve": "muralla",
+      "lvl": 15,
+      "cost": 20390621420
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 0,
+      "cost": 12000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 1,
+      "cost": 36000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 2,
+      "cost": 108000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 3,
+      "cost": 324000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 4,
+      "cost": 972000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 5,
+      "cost": 2916000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 6,
+      "cost": 8748000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 7,
+      "cost": 26244000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 8,
+      "cost": 78732000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 9,
+      "cost": 236196000
+    },
+    {
+      "curve": "ayunta",
+      "lvl": 10,
+      "cost": 708588000
+    },
+    {
+      "curve": "soldado",
+      "lvl": 0,
+      "cost": 25000
+    },
+    {
+      "curve": "soldado",
+      "lvl": 1,
+      "cost": 72500
+    },
+    {
+      "curve": "soldado",
+      "lvl": 2,
+      "cost": 210250
+    },
+    {
+      "curve": "soldado",
+      "lvl": 3,
+      "cost": 609724
+    },
+    {
+      "curve": "soldado",
+      "lvl": 4,
+      "cost": 1768202
+    },
+    {
+      "curve": "soldado",
+      "lvl": 5,
+      "cost": 5127787
+    },
+    {
+      "curve": "soldado",
+      "lvl": 6,
+      "cost": 14870583
+    },
+    {
+      "curve": "soldado",
+      "lvl": 7,
+      "cost": 43124690
+    },
+    {
+      "curve": "soldado",
+      "lvl": 8,
+      "cost": 125061603
+    },
+    {
+      "curve": "soldado",
+      "lvl": 9,
+      "cost": 362678649
+    },
+    {
+      "curve": "soldado",
+      "lvl": 10,
+      "cost": 1051768083
+    },
+    {
+      "curve": "arquero",
+      "lvl": 0,
+      "cost": 70000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 1,
+      "cost": 210000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 2,
+      "cost": 630000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 3,
+      "cost": 1890000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 4,
+      "cost": 5670000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 5,
+      "cost": 17010000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 6,
+      "cost": 51030000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 7,
+      "cost": 153090000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 8,
+      "cost": 459270000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 9,
+      "cost": 1377810000
+    },
+    {
+      "curve": "arquero",
+      "lvl": 10,
+      "cost": 4133430000
+    },
+    {
+      "curve": "caballero",
+      "lvl": 0,
+      "cost": 200000
+    },
+    {
+      "curve": "caballero",
+      "lvl": 1,
+      "cost": 620000
+    },
+    {
+      "curve": "caballero",
+      "lvl": 2,
+      "cost": 1922000
+    },
+    {
+      "curve": "caballero",
+      "lvl": 3,
+      "cost": 5958200
+    },
+    {
+      "curve": "caballero",
+      "lvl": 4,
+      "cost": 18470420
+    },
+    {
+      "curve": "caballero",
+      "lvl": 5,
+      "cost": 57258302
+    },
+    {
+      "curve": "caballero",
+      "lvl": 6,
+      "cost": 177500736
+    },
+    {
+      "curve": "caballero",
+      "lvl": 7,
+      "cost": 550252282
+    },
+    {
+      "curve": "caballero",
+      "lvl": 8,
+      "cost": 1705782074
+    },
+    {
+      "curve": "caballero",
+      "lvl": 9,
+      "cost": 5287924432
+    },
+    {
+      "curve": "caballero",
+      "lvl": 10,
+      "cost": 16392565739
+    },
+    {
+      "curve": "general",
+      "lvl": 0,
+      "cost": 600000
+    },
+    {
+      "curve": "general",
+      "lvl": 1,
+      "cost": 1920000
+    },
+    {
+      "curve": "general",
+      "lvl": 2,
+      "cost": 6144000
+    },
+    {
+      "curve": "general",
+      "lvl": 3,
+      "cost": 19660800
+    },
+    {
+      "curve": "general",
+      "lvl": 4,
+      "cost": 62914560
+    },
+    {
+      "curve": "general",
+      "lvl": 5,
+      "cost": 201326592
+    },
+    {
+      "curve": "general",
+      "lvl": 6,
+      "cost": 644245094
+    },
+    {
+      "curve": "general",
+      "lvl": 7,
+      "cost": 2061584302
+    },
+    {
+      "curve": "general",
+      "lvl": 8,
+      "cost": 6597069766
+    },
+    {
+      "curve": "general",
+      "lvl": 9,
+      "cost": 21110623253
+    },
+    {
+      "curve": "general",
+      "lvl": 10,
+      "cost": 67553994410
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 0,
+      "cost": 6000
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 1,
+      "cost": 15600
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 2,
+      "cost": 40560
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 3,
+      "cost": 105456
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 4,
+      "cost": 274185
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 5,
+      "cost": 712882
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 6,
+      "cost": 1853494
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 7,
+      "cost": 4819086
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 8,
+      "cost": 12529623
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 9,
+      "cost": 32577022
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 10,
+      "cost": 84700257
+    },
+    {
+      "curve": "fuerza",
+      "lvl": 30,
+      "cost": 16879193407708494
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 0,
+      "cost": 9000
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 1,
+      "cost": 23400
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 2,
+      "cost": 60840
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 3,
+      "cost": 158184
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 4,
+      "cost": 411278
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 5,
+      "cost": 1069323
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 6,
+      "cost": 2780241
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 7,
+      "cost": 7228629
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 8,
+      "cost": 18794435
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 9,
+      "cost": 48865533
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 10,
+      "cost": 127050386
+    },
+    {
+      "curve": "disciplina",
+      "lvl": 30,
+      "cost": 25318790111562740
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 0,
+      "cost": 15000
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 1,
+      "cost": 42000
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 2,
+      "cost": 117599
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 3,
+      "cost": 329279
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 4,
+      "cost": 921983
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 5,
+      "cost": 2581555
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 6,
+      "cost": 7228354
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 7,
+      "cost": 20239392
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 8,
+      "cost": 56670299
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 9,
+      "cost": 158676839
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 10,
+      "cost": 444295150
+    },
+    {
+      "curve": "reflejos",
+      "lvl": 20,
+      "cost": 13159878690123
+    }
+  ]
+}
